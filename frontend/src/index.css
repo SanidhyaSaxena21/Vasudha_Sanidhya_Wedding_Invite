@@ -1,0 +1,153 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer base {
+    :root {
+        --background: 336 78% 9%;
+        --foreground: 40 58% 90%;
+        --card: 336 78% 9%;
+        --card-foreground: 40 58% 90%;
+        --popover: 336 78% 9%;
+        --popover-foreground: 40 58% 90%;
+        --primary: 39 52% 53%;
+        --primary-foreground: 336 78% 9%;
+        --secondary: 336 40% 16%;
+        --secondary-foreground: 40 58% 90%;
+        --muted: 336 40% 16%;
+        --muted-foreground: 39 40% 70%;
+        --accent: 336 40% 16%;
+        --accent-foreground: 40 58% 90%;
+        --destructive: 0 84.2% 60.2%;
+        --destructive-foreground: 0 0% 98%;
+        --border: 39 52% 53%;
+        --input: 39 52% 53%;
+        --ring: 39 52% 53%;
+        --radius: 0.5rem;
+    }
+}
+
+html {
+    scroll-behavior: auto;
+}
+
+body {
+    margin: 0;
+    background-color: #25040a;
+    color: #f7ebd5;
+    font-family: "Cormorant Garamond", Georgia, serif;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+    overflow-x: hidden;
+}
+
+::selection {
+    background: #c99a45;
+    color: #25040a;
+}
+
+::-webkit-scrollbar {
+    width: 10px;
+}
+::-webkit-scrollbar-track {
+    background: #160209;
+}
+::-webkit-scrollbar-thumb {
+    background: linear-gradient(#a67527, #c99a45, #a67527);
+    border-radius: 8px;
+    border: 2px solid #160209;
+}
+
+/* ---------- Gold foil typography ---------- */
+.text-foil {
+    background-image: linear-gradient(
+        112deg,
+        #8a5a1e 0%,
+        #c99a45 20%,
+        #f7e7c3 38%,
+        #e1bf78 52%,
+        #a67527 72%,
+        #e1bf78 88%,
+        #c99a45 100%
+    );
+    -webkit-background-clip: text;
+    background-clip: text;
+    color: transparent;
+}
+
+.gold-hairline {
+    height: 1px;
+    background: linear-gradient(
+        90deg,
+        transparent,
+        rgba(201, 154, 69, 0.15) 10%,
+        rgba(201, 154, 69, 0.85) 50%,
+        rgba(201, 154, 69, 0.15) 90%,
+        transparent
+    );
+}
+
+/* ---------- Cinematic overlays ---------- */
+.grain-overlay {
+    position: fixed;
+    inset: 0;
+    z-index: 90;
+    pointer-events: none;
+    opacity: 0.07;
+    mix-blend-mode: overlay;
+    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='160' height='160'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='2'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='0.6'/%3E%3C/svg%3E");
+}
+
+.vignette-overlay {
+    position: fixed;
+    inset: 0;
+    z-index: 80;
+    pointer-events: none;
+    background: radial-gradient(
+        120% 95% at 50% 42%,
+        transparent 55%,
+        rgba(10, 0, 3, 0.5) 100%
+    );
+}
+
+/* ---------- Marquee ---------- */
+@keyframes marquee-x {
+    to {
+        transform: translateX(-50%);
+    }
+}
+.animate-marquee {
+    animation: marquee-x 46s linear infinite;
+    will-change: transform;
+}
+
+@keyframes soft-pulse {
+    0%,
+    100% {
+        opacity: 0.5;
+    }
+    50% {
+        opacity: 1;
+    }
+}
+.animate-soft-pulse {
+    animation: soft-pulse 2.6s ease-in-out infinite;
+}
+
+@keyframes seal-breathe {
+    0%,
+    100% {
+        box-shadow:
+            inset 0 2px 6px rgba(255, 205, 160, 0.35),
+            inset 0 -6px 14px rgba(0, 0, 0, 0.55),
+            0 10px 30px rgba(0, 0, 0, 0.5),
+            0 0 26px rgba(201, 154, 69, 0.22);
+    }
+    50% {
+        box-shadow:
+            inset 0 2px 6px rgba(255, 205, 160, 0.4),
+            inset 0 -6px 14px rgba(0, 0, 0, 0.55),
+            0 10px 30px rgba(0, 0, 0, 0.5),
+            0 0 52px rgba(233, 195, 120, 0.45);
+    }
+}
