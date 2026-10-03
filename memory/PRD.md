@@ -74,5 +74,12 @@ Sections 1/2/3/5/Location/RSVP/10, music dock, floating nav + back-to-top, all i
 - Three.js chip (`chip/ChipCanvas.js`) is no longer imported (kept in repo, unused).
 - Verified on desktop 1920×800 and mobile 390×844: idle, mid-tear with Page 2 flowing through, and fully-revealed Page 2 all render; no console errors.
 
+## Chip element swap + radial signals (2026-06 fork, update 3)
+- User supplied a finished transparent chip PNG → saved as `/images/chip/chip_element.png` and used directly (no more canvas compositing). Fixes the "black strips" complaint: chip PNG is transparent, `.chip-scene`/`.chip-stage` backgrounds are transparent, and `.chip-quad` uses a warm gold drop-shadow (not a dark one).
+- On tap, a new `RadialSignals` SVG bursts gold electronic signal lines OUTWARD from the chip centre in all 22 directions (PCB-style elbows, `sig-draw` + looping `sig-flow`), then the chip tears into 4 quadrants and Page 2 flows through.
+- Verified: /app/test_reports/iteration_3.json — 100% frontend pass on desktop + mobile, no black strips, no console/image errors.
+
 ## Next Tasks
+- Music swap, couple gallery, Add-to-Calendar, countdown, RSVP form remain future work.
+
 
