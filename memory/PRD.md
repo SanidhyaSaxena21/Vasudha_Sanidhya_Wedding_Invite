@@ -79,8 +79,13 @@ Sections 1/2/3/5/Location/RSVP/10, music dock, floating nav + back-to-top, all i
 - On tap, a new `RadialSignals` SVG bursts gold electronic signal lines OUTWARD from the chip centre in all 22 directions (PCB-style elbows, `sig-draw` + looping `sig-flow`), then the chip tears into 4 quadrants and Page 2 flows through.
 - Verified: /app/test_reports/iteration_3.json — 100% frontend pass on desktop + mobile, no black strips, no console/image errors.
 
+## Countdown added + transition reference pending (2026-06 fork, update 6)
+- Added `Countdown.js` after the Programme section: live countdown to 10 Dec 2026 20:00 IST ("Until We Say Forever"), Days/Hours/Minutes/Seconds, gold+burgundy styling, PcbCorner accents. Verified ticking on mobile + desktop.
+- BLOCKED: user asked to copy the transition + chip pins + heart glow from an external "chip-to-invitation" project shared only as a password-protected VS Code editor link (vscode-…/?folder=/app) — not accessible by agent tools. Current signal/glow transition kept in place until the user provides the reference code, a recording, or the live app URL.
+
 ## Next Tasks
-- Music swap, couple gallery, countdown remain future work.
+- Swap in the reference chip→invitation transition once the user provides its code/recording/live URL.
+- Music swap, couple gallery remain future work.
 
 ## Transition softened + contrast fixes (2026-06 fork, update 5)
 - Transition: removed the dense PCB burst; now a heart glow + a few (8) slow PCB traces (`SimpleSignals`, `chip-signals--slow`) draw gently outward, then the chip zooms/fades and crossfades into Page 2 (~3s).

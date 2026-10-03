@@ -6,6 +6,7 @@ import WeddingIntro from "@/components/WeddingIntro";
 import InvitationHero from "@/components/InvitationHero";
 import FormalInvitation from "@/components/FormalInvitation";
 import Programme from "@/components/Programme";
+import Countdown from "@/components/Countdown";
 import VenuePalace from "@/components/VenuePalace";
 import RsvpCards from "@/components/RsvpCards";
 import EditorialFooter from "@/components/EditorialFooter";
@@ -93,6 +94,7 @@ function App() {
             <InvitationHero />
             <FormalInvitation />
             <Programme />
+            <Countdown />
             <VenuePalace />
             <RsvpCards />
             <EditorialFooter />
