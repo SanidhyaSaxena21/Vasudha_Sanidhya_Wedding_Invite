@@ -88,6 +88,7 @@
     align-items: center;
     justify-content: center;
     background: transparent;
+    --ease: cubic-bezier(0.22, 1, 0.36, 1);
 }
 .chip-bg,
 .chip-bg-tint {
@@ -98,18 +99,38 @@
     pointer-events: none;
     transition: opacity 1.1s ease;
 }
-.chip-bg { object-fit: cover; z-index: -3; }
+.chip-bg { object-fit: cover; z-index: -3; filter: brightness(0.5) saturate(0.82) blur(2px); transform: scale(1.04); }
 .chip-bg-tint {
     z-index: -2;
-    background: radial-gradient(70% 55% at 50% 48%, rgba(20, 3, 6, 0) 0%, rgba(20, 3, 6, 0.28) 70%, rgba(14, 2, 4, 0.6) 100%);
+    background: radial-gradient(75% 60% at 50% 48%, rgba(46, 7, 14, 0.55) 0%, rgba(32, 5, 10, 0.72) 60%, rgba(20, 3, 6, 0.9) 100%);
+}
+/* simple gold border frame for a calm, consistent look on mobile + desktop */
+.chip-frame {
+    position: absolute;
+    inset: clamp(14px, 4.5vw, 42px);
+    z-index: 1;
+    pointer-events: none;
+    border: 1px solid rgba(201, 154, 69, 0.5);
+    border-radius: 3px;
+    transition: opacity 1.1s ease;
+}
+.chip-frame::after {
+    content: "";
+    position: absolute;
+    inset: 6px;
+    border: 1px solid rgba(201, 154, 69, 0.22);
+    border-radius: 2px;
 }
 /* fade the page-1 scene away so page 2 flows through the torn gap */
-.chip-scene[data-phase="tearing"] .chip-bg,
+.chip-scene[data-phase="transforming"] .chip-bg,
+.chip-scene[data-phase="dissolving"] .chip-bg,
 .chip-scene[data-phase="done"] .chip-bg,
-.chip-scene[data-phase="tearing"] .chip-bg-tint,
+.chip-scene[data-phase="transforming"] .chip-bg-tint,
+.chip-scene[data-phase="dissolving"] .chip-bg-tint,
 .chip-scene[data-phase="done"] .chip-bg-tint,
-.chip-scene[data-phase="tearing"] .chip-traces,
-.chip-scene[data-phase="done"] .chip-traces { opacity: 0; }
+.chip-scene[data-phase="transforming"] .chip-frame,
+.chip-scene[data-phase="dissolving"] .chip-frame,
+.chip-scene[data-phase="done"] .chip-frame { opacity: 0; }
 
 /* radiating signal traces */
 .chip-traces {
@@ -139,7 +160,7 @@
     from { opacity: 0; } to { opacity: 1; filter: drop-shadow(0 0 5px rgba(240, 205, 122, 1)); }
 }
 
-/* electronic signals bursting outward from the chip in all directions */
+/* electronic signals routing outward from the chip in all directions */
 .chip-signals {
     position: absolute;
     inset: 0;
@@ -148,26 +169,31 @@
     z-index: -1;
     pointer-events: none;
     opacity: 0;
-    transition: opacity 0.5s ease;
+    transition: opacity 1s var(--ease), filter 1s var(--ease);
 }
-.chip-signals path {
-    stroke-dasharray: 140;
-    stroke-dashoffset: 140;
-}
+.chip-signals path { stroke-dasharray: 140; stroke-dashoffset: 140; }
 .chip-signals circle { opacity: 0; }
 .chip-signals.is-live {
     opacity: 1;
-    filter: drop-shadow(0 0 3px rgba(233, 180, 100, 0.8));
+    filter: drop-shadow(0 0 3px rgba(233, 180, 100, 0.75));
 }
-.chip-signals.is-live path { animation: sig-draw 0.95s ease-out forwards, sig-flow 1.8s linear 1s infinite; }
+.chip-signals.is-live .sig-base path { animation: sig-draw 1s var(--ease) forwards; }
+.chip-signals.is-live .sig-pulse path {
+    stroke-dasharray: 2.5 14;
+    stroke-dashoffset: 60;
+    animation: sig-pulse-flow 1.6s linear 0.5s infinite;
+}
 .chip-signals.is-live circle { animation: node-pop 0.5s ease-out forwards; }
-@keyframes sig-draw {
-    from { stroke-dashoffset: 140; }
-    to { stroke-dashoffset: 0; }
+@keyframes sig-draw { from { stroke-dashoffset: 140; } to { stroke-dashoffset: 0; } }
+@keyframes sig-pulse-flow {
+    0% { stroke-dashoffset: 60; opacity: 0.95; }
+    100% { stroke-dashoffset: -30; opacity: 0.7; }
 }
-@keyframes sig-flow {
-    0% { stroke-dasharray: 2 10; stroke-dashoffset: 0; opacity: 0.9; }
-    100% { stroke-dasharray: 2 10; stroke-dashoffset: -60; opacity: 0.6; }
+/* STEP 5 — transparent dissolve: temporary signals diminish with blur + fade */
+.chip-scene[data-phase="dissolving"] .chip-signals,
+.chip-scene[data-phase="done"] .chip-signals {
+    opacity: 0;
+    filter: blur(5px) drop-shadow(0 0 0 rgba(233, 180, 100, 0));
 }
 
 /* chip stage (the whole thing is the button) */
@@ -185,7 +211,7 @@
 .chip-stage:disabled { cursor: default; }
 .chip-stage:focus-visible { outline: 1px solid #e1c28b; outline-offset: 8px; border-radius: 10px; }
 
-/* flat chip built from 4 quadrant tiles */
+/* flat chip — a single transparent element that scales + fades during the transition */
 .chip-flat {
     position: absolute;
     left: 50%;
@@ -194,62 +220,53 @@
     height: 100%;
     transform: translate(-50%, -50%);
     opacity: 0;
-    transition: opacity 0.6s ease;
+    transition: transform 1s var(--ease), opacity 1s var(--ease);
 }
-.chip-flat.is-ready { opacity: 1; animation: chip-float 5s ease-in-out infinite; }
-.chip-flat.is-torn { animation: none; }
-@keyframes chip-float {
-    0%, 100% { transform: translate(-50%, calc(-50% - 4px)); }
-    50% { transform: translate(-50%, calc(-50% + 4px)); }
-}
-.chip-quad {
+.chip-flat.is-ready { opacity: 1; }
+.chip-face {
     position: absolute;
-    width: 50%;
-    height: 50%;
-    background-repeat: no-repeat;
-    background-size: 200% 200%;
-    filter: drop-shadow(0 6px 18px rgba(201, 120, 50, 0.3));
-    transition: transform 1.6s cubic-bezier(0.66, 0, 0.2, 1), opacity 1.5s ease;
-    will-change: transform, opacity;
+    inset: 0;
+    width: 100%;
+    height: 100%;
+    object-fit: contain;
+    animation: chip-float 5.5s ease-in-out infinite;
+    transition: filter 0.5s ease;
 }
-.chip-quad.tl { left: 0; top: 0; background-position: 0% 0%; }
-.chip-quad.tr { right: 0; top: 0; background-position: 100% 0%; }
-.chip-quad.bl { left: 0; bottom: 0; background-position: 0% 100%; }
-.chip-quad.br { right: 0; bottom: 0; background-position: 100% 100%; }
-.chip-flat.is-torn .chip-quad.tl { transform: translate(-118%, -118%) rotate(-6deg) scale(0.8); opacity: 0; }
-.chip-flat.is-torn .chip-quad.tr { transform: translate(118%, -118%) rotate(6deg) scale(0.8); opacity: 0; }
-.chip-flat.is-torn .chip-quad.bl { transform: translate(-118%, 118%) rotate(6deg) scale(0.8); opacity: 0; }
-.chip-flat.is-torn .chip-quad.br { transform: translate(118%, 118%) rotate(-6deg) scale(0.8); opacity: 0; }
-
-/* glowing cross-crack that flashes along the tear seam */
-.chip-crack {
+@keyframes chip-float {
+    0%, 100% { transform: translateY(-4px); }
+    50% { transform: translateY(4px); }
+}
+/* a warm glow that powers up from the heart icon (lower-centre of the chip) */
+.chip-heart-pulse {
     position: absolute;
     left: 50%;
-    top: 50%;
-    width: 2px;
-    height: 2px;
+    top: 64%;
+    width: 22%;
+    height: 22%;
     transform: translate(-50%, -50%);
+    border-radius: 50%;
+    background: radial-gradient(circle, rgba(255, 224, 160, 0.9) 0%, rgba(233, 154, 58, 0.35) 45%, transparent 70%);
     opacity: 0;
     pointer-events: none;
+    mix-blend-mode: screen;
 }
-.chip-crack::before,
-.chip-crack::after {
-    content: "";
-    position: absolute;
-    left: 50%;
-    top: 50%;
-    background: linear-gradient(90deg, transparent, #ffe6b0, transparent);
-    transform: translate(-50%, -50%);
-    filter: blur(1px);
+/* STEP 1 — activation: slight scale up, heart powers on, chip brightens */
+.chip-scene[data-phase="activating"] .chip-flat,
+.chip-scene[data-phase="signaling"] .chip-flat { transform: translate(-50%, -50%) scale(1.035); }
+.chip-scene[data-phase="activating"] .chip-face,
+.chip-scene[data-phase="signaling"] .chip-face { filter: brightness(1.14) drop-shadow(0 0 18px rgba(233, 180, 100, 0.5)); }
+.chip-scene[data-phase="activating"] .chip-heart-pulse,
+.chip-scene[data-phase="signaling"] .chip-heart-pulse { animation: heart-power 1s ease-out forwards; }
+@keyframes heart-power {
+    0% { opacity: 0; transform: translate(-50%, -50%) scale(0.5); }
+    35% { opacity: 1; transform: translate(-50%, -50%) scale(1.05); }
+    100% { opacity: 0.55; transform: translate(-50%, -50%) scale(1); }
 }
-.chip-crack::before { width: 150%; height: 3px; }
-.chip-crack::after { width: 3px; height: 150%; background: linear-gradient(0deg, transparent, #ffe6b0, transparent); }
-.chip-crack.is-live { animation: crack-flash 0.7s ease-out forwards; }
-@keyframes crack-flash {
-    0% { opacity: 0; width: 2px; height: 2px; }
-    30% { opacity: 1; width: 150%; height: 150%; }
-    100% { opacity: 0; width: 170%; height: 170%; }
-}
+/* STEP 3 — transformation: chip gently scales down and fades out */
+.chip-scene[data-phase="transforming"] .chip-flat,
+.chip-scene[data-phase="dissolving"] .chip-flat,
+.chip-scene[data-phase="done"] .chip-flat { transform: translate(-50%, -50%) scale(0.86); opacity: 0; }
+
 
 .chip-underglow {
     position: absolute;
@@ -312,6 +329,24 @@
 }
 .chip-replay:hover { color: #fff0d2; transform: rotate(-30deg); }
 .chip-replay:focus-visible { outline: 2px solid #e1c28b; outline-offset: 3px; }
+
+.chip-sound {
+    position: absolute;
+    top: max(20px, 3svh);
+    left: max(20px, 4vw);
+    width: 42px;
+    height: 42px;
+    display: grid;
+    place-items: center;
+    color: #d8b881;
+    background: rgba(37, 4, 10, 0.5);
+    border: 1px solid rgba(201, 154, 69, 0.4);
+    border-radius: 50%;
+    z-index: 6;
+    transition: color 0.2s ease, transform 0.2s ease;
+}
+.chip-sound:hover { color: #fff0d2; transform: scale(1.06); }
+.chip-sound:focus-visible { outline: 2px solid #e1c28b; outline-offset: 3px; }
 
 /* =====================================================================
    PAGE 2 — SANIDHYA & VASUDHA

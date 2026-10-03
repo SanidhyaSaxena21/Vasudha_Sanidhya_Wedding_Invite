@@ -66,6 +66,40 @@ async def get_status_checks():
     
     return status_checks
 
+
+# ---- RSVP ----
+class Rsvp(BaseModel):
+    model_config = ConfigDict(extra="ignore")
+
+    id: str = Field(default_factory=lambda: str(uuid.uuid4()))
+    name: str
+    attending: bool
+    guests: int = 1
+    created_at: datetime = Field(default_factory=lambda: datetime.now(timezone.utc))
+
+class RsvpCreate(BaseModel):
+    name: str
+    attending: bool
+    guests: int = 1
+
+@api_router.post("/rsvp", response_model=Rsvp)
+async def create_rsvp(input: RsvpCreate):
+    name = (input.name or "").strip()[:120]
+    guests = max(1, min(int(input.guests or 1), 50))
+    rsvp = Rsvp(name=name, attending=bool(input.attending), guests=guests)
+    doc = rsvp.model_dump()
+    doc['created_at'] = doc['created_at'].isoformat()
+    await db.rsvps.insert_one(doc)
+    return rsvp
+
+@api_router.get("/rsvp", response_model=List[Rsvp])
+async def list_rsvps():
+    rsvps = await db.rsvps.find({}, {"_id": 0}).sort("created_at", -1).to_list(2000)
+    for r in rsvps:
+        if isinstance(r.get('created_at'), str):
+            r['created_at'] = datetime.fromisoformat(r['created_at'])
+    return rsvps
+
 # Include the router in the main app
 app.include_router(api_router)
 

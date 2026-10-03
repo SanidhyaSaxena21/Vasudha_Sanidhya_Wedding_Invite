@@ -2,6 +2,7 @@ import { Fragment } from "react";
 import { motion } from "framer-motion";
 import { Music, Flame } from "lucide-react";
 import { FadeUp, PcbCorner } from "./shared";
+import AddToCalendar from "./AddToCalendar";
 
 /* Stylised baraat horse-head icon */
 const HorseIcon = ({ className = "" }) => (
@@ -142,6 +143,9 @@ const Programme = () => (
         <p className="font-cormorant text-ivory/85 text-lg mt-2">
           Hotel Green Palm, Pacific Mall, Kaushambi, Ghaziabad
         </p>
+        <div className="mt-8 flex justify-center">
+          <AddToCalendar />
+        </div>
       </FadeUp>
     </div>
   </section>

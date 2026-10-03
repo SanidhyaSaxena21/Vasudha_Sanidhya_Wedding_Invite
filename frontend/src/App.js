@@ -13,6 +13,7 @@ import EndingScene from "@/components/EndingScene";
 import FloatingNav from "@/components/FloatingNav";
 import MusicDock from "@/components/MusicDock";
 import PetalCanvas from "@/components/PetalCanvas";
+import RsvpAdmin from "@/components/RsvpAdmin";
 
 class ErrorBoundary extends Component {
   constructor(props) {
@@ -39,9 +40,11 @@ function App() {
   const [introGone, setIntroGone] = useState(false);
   const lenisRef = useRef(null);
 
+  const isAdmin = typeof window !== "undefined" && window.location.pathname.replace(/\/$/, "") === "/rsvp-admin";
+
   useEffect(() => {
-    document.body.style.overflow = introGone ? "" : "hidden";
-    if (!revealed) return undefined;
+    document.body.style.overflow = introGone || isAdmin ? "" : "hidden";
+    if (!revealed || isAdmin) return undefined;
 
     const lenis = new Lenis({ duration: 1.25, smoothWheel: true });
     lenisRef.current = lenis;
@@ -68,6 +71,9 @@ function App() {
 
   return (
     <ErrorBoundary>
+      {isAdmin ? (
+        <RsvpAdmin />
+      ) : (
       <div className="relative bg-wine min-h-screen">
         <AnimatePresence onExitComplete={() => setIntroGone(true)}>
           {!introGone && (
@@ -103,6 +109,7 @@ function App() {
           </>
         )}
       </div>
+      )}
     </ErrorBoundary>
   );
 }
