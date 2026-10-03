@@ -2,8 +2,8 @@ import React, { Component, useEffect, useRef, useState } from "react";
 import { AnimatePresence } from "framer-motion";
 import Lenis from "lenis";
 import "@/App.css";
-import RoyalEnvelopeHero from "@/components/RoyalEnvelopeHero";
-import MainInvitation from "@/components/MainInvitation";
+import WeddingIntro from "@/components/WeddingIntro";
+import InvitationHero from "@/components/InvitationHero";
 import FormalInvitation from "@/components/FormalInvitation";
 import Programme from "@/components/Programme";
 import VenuePalace from "@/components/VenuePalace";
@@ -70,7 +70,7 @@ function App() {
       <div className="relative bg-wine min-h-screen">
         <AnimatePresence>
           {!revealed && (
-            <RoyalEnvelopeHero key="envelope" onComplete={() => setRevealed(true)} />
+            <WeddingIntro key="wedding-intro" onComplete={() => setRevealed(true)} />
           )}
         </AnimatePresence>
 
@@ -79,7 +79,7 @@ function App() {
             <div className="fixed inset-0 z-[2] pointer-events-none" aria-hidden="true">
               <PetalCanvas density="low" className="w-full h-full opacity-60" />
             </div>
-            <MainInvitation goToSection={scrollTo} />
+            <InvitationHero />
             <FormalInvitation />
             <Programme />
             <VenuePalace />

@@ -65,6 +65,8 @@ module.exports = {
       },
       fontFamily: {
         cinzel: ['"Cinzel"', 'serif'],
+        decorative: ['"Cinzel Decorative"', '"Cinzel"', 'serif'],
+        cormorantsc: ['"Cormorant SC"', '"Cinzel"', 'serif'],
         cormorant: ['"Cormorant Garamond"', 'Georgia', 'serif'],
         script: ['"Great Vibes"', 'cursive']
       },
