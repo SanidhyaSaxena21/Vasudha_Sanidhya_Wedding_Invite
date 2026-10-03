@@ -47,14 +47,27 @@ Sections 1/2/3/5/Location/RSVP/10, music dock, floating nav + back-to-top, all i
 - Tested actual nonblank canvas and changing pixels during opening, repeated opening, double-click handling, keyboard, reduced motion, forced WebGL fallback, and continuation to existing sections. No uncaught page errors in final run.
 - No login or credentials are required for this public invitation.
 
+## Wedding Chip opening rebuild — First 2 screens (2026-06 fork)
+- Exact request: "Build the first two screens only... Page 1 — Interactive Wedding Chip Opening; Page 2 — Sanidhya & Vasudha / Integrated Circuit of Love. Create the exact same first 2 pages" (user provided two reference images). Rest of site kept unchanged.
+- User choices: Three.js for a true 3D lid; NO tap sound; build from the uploaded reference images.
+- Page 1 (`WeddingIntro.js` + `chip/ChipCanvas.js`): replaced the old 3D envelope intro. A burgundy VLSI "Wedding Chip" renders in Three.js over a generated candlelit burgundy-velvet ambiance background (`/images/chip/page1_bg.jpg`). Chip body = burgundy box, gold perimeter pins, engraved top face (generated `chip_face.jpg` + crisp "Two Hearts / One Journey" text composited via CanvasTexture), Ganesha + heart-circuit baked into face art. Idle: breathing underglow. Phase machine: closed → activating (gold SVG signal traces light up from edges toward chip) → opening (lid hinges up revealing glowing silicon die `chip_die.jpg` with heart) → morphing (camera pushes into die + radial gold→burgundy morph veil) → done → onComplete reveals Page 2. "Tap to Begin" lotus divider caption; dev replay button; reduced-motion + non-WebGL fallback (image crossfade).
+- Page 2 (`InvitationHero.js`): replaced `MainInvitation` as the first scroll section (keeps id="story"). Generated burgundy invitation background (`/images/chip/page2_bg.jpg`) with lotus/damask/lanterns, an animated gold circuit border that draws in then energizes, a soft radial backdrop for legibility. Sequentially revealed (Framer Motion, slow): Ganesha (`ganesha.png`) → "|| Shree Ganeshaay Namah ||" → "Sanidhya & Vasudha" (Cormorant SC gold with left→right light sweep) → "An Integrated Circuit of Love" → self-drawing SignalWave → silicon quote → glowing HeartChip → scroll cue.
+- Fonts added: Cinzel Decorative, Cormorant SC (index.html + tailwind `decorative`/`cormorantsc`).
+- Assets generated (Gemini Nano Banana) in `/app/frontend/public/images/chip/`: page1_bg, page2_bg, chip_face, chip_die, ganesha(png, bg stripped).
+- Old `RoyalEnvelopeHero.js` and `MainInvitation.js` remain in repo but are no longer imported.
+
+## Verification (2026-06 fork)
+- Independent frontend testing: /app/test_reports/iteration_2.json — 100% pass, 0 console/WebGL errors on desktop 1920×800 and mobile 390×844. Full tap→open→morph→reveal flow, all Page 2 testids, replay reset, and downstream sections verified.
+- Both reference images matched closely in self-review screenshots.
+
 ## Backlog
-- P0: None known; user visual approval of updated opening pending.
-- P1: Replace placeholder synth track with a real romantic instrumental (drop wedding.mp3 into public/music).
+- P1: Replace placeholder synth music track with a real romantic instrumental (drop wedding.mp3 into public/music).
 - P1: Photo gallery / couple section; Add-to-Calendar; countdown.
 - P2: RSVP form → Mongo; share buttons; live map embed.
-- P2 optional enhancement: subtle paper-opening sound, only after user approval and an appropriate licensed asset.
+- P2 optional: subtle ceremonial power-on chime on chip tap (user declined for now).
 
 ## Next Tasks
-1. User reviews updated textured envelope, readable open state, and continuation.
-2. Swap the placeholder music file for a user-selected licensed instrumental when supplied/requested.
-3. RSVP form, couple gallery, Add-to-Calendar and countdown remain future work, not part of this completed envelope scope.
+1. User reviews the new Wedding Chip opening + Sanidhya & Vasudha page against the references.
+2. Optionally remove now-unused RoyalEnvelopeHero/MainInvitation files.
+3. Music swap, RSVP form, couple gallery, countdown remain future work.
+

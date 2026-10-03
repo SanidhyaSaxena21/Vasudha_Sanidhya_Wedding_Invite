@@ -1,0 +1,29 @@
+{
+  "summary": "Frontend-only validation of new Wedding Chip (Page 1) + Invitation Hero (Page 2) flow on desktop (1920x800) and mobile (390x844). All required data-testids present. 3D chip renders and reaches data-ready=true, tap-to-begin visible, body overflow hidden pre-reveal. Tapping chip-open-btn triggers chip-status, lid open, morph, then invitation-hero mounts; body becomes scrollable (overflow: hidden auto). Page 2 reveals inv-ganesha, inv-shloka (|| SHREE GANESHAAY NAMAH ||), inv-names (Sanidhya & Vasudha), inv-subtitle (An Integrated Circuit of Love), inv-quote, inv-heartchip. chip-replay-btn appears during opening/morphing phases and successfully resets scene to closed/tap-to-begin on click. Downstream formal-invitation-section renders after reveal. Music control (data-testid='music-toggle-btn') visible. Zero console errors and zero WebGL errors on both viewports.",
+  "backend_issues": {"critical": [], "minor": []},
+  "frontend_issues": {
+    "ui_bugs": [],
+    "integration_issues": [],
+    "design_issues": []
+  },
+  "test_report_links": [
+    "/app/test_reports/chip_desktop.png",
+    "/app/test_reports/chip_mobile.png"
+  ],
+  "action_items": [
+    "Review-request mentioned data-testid='floating-nav' and 'play-music' but implementation uses 'nav-menu-btn' / 'music-toggle-btn'. Not a bug (elements exist and work) — only a naming mismatch vs. the request text. Optionally add aliases if automation elsewhere depends on those exact ids.",
+    "Note: chip-replay-btn is intentionally unmounted together with WeddingIntro after reveal (AnimatePresence exit in App.js). It is only available during opening/morphing/done inside the intro, which matches the stated 'developer replay' purpose."
+  ],
+  "critical_code_review_comments": [
+    "Clean phase state machine in WeddingIntro (closed→activating→opening→morphing→done) with timers cleared on replay — good.",
+    "ChipCanvas provides a non-WebGL fallback; main flow uses Three.js and reached data-ready reliably.",
+    "App.js correctly unmounts WeddingIntro via AnimatePresence after onComplete, preventing stale 3D canvas from eating pointer events behind main content.",
+    "Minor: a Lenis warning 'container should have non-static position' appears once — cosmetic, not an error."
+  ],
+  "updated_files": [],
+  "success_rate": {"backend": "N/A", "frontend": "100% (all required testids and behaviors verified)"},
+  "seed_data_creation": "None",
+  "retest_needed": false,
+  "should_main_agent_self_test": true,
+  "context_for_next_testing_agent": "Full tap→open→morph→reveal flow verified on desktop and mobile with 0 console/WebGL errors. Replay button only exists while WeddingIntro is mounted (phases opening/morphing/done); after reveal it is unmounted by design. Horizontal overflow on InvitationHero is clean at 390px (sw==cw==390). Pre-existing overflow in FormalInvitation marquee/floral-arch was out of scope per request and not tested."
+}
