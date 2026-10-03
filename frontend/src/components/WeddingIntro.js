@@ -1,54 +1,10 @@
-import { useEffect, useMemo, useRef, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import { motion, useReducedMotion } from "framer-motion";
 import { RotateCcw, Volume2, VolumeX } from "lucide-react";
 
 const BG = "/images/chip/page1_bg.jpg";
 const CHIP = "/images/chip/chip_element.png";
 const CHIME = "/music/chime.wav";
-
-/* Electronic signals that route outward from the chip across the screen. */
-const RadialSignals = ({ active }) => {
-  const lines = useMemo(() => {
-    const cx = 50;
-    const cy = 50;
-    const n = 24;
-    const out = [];
-    for (let i = 0; i < n; i++) {
-      const ang = (i / n) * Math.PI * 2 + (i % 2 ? 0.16 : -0.09);
-      const r = 96;
-      const ex = cx + Math.cos(ang) * r;
-      const ey = cy + Math.sin(ang) * r;
-      const d =
-        i % 2 === 0
-          ? `M${cx} ${cy} L${ex} ${cy} L${ex} ${ey}`
-          : `M${cx} ${cy} L${cx} ${ey} L${ex} ${ey}`;
-      const nx = i % 2 === 0 ? ex : cx + (ex - cx) * 0.55;
-      const ny = i % 2 === 0 ? cy + (ey - cy) * 0.55 : ey;
-      out.push({ d, nx, ny, delay: (i % 7) * 0.09 });
-    }
-    return out;
-  }, []);
-
-  return (
-    <svg className={`chip-signals ${active ? "is-live" : ""}`} viewBox="0 0 100 100" preserveAspectRatio="xMidYMid slice" aria-hidden="true">
-      <g className="sig-base" fill="none" stroke="#c9953f" strokeWidth="0.24" strokeLinecap="round" strokeLinejoin="round">
-        {lines.map((l, i) => (
-          <path key={i} d={l.d} style={{ animationDelay: `${l.delay}s` }} />
-        ))}
-      </g>
-      <g className="sig-pulse" fill="none" stroke="#f4dca2" strokeWidth="0.42" strokeLinecap="round" strokeLinejoin="round">
-        {lines.map((l, i) => (
-          <path key={i} d={l.d} style={{ animationDelay: `${l.delay + 0.4}s` }} />
-        ))}
-      </g>
-      <g fill="#ffe6ac">
-        {lines.map((l, i) => (
-          <circle key={i} cx={l.nx} cy={l.ny} r="0.55" style={{ animationDelay: `${l.delay + 0.3}s` }} />
-        ))}
-      </g>
-    </svg>
-  );
-};
 
 const LotusDivider = () => (
   <svg width="150" height="22" viewBox="0 0 150 22" fill="none" aria-hidden="true" className="chip-lotus-divider">
@@ -72,7 +28,7 @@ export default function WeddingIntro({ onReveal, onComplete }) {
   useEffect(() => () => timers.current.forEach(window.clearTimeout), []);
 
   const after = (ms, fn) => {
-    const id = window.setTimeout(fn, reducedMotion ? Math.min(ms, 140) : ms);
+    const id = window.setTimeout(fn, reducedMotion ? Math.min(ms, 120) : ms);
     timers.current.push(id);
   };
 
@@ -82,10 +38,8 @@ export default function WeddingIntro({ onReveal, onComplete }) {
       try { audioRef.current.currentTime = 0; audioRef.current.play().catch(() => {}); } catch { /* noop */ }
     }
     setPhase("activating");
-    after(350, () => setPhase("signaling"));
-    after(1100, () => { setPhase("transforming"); onReveal && onReveal(); });
-    after(1900, () => setPhase("dissolving"));
-    after(2900, () => { setPhase("done"); onComplete && onComplete(); });
+    after(550, () => { setPhase("transforming"); onReveal && onReveal(); });
+    after(1900, () => { setPhase("done"); onComplete && onComplete(); });
   };
 
   const replay = () => {
@@ -104,7 +58,6 @@ export default function WeddingIntro({ onReveal, onComplete }) {
   };
 
   const busy = phase !== "closed";
-  const signalsLive = ["signaling", "transforming", "dissolving", "done"].includes(phase);
 
   return (
     <motion.section
@@ -118,7 +71,6 @@ export default function WeddingIntro({ onReveal, onComplete }) {
       <img src={BG} alt="" className="chip-bg" draggable="false" />
       <div className="chip-bg-tint" aria-hidden="true" />
       <div className="chip-frame" aria-hidden="true" />
-      <RadialSignals active={signalsLive} />
 
       <audio ref={audioRef} src={CHIME} preload="auto" aria-hidden="true" />
 
@@ -163,7 +115,7 @@ export default function WeddingIntro({ onReveal, onComplete }) {
             <LotusDivider />
           </motion.div>
         )}
-        {(phase === "activating" || phase === "signaling") && (
+        {phase === "activating" && (
           <p className="font-cormorant chip-status" data-testid="chip-status">Two hearts, coming into phase…</p>
         )}
       </div>
@@ -175,7 +127,7 @@ export default function WeddingIntro({ onReveal, onComplete }) {
       )}
 
       <div className="sr-only" aria-live="polite">
-        {signalsLive && <p data-testid="chip-inner-text">Two Hearts One Journey</p>}
+        {busy && <p data-testid="chip-inner-text">Two Hearts One Journey</p>}
       </div>
     </motion.section>
   );
