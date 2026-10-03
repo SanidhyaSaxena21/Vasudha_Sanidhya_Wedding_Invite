@@ -4,8 +4,46 @@ import { RotateCcw, Volume2, VolumeX } from "lucide-react";
 import { CircuitTrace } from "./CircuitTrace";
 
 const BG = "/images/chip/page1_bg.jpg";
-const CHIP = "/images/chip/chip_element.png";
 const CHIME = "/music/chime.wav";
+
+const PIN_COUNT = 9;
+const pins = Array.from({ length: PIN_COUNT });
+const PinRow = ({ side }) => (
+  <div className={`wedchip-pins wedchip-pins-${side}`} aria-hidden="true" data-testid={`chip-pins-${side}`}>
+    {pins.map((_, i) => (
+      <span key={i} className="wedchip-pin" style={{ "--pi": i }} />
+    ))}
+  </div>
+);
+
+const HeartCircuit = ({ className = "" }) => (
+  <svg
+    className={className}
+    width="92"
+    height="76"
+    viewBox="0 0 120 100"
+    fill="none"
+    stroke="#e1b96c"
+    strokeWidth="2"
+    strokeLinecap="round"
+    strokeLinejoin="round"
+    aria-hidden="true"
+    data-testid="chip-heart"
+  >
+    <path className="wedchip-heart-path" d="M60 86C40 70 22 56 22 38a18 18 0 0 1 34-8 18 18 0 0 1 34 8c0 18-18 32-30 48z" />
+    <g opacity="0.95">
+      <path d="M22 44H6M10 44v-9M10 44v9" />
+      <path d="M98 44h16M110 44v-9M110 44v9" />
+      <path d="M60 30V14M53 14h14" />
+      <path d="M60 86v10" />
+    </g>
+    <g fill="#e1b96c" stroke="none">
+      <circle cx="6" cy="44" r="2.4" />
+      <circle cx="114" cy="44" r="2.4" />
+      <circle cx="60" cy="14" r="2.4" />
+    </g>
+  </svg>
+);
 
 const TIMINGS = { signal: 1000, opening: 650, transition: 2000 };
 const REDUCED = { signal: 250, opening: 250, transition: 650 };
@@ -105,9 +143,24 @@ export default function WeddingIntro({ onReveal, onComplete }) {
         aria-label="Open the wedding invitation"
       >
         <span className={`chip-underglow ${busy ? "is-live" : ""}`} aria-hidden="true" />
-        <div className="chip-flat is-ready" data-testid="chip-flat">
-          <img src={CHIP} className="chip-face" alt="Two Hearts One Journey wedding chip" draggable="false" />
-          <span className="chip-heart-pulse" aria-hidden="true" />
+        <div className={`wedchip ${energize ? "is-energized" : ""}`} data-phase={phase} data-testid="chip-flat">
+          <PinRow side="top" />
+          <PinRow side="bottom" />
+          <PinRow side="left" />
+          <PinRow side="right" />
+          <div className="wedchip-face">
+            <span className="wedchip-border" aria-hidden="true" />
+            <span className="wedchip-corner tl" aria-hidden="true" />
+            <span className="wedchip-corner tr" aria-hidden="true" />
+            <span className="wedchip-corner bl" aria-hidden="true" />
+            <span className="wedchip-corner br" aria-hidden="true" />
+            <h1 className="wedchip-title">
+              <span>Two Hearts</span>
+              <span>One Journey</span>
+            </h1>
+            <LotusDivider />
+            <HeartCircuit className="wedchip-heart" />
+          </div>
         </div>
       </button>
 

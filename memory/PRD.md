@@ -30,6 +30,13 @@ Premium, cinematic, fully responsive interactive Indian wedding invitation websi
 ## Implemented (2026-10-03)
 Sections 1/2/3/5/Location/RSVP/10, music dock, floating nav + back-to-top, all interactions listed in the brief (envelope, seal, card reveal, parallax, animated traces, nodes, petals, flicker, particles, fade-ups, scroll reveals, ending heart animation).
 
+### Simple SVG Wedding-Chip symbol (2026-06 fork)
+- Exact request: "Instead of this Image, use a simple good Chip symbol ... smooth [transition], and its side pins and heart should glow and then it should go to second page. Use this Github repo (Wedding_Invite_2) and copy the First transition semantics." User chose option B (heart + "Two Hearts / One Journey" engraved text).
+- `WeddingIntro.js`: removed the raster `chip_element.png` image chip. Built a crisp CSS/SVG IC chip — burgundy engraved face with gold border + corner flourishes, 9 gold pins per side (all 4 sides), "Two Hearts / One Journey" (Cinzel), LotusDivider, and an inline `HeartCircuit` SVG with glow. Whole chip is the button.
+- Transition semantics copied from the repo's theme kit: phases idle→signal→opening→transition→invitation. On tap pins light sequentially (55ms stagger `--pi`), underglow surges, heart powers/pulses, gold PCB traces (CircuitTrace) radiate out, then Framer push-in (scale→6, fade+brighten) morphs into Page 2 which emerges (scale 1.12→1). Reduced-motion fallback preserved.
+- `App.css`: replaced `.chip-flat/.chip-face/.chip-heart-pulse` image rules with `.wedchip*` pin/face/heart glow styles. Verified desktop 1920×800 + mobile 390×844: idle, energized (pins+heart glow, traces radiate), push-in, and Page 2 reveal all correct.
+
+
 ### 3D craft-paper opening update (2026-10-03)
 - Latest exact request: "We want the fist envolope as a 3D in a craft paper texture. Then it should also open like this as shown in the Image, with Two Journey One Heart written on the Flap, with Sanidhya & Vasudha written inside the Envelope." User approved this focused update, preserving other sections.
 - Added Three.js via yarn. Replaced prior flat/clipped envelope with actual hinged paper geometry, physical lighting/shadows, matte fibrous burgundy stock, antique-gold botanical details, subtle PCB corners, and a raised gold S & V seal. Existing photographic candlelit wooden background preserved.
