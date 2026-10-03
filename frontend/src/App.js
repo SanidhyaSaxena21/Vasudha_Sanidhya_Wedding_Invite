@@ -4,9 +4,14 @@ import Lenis from "lenis";
 import "@/App.css";
 import RoyalEnvelopeHero from "@/components/RoyalEnvelopeHero";
 import MainInvitation from "@/components/MainInvitation";
-import EventsTimeline from "@/components/EventsTimeline";
+import FormalInvitation from "@/components/FormalInvitation";
+import Programme from "@/components/Programme";
 import VenuePalace from "@/components/VenuePalace";
+import RsvpCards from "@/components/RsvpCards";
 import EditorialFooter from "@/components/EditorialFooter";
+import EndingScene from "@/components/EndingScene";
+import FloatingNav from "@/components/FloatingNav";
+import MusicDock from "@/components/MusicDock";
 import PetalCanvas from "@/components/PetalCanvas";
 
 class ErrorBoundary extends Component {
@@ -28,23 +33,6 @@ class ErrorBoundary extends Component {
     return this.props.children;
   }
 }
-
-const Invitation = () => (
-  <main className="relative">
-    <Petals />
-    <MainInvitation />
-    <EventsTimeline />
-    <VenuePalace />
-    <EditorialFooter />
-  </main>
-);
-
-/* ambient petals drifting across the whole site */
-const Petals = () => (
-  <div className="fixed inset-0 z-[2] pointer-events-none" aria-hidden="true">
-    <PetalCanvas density="low" className="w-full h-full opacity-60" />
-  </div>
-);
 
 function App() {
   const [revealed, setRevealed] = useState(false);
@@ -70,6 +58,13 @@ function App() {
     };
   }, [revealed]);
 
+  const scrollTo = (sel) => {
+    const el = document.querySelector(sel);
+    if (!el) return;
+    if (lenisRef.current) lenisRef.current.scrollTo(el, { duration: 1.6 });
+    else el.scrollIntoView({ behavior: "smooth" });
+  };
+
   return (
     <ErrorBoundary>
       <div className="relative bg-wine min-h-screen">
@@ -79,12 +74,27 @@ function App() {
           )}
         </AnimatePresence>
 
-        {revealed && <Invitation />}
+        {revealed && (
+          <main className="relative">
+            <div className="fixed inset-0 z-[2] pointer-events-none" aria-hidden="true">
+              <PetalCanvas density="low" className="w-full h-full opacity-60" />
+            </div>
+            <MainInvitation goToSection={scrollTo} />
+            <FormalInvitation />
+            <Programme />
+            <VenuePalace />
+            <RsvpCards />
+            <EditorialFooter />
+            <EndingScene />
+          </main>
+        )}
 
         {revealed && (
           <>
             <div className="vignette-overlay" />
             <div className="grain-overlay" />
+            <FloatingNav onNavigate={scrollTo} />
+            <MusicDock armed={revealed} />
           </>
         )}
       </div>

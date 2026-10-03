@@ -101,3 +101,45 @@ export const CornerFlourish = ({ className = "" }) => (
     <circle cx="49.5" cy="14" r="1.5" fill="#E1BF78" />
   </svg>
 );
+
+/* Gold signal waveform divider — an electronic heartbeat */
+export const SignalWave = ({ className = "" }) => (
+  <svg viewBox="0 0 180 24" fill="none" className={className} aria-hidden="true">
+    <path d="M0 12 H58 L66 12 L72 4 L82 20 L88 12 H180" stroke="#C99A45" strokeWidth="1.2" strokeLinecap="round" strokeLinejoin="round" />
+    <circle cx="58" cy="12" r="2" fill="#E1BF78" />
+    <circle cx="122" cy="12" r="2" fill="#E1BF78" />
+    <circle cx="90" cy="12" r="1.4" fill="#C99A45" />
+  </svg>
+);
+
+/* Heart-shaped IC die with tiny gold circuit traces extending outward */
+export const HeartChip = ({ className = "", stroke = "#C99A45", trace = "#E1BF78" }) => (
+  <svg viewBox="0 0 140 90" fill="none" className={className} aria-hidden="true">
+    <path
+      d="M70 64 C56 54 47 45 47 36 C47 29 52 24 58 24 C62.5 24 66 26.5 70 31 C74 26.5 77.5 24 82 24 C88 24 93 29 93 36 C93 45 84 54 70 64 Z"
+      stroke={stroke}
+      strokeWidth="1.6"
+      strokeLinejoin="round"
+    />
+    <path d="M56 36 H64 L67 39 H73 L76 36 H84" stroke={trace} strokeWidth="0.9" strokeLinecap="round" />
+    <path d="M58 44 H82" stroke={trace} strokeWidth="0.9" strokeLinecap="round" />
+    {/* traces extending outward */}
+    <path d="M47 33 H30 V22 H16" stroke={trace} strokeWidth="0.9" />
+    <path d="M47 42 H26" stroke={trace} strokeWidth="0.9" />
+    <path d="M93 33 H110 V22 H124" stroke={trace} strokeWidth="0.9" />
+    <path d="M93 42 H114" stroke={trace} strokeWidth="0.9" />
+    <path d="M62 24 V12 H50" stroke={trace} strokeWidth="0.9" />
+    <path d="M78 24 V12 H90" stroke={trace} strokeWidth="0.9" />
+    <path d="M63 64 V78" stroke={trace} strokeWidth="0.9" />
+    <path d="M77 64 V74 H88" stroke={trace} strokeWidth="0.9" />
+    {/* pads */}
+    <circle cx="14" cy="22" r="1.7" fill={trace} />
+    <circle cx="24" cy="42" r="1.5" fill={trace} />
+    <circle cx="126" cy="22" r="1.7" fill={trace} />
+    <circle cx="116" cy="42" r="1.5" fill={trace} />
+    <circle cx="48" cy="12" r="1.5" fill={trace} />
+    <circle cx="92" cy="12" r="1.5" fill={trace} />
+    <circle cx="63" cy="80" r="1.5" fill={trace} />
+    <circle cx="90" cy="74" r="1.5" fill={trace} />
+  </svg>
+);

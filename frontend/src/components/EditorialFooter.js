@@ -1,7 +1,6 @@
 import { HeartCircuit } from "./shared";
 
-/* PLACEHOLDER DETAILS in marquee — replace with real names/date/city */
-const ITEMS = ["Sanidhya weds Vasudha", "14 February 2026", "Udaipur, Rajasthan", "#SanidhyaWedsVasudha"];
+const ITEMS = ["Sanidhya weds Vasudha", "10 December 2026", "Hotel Green Palm, Ghaziabad", "#SanidhyaWedsVasudha"];
 
 const MarqueeStrip = ({ ariaHidden = false }) => (
   <div className="flex shrink-0 items-center" aria-hidden={ariaHidden}>
@@ -20,7 +19,6 @@ const MarqueeStrip = ({ ariaHidden = false }) => (
 
 const EditorialFooter = () => (
   <footer className="relative overflow-hidden" data-testid="editorial-footer">
-    {/* slow editorial marquee */}
     <div
       className="border-y border-gold/25 bg-burgundy/40 py-5 overflow-hidden"
       data-testid="editorial-marquee"
@@ -44,7 +42,7 @@ const EditorialFooter = () => (
           Two hearts, perfectly aligned — crafted with love, and a little bit of silicon.
         </p>
         <p className="font-cinzel text-[10px] uppercase tracking-[0.34em] text-champagne/50 mt-4">
-          With love · February 2026
+          With love · December 2026
         </p>
       </div>
     </div>

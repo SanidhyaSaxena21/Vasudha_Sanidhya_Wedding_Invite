@@ -151,3 +151,35 @@ body {
             0 0 52px rgba(233, 195, 120, 0.45);
     }
 }
+
+/* lantern / candle flicker */
+@keyframes lantern-flicker {
+    0%, 100% { opacity: 0.9; }
+    8% { opacity: 0.72; }
+    12% { opacity: 0.96; }
+    30% { opacity: 0.78; }
+    34% { opacity: 1; }
+    52% { opacity: 0.76; }
+    56% { opacity: 0.92; }
+    74% { opacity: 0.84; }
+    78% { opacity: 0.98; }
+}
+.animate-flicker {
+    animation: lantern-flicker 3.4s ease-in-out infinite;
+}
+
+/* floating nav / music glass */
+.nav-glass {
+    background: rgba(37, 4, 10, 0.92);
+    backdrop-filter: blur(14px);
+    -webkit-backdrop-filter: blur(14px);
+    border: 1px solid rgba(201, 154, 69, 0.4);
+}
+
+@keyframes node-glow {
+    0%, 100% { box-shadow: 0 0 8px rgba(201, 154, 69, 0.7); }
+    50% { box-shadow: 0 0 20px rgba(233, 195, 120, 1); }
+}
+.animate-node-glow {
+    animation: node-glow 2.8s ease-in-out infinite;
+}
