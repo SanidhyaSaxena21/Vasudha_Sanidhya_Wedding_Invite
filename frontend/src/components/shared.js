@@ -43,7 +43,7 @@ export const GoldRule = ({ className = "" }) => (
   <span className={`flex items-center gap-3 ${className}`}>
     <span className="gold-hairline w-16 sm:w-24" />
     <svg width="26" height="26" viewBox="0 0 26 26" fill="none" aria-hidden="true">
-      <rect x="13" y="3.2" width="13.8" height="13.8" transform="rotate(45 13 3.2)" transform-origin="13 13" stroke="#C99A45" strokeWidth="1" fill="none" />
+      <rect x="13" y="3.2" width="13.8" height="13.8" transform="rotate(45 13 3.2)" transformOrigin="13 13" stroke="#C99A45" strokeWidth="1" fill="none" />
       <circle cx="13" cy="13" r="2.2" fill="#C99A45" />
       <circle cx="13" cy="4" r="1" fill="#E1BF78" />
       <circle cx="13" cy="22" r="1" fill="#E1BF78" />

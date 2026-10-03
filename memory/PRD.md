@@ -14,7 +14,9 @@ Premium, cinematic, fully responsive interactive Indian wedding invitation websi
 
 ## Architecture (frontend-only; FastAPI/Mongo template untouched)
 - App.js: envelope→reveal state machine, Lenis smooth scroll + scrollTo helper, ErrorBoundary, grain/vignette, ambient petals, FloatingNav, MusicDock.
-- RoyalEnvelopeHero: CSS/SVG envelope, wax-seal crack + sparkles, 3D flap, card slide + ivory-veil zoom; reduced-motion skip; keyboard.
+- RoyalEnvelopeHero: real Three.js burgundy craft-paper envelope, gold wax seal, hinged flap, ivory insert; closed → opening → open state machine. Open state holds for reading, with explicit Open invitation continuation and replay. Keyboard focus and reduced-motion support.
+- components/envelope/EnvelopeCanvas.js: font-ready WebGL renderer, responsive camera, opening choreography, resource cleanup, no unnecessary static-state redraws, no-WebGL/context-loss fallback.
+- components/envelope/createEnvelopeScene.js: layered paper meshes, lighting, shadows, hinge and gold seal. paperTextures.js: deterministic fibrous bitmap stock, gold floral/PCB motifs and inscriptions. EnvelopeFallback.js: readable HTML/CSS fallback.
 - MainInvitation (S2): masked script-name reveal, subtitle, SignalWave divider, silicon quote, HeartChip, "Open the Invitation" bloom-transition CTA.
 - FormalInvitation (S3): ivory card inside generated floral-arch PNG (transparency restored via local processing), PCB corners, full family text, date/venue.
 - Programme (S5): glowing circuit frame + PcbCorners, 3 arch-top ivory cards (Music/Flame/custom Horse icons), gradient circuit connectors with glow nodes animating in-view, venue line.
@@ -28,12 +30,31 @@ Premium, cinematic, fully responsive interactive Indian wedding invitation websi
 ## Implemented (2026-10-03)
 Sections 1/2/3/5/Location/RSVP/10, music dock, floating nav + back-to-top, all interactions listed in the brief (envelope, seal, card reveal, parallax, animated traces, nodes, petals, flicker, particles, fade-ups, scroll reveals, ending heart animation).
 
+### 3D craft-paper opening update (2026-10-03)
+- Latest exact request: "We want the fist envolope as a 3D in a craft paper texture. Then it should also open like this as shown in the Image, with Two Journey One Heart written on the Flap, with Sanidhya & Vasudha written inside the Envelope." User approved this focused update, preserving other sections.
+- Added Three.js via yarn. Replaced prior flat/clipped envelope with actual hinged paper geometry, physical lighting/shadows, matte fibrous burgundy stock, antique-gold botanical details, subtle PCB corners, and a raised gold S & V seal. Existing photographic candlelit wooden background preserved.
+- Exact inside-flap inscription: "Two Journey One Heart" (two lines, deliberately preserving singular Journey). Ivory card reads "Sanidhya & Vasudha" in script.
+- Seal lifts, flap opens, insert rises in front of the opened hinge; scene remains open until user selects Open invitation. Close/replay allows another viewing. Correct scene date is 10 December 2026 (removed former February placeholder).
+- Keyboard Enter/Space, focus handoff, reduced-motion instant reveal (without skipping requested text), responsive fitting and no-WebGL fallback verified.
+- Fixed card/flap depth ordering, fallback inscription placement and mobile-name clipping. Fixed existing shared.js transformOrigin JSX warning; selected supported Three.js PCFShadowMap.
+- VenuePalace's existing View Venue href already matches the requested exact link; no venue edits made.
+- No API, backend, authentication, database, or existing music changes. Background audio remains a synthesized PLACEHOLDER / MOCKED track.
+
+## Verification (2026-10-03)
+- Production frontend build: PASS (yarn build).
+- Independent frontend testing: /app/test_reports/iteration_1.json. Initial 88% report found hinge layering, fallback readability and JSX casing issues; all resolved and subsequently self-verified.
+- Final fix verification: /app/test_reports/envelope_verification.md. Desktop 1920×800 and mobile 390×844 screenshots show full inscriptions, correctly layered insert and no horizontal overflow.
+- Tested actual nonblank canvas and changing pixels during opening, repeated opening, double-click handling, keyboard, reduced motion, forced WebGL fallback, and continuation to existing sections. No uncaught page errors in final run.
+- No login or credentials are required for this public invitation.
+
 ## Backlog
+- P0: None known; user visual approval of updated opening pending.
 - P1: Replace placeholder synth track with a real romantic instrumental (drop wedding.mp3 into public/music).
 - P1: Photo gallery / couple section; Add-to-Calendar; countdown.
 - P2: RSVP form → Mongo; share buttons; live map embed.
+- P2 optional enhancement: subtle paper-opening sound, only after user approval and an appropriate licensed asset.
 
 ## Next Tasks
-1. Swap the placeholder music file for a licensed instrumental.
-2. Add RSVP form capturing attendance to the database.
-3. Add couple photo gallery between Programme and Venue.
+1. User reviews updated textured envelope, readable open state, and continuation.
+2. Swap the placeholder music file for a user-selected licensed instrumental when supplied/requested.
+3. RSVP form, couple gallery, Add-to-Calendar and countdown remain future work, not part of this completed envelope scope.

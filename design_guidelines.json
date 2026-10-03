@@ -1,95 +1,73 @@
 {
-  "project_name": "Sanidhya & Vasudha - Royal Indian Wedding Invitation",
-  "art_direction": {
-    "theme": "Cinematic Royal Indian Wedding Invitation with Subtle Silicon/VLSI Circuit Elegance",
-    "vibe": "Royal Rajasthani Palace meets Timeless Romance & Subtle Micro-Electronics Heritage",
-    "primary_mobile_breakpoint": "390px",
-    "color_palette": {
-      "burgundy": "#4A0612",
-      "deep_wine": "#25040A",
-      "antique_gold": "#C99A45",
-      "champagne_gold": "#E1BF78",
-      "ivory": "#F7EBD5",
-      "warm_cream": "#FFF4DF",
-      "gold_metallic_gradient": "linear-gradient(135deg, #C99A45 0%, #F5E0B3 30%, #E1BF78 50%, #A67527 80%, #E1BF78 100%)",
-      "burgundy_velvet_gradient": "radial-gradient(circle at 50% 30%, #4A0612 0%, #25040A 70%, #150205 100%)",
-      "wax_red": "#800A1D",
-      "warm_lantern_glow": "rgba(247, 203, 110, 0.18)"
-    }
+  "project_title": "Sanidhya & Vasudha Wedding Invitation - 3D Craft Paper Envelope Hero Blueprint",
+  "version": "2.0.0",
+  "theme": {
+    "primary_bg": "#3B000C",
+    "burgundy_velvet": "#4A0E17",
+    "antique_gold": "#D4AF37",
+    "champagne_gold": "#F3D9A0",
+    "craft_paper_base": "#D8C7A5",
+    "craft_paper_shadow": "#B09E78",
+    "warm_ivory": "#FAF6EE",
+    "vlsi_trace_gold": "#C99A45"
   },
   "typography": {
-    "font_families": {
-      "heading_display": "'Cormorant Garamond', 'Cinzel', serif",
-      "couple_names_script": "'Great Vibes', 'Alex Brush', 'Playfair Display', cursive",
-      "body_text": "'Cormorant Garamond', 'Montserrat', serif",
-      "accent_mono_circuit": "'JetBrains Mono', monospace"
+    "font_family_script": "'Alex Brush', 'Great Vibes', cursive",
+    "font_family_heading": "'Cinzel Decorative', 'Cinzel', serif",
+    "font_family_body": "'Cormorant Garamond', serif",
+    "font_family_mono": "'JetBrains Mono', monospace",
+    "flap_inscription_style": {
+      "text": "Two Journey One Heart",
+      "font": "Cinzel Decorative",
+      "fill": "url(#goldGradient)",
+      "letter_spacing": "0.18em",
+      "text_transform": "uppercase",
+      "font_size": "clamp(12px, 2.2vw, 18px)",
+      "effect": "Hot-foil stamped gold embossing with light specular sheen"
     },
-    "scale": {
-      "hero_couple_names": "text-5xl sm:text-6xl md:text-7xl lg:text-8xl",
-      "section_heading": "text-3xl sm:text-4xl md:text-5xl",
-      "card_title": "text-xl sm:text-2xl md:text-3xl",
-      "body": "text-base sm:text-lg md:text-xl",
-      "caption_label": "text-xs sm:text-sm tracking-[0.25em] uppercase"
+    "inside_card_inscription_style": {
+      "text": "Sanidhya & Vasudha",
+      "font": "Alex Brush / Cormorant",
+      "color": "#5D0A1C",
+      "subtext": "10 December 2026 (scene footer; names only inside card)",
+      "vlsi_motif": "HeartCircuit microchip emblem"
     }
   },
-  "subtle_circuit_motif_rules": {
-    "concept": "Both Sanidhya & Vasudha work in VLSI & Integrated Circuit Design. Their love story features a bespoke 'Heart-shaped IC Chip & Gold Trace' motif.",
-    "execution_guidelines": [
-      "Must remain delicate, subtle, and metallic gold. NEVER use futuristic neon blue, cyber green, or harsh tech-company aesthetics.",
-      "Integrate fine 0.5px gold PCB trace lines as ornamental filigree borders on invitation cards and envelope edges.",
-      "The 'Heart-Circuit Monogram' combines an interlocking 'S&V' inside an ornamental gold die layout with tiny gold bonding pads at the corners.",
-      "Circuit signal traces end in small floral lotus nodes or star dots, seamlessly fusing ancient Mughal jali geometric art with semiconductor layouts."
-    ]
-  },
-  "envelope_opening_choreography": {
-    "step_1_closed_envelope": "Closed Burgundy Velvet Envelope lying on a dark wooden teak surface with warm candle bokeh, floating rose petals, and subtle lantern glow.",
-    "step_2_wax_seal": "Center embossed wax seal (#800A1D) with metallic gold 'S & V' heart-circuit monogram and 'Tap to Open' golden pulsing text ring.",
-    "step_3_interaction": "On user click/tap on wax seal: Wax seal glows warmly, develops gold-crack line animation, seal splits in two with particle sparkle burst.",
-    "step_4_flap_open": "Top envelope triangular flap rotates upward and flips open with realistic 3D perspective shadow.",
-    "step_5_card_slide": "Ivory wedding invitation card with gold-foil circuit filigree slides up out of the envelope and zooms full-screen smoothly.",
-    "step_6_site_reveal": "Envelope fades away to reveal full single-page interactive wedding experience with gentle floating petals and ambient audio button option."
-  },
-  "section_breakdown": {
-    "1_hero_envelope": {
-      "component": "RoyalEnvelopeHero.js",
-      "description": "Interactive wax-seal envelope reveal on dark teakwood texture with interactive particle canvas for gentle floating red rose petals and gold bokeh particles."
-    },
-    "2_main_invitation": {
-      "component": "MainInvitationCard.js",
-      "description": "Formal invitation text card on rich Ivory paper texture with gold foil floral/circuit border, ornamental divider, auspicious shloka ('Vakratunda Mahakaya'), and formal invitation text from families."
-    },
-    "3_events_timeline": {
-      "component": "EventsTimeline.js",
-      "description": "Interactive chronological timeline with 4 core celebrations: Mehndi Ceremony, Sangeet Night, Wedding Royal Muhurat (Pheras), and Grand Reception. Each event card features palace arch frames, precise gold time indicators, venue name, address, and interactive 'Add to Calendar' button."
-    },
-    "4_venue_palace": {
-      "component": "VenuePalaceSection.js",
-      "description": "Cinematic visual showcase featuring high-res palace imagery, interactive parallax movement, Google Maps location modal, dress code recommendations, and accommodation details."
-    },
-    "5_editorial_marquee_footer": {
-      "component": "EditorialFooter.js",
-      "description": "Slow luxury marquee with sliding text ('#SanidhyaWedsVasudha • #SiliconToSoulmate • A Celebration of Love & Destiny'), RSVP contact popup, and bottom heart-circuit monogram."
+  "visual_enhancers": {
+    "texture": "Craft paper organic grain, subtle fibrous paper bumps, directional gold foil reflection, micro PCB traces",
+    "lighting": "3D directional key light from top-left, soft warm ambient fill, specular foil highlight on movement",
+    "motion": {
+      "flap_rotation": "3D fold around X-axis from 0 deg to -180 deg with natural paper spring ease",
+      "card_lift": "Smooth vertical Y-translation (-58%) out of envelope pocket",
+      "seal_break": "Crack line stroke-dashanimation + 14-point radial gold particle burst"
     }
   },
+  "component_path": "/app/frontend/src/components/RoyalEnvelopeHero.js",
+  "key_features": [
+    "3D Textured Craft Paper Envelope container with realistic light depth and shadow fold layers",
+    "Golden Wax Seal button with 'S & V' monogram + Heart Circuit VLSI icon",
+    "Inside flap with the exact requested gold text 'Two Journey One Heart', on two readable lines",
+    "Inner Ivory Card with 'Sanidhya & Vasudha' and wedding date visible upon flap opening",
+    "VLSI / Chip Design homage via elegant 1px gold PCB trace corners and heart integrated circuit",
+    "Accessibility & Reduced Motion compliance with keyboard space/enter triggers and aria attributes"
+  ],
   "image_urls": {
-    "palace_arch_venue": "https://images.unsplash.com/photo-1761472606347-bfebc5a3e546?crop=entropy&cs=srgb&fm=jpg&q=85",
-    "taj_sunset_palace": "https://images.unsplash.com/photo-1587135941948-670b381f08ce?crop=entropy&cs=srgb&fm=jpg&q=85",
-    "wedding_couple_flowers": "https://images.unsplash.com/photo-1727430256509-0f897d6f4765?crop=entropy&cs=srgb&fm=jpg&q=85",
-    "rose_petals_hands": "https://images.unsplash.com/photo-1680491025128-8521658d0aea?crop=entropy&cs=srgb&fm=jpg&q=85",
-    "bride_mehendi_hands": "https://images.unsplash.com/photo-1680490964820-7afb13f2e35c?crop=entropy&cs=srgb&fm=jpg&q=85"
+    "backdrop_cinematic": "https://static.prod-images.emergentagent.com/jobs/6c8a2320-6c63-453a-9c0f-f6c23ee3b38d/images/d6dacc02b47943ab8dda5886771ba5c27e16f4c0aa08b9f922294f1bbbf35d31.jpeg",
+    "storyboard_reference": "https://customer-assets-39nsmqrw.emergentagent.net/job_diya-lit-vows/artifacts/3sbxjold_Burgundy%20and%20Gold%20Wedding%20Storyboard.png"
   },
-  "motion_specs": {
-    "envelope_flip_duration": "1.2s cubic-bezier(0.34, 1.56, 0.64, 1)",
-    "card_zoom_duration": "1.4s ease-in-out",
-    "petal_particle_count": 28,
-    "bokeh_glow_count": 20,
-    "scroll_stagger_delay": "0.15s"
-  },
-  "UNIVERSAL_GUIDELINES_FOR_MAIN_AGENT": {
-    "data_testid_convention": "All interactive buttons, modals, envelope triggers, timeline items, and links MUST include role-based data-testid attributes (e.g. data-testid='wax-seal-open-btn', data-testid='event-card-sangeet').",
-    "file_type": "JavaScript React (.js) files (e.g., App.js, components/RoyalEnvelopeHero.js).",
-    "no_transparent_header": "Headers and overlays must use solid/semi-solid rich colors or high-blur glassmorphism with dark tint (#25040A background with 0.95 opacity).",
-    "spacing_philosophy": "Generous spacing (p-8 to p-16) to ensure the card layout breathes like a physical luxury heavy-cardstock print.",
-    "contrast_rules": "All gold text over dark wine background must maintain minimum 4.5:1 contrast using antique gold (#E1BF78) or bright ivory (#F7EBD5)."
-  }
+  "instructions_to_main_agent": [
+    "1. Keep the exact file path structure for JavaScript code (/app/frontend/src/components/RoyalEnvelopeHero.js).",
+    "2. Preserve the user's exact inscription 'Two Journey One Heart' on the inside flap.",
+    "3. Display 'Sanidhya & Vasudha' on the ivory insert. The correct wedding date is 10 December 2026, not the old February placeholder.",
+    "4. Preserve the approved burgundy craft paper exterior and ivory insert, with visible organic fibres and gold foil trim.",
+    "5. Use CSS 3D preserve-3d / Three.js canvas setup to handle physical perspective and realistic flap flipping animation.",
+    "6. Include required testing attributes: data-testid='envelope-scene', data-testid='envelope-open-btn', data-testid='wax-seal-open-btn', data-testid='envelope-flap-text', data-testid='envelope-inner-card'.",
+    "7. Preserve full continuity with the rest of the wedding invitation page upon trigger of onComplete()."
+  ],
+  "UNIVERSAL GUIDELINES FOR MAIN AGENT": [
+    "Ensure all interactive elements have data-testid attributes.",
+    "Do not use transparent backgrounds without blur or background fill behind readable text.",
+    "Maintain contrast ratios (WCAG AA) with gold text over burgundy/craft paper using subtle text dropshadows.",
+    "Honor prefers-reduced-motion for instant reveal without camera motion sickness."
+  ]
 }
