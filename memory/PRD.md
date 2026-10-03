@@ -66,8 +66,13 @@ Sections 1/2/3/5/Location/RSVP/10, music dock, floating nav + back-to-top, all i
 - P2: RSVP form → Mongo; share buttons; live map embed.
 - P2 optional: subtle ceremonial power-on chime on chip tap (user declined for now).
 
+## Flat-chip + quadrant-tear redesign (2026-06 fork, update 2)
+- User follow-up: "Keep this as the Background for the first Page" (uploaded a new clean burgundy-velvet image → now `/images/chip/page1_bg.jpg`), "make the Chip Flat and not lying on the Floor", and "For Transition... Tear the Chip in 4 quadrants, and in between make the 2nd page flow through".
+- Replaced the Three.js angled 3D chip/lid with a FLAT, face-on chip in `WeddingIntro.js`: a single canvas composite (engraved `chip_face.jpg` + gold perimeter pins + crisp "Two Hearts / One Journey") rendered as 4 quadrant tiles (CSS `background-position` 0/100%). Idle gentle float + breathing underglow; `chip-flat`/`chip-quad`/`chip-crack` classes.
+- Phase machine: closed → activating (signal traces light) → tearing (4 quadrants slide/rotate/scale outward + fade, a gold cross-crack flashes, Page-1 velvet bg + tint + traces fade to 0) → done. On tear start `onReveal()` mounts Page 2 beneath the fixed intro so it is revealed through the widening gap; on finish `onComplete()` removes the intro.
+- App.js now tracks `revealed` (Page 2 mounted) and `introGone` (intro removed); scroll locked until `introGone`. `.chip-scene` background is transparent so Page 2 shows through during the tear.
+- Three.js chip (`chip/ChipCanvas.js`) is no longer imported (kept in repo, unused).
+- Verified on desktop 1920×800 and mobile 390×844: idle, mid-tear with Page 2 flowing through, and fully-revealed Page 2 all render; no console errors.
+
 ## Next Tasks
-1. User reviews the new Wedding Chip opening + Sanidhya & Vasudha page against the references.
-2. Optionally remove now-unused RoyalEnvelopeHero/MainInvitation files.
-3. Music swap, RSVP form, couple gallery, countdown remain future work.
 

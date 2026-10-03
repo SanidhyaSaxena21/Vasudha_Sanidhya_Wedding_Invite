@@ -36,10 +36,11 @@ class ErrorBoundary extends Component {
 
 function App() {
   const [revealed, setRevealed] = useState(false);
+  const [introGone, setIntroGone] = useState(false);
   const lenisRef = useRef(null);
 
   useEffect(() => {
-    document.body.style.overflow = revealed ? "" : "hidden";
+    document.body.style.overflow = introGone ? "" : "hidden";
     if (!revealed) return undefined;
 
     const lenis = new Lenis({ duration: 1.25, smoothWheel: true });
@@ -56,7 +57,7 @@ function App() {
       lenis.destroy();
       lenisRef.current = null;
     };
-  }, [revealed]);
+  }, [revealed, introGone]);
 
   const scrollTo = (sel) => {
     const el = document.querySelector(sel);
@@ -68,9 +69,13 @@ function App() {
   return (
     <ErrorBoundary>
       <div className="relative bg-wine min-h-screen">
-        <AnimatePresence>
-          {!revealed && (
-            <WeddingIntro key="wedding-intro" onComplete={() => setRevealed(true)} />
+        <AnimatePresence onExitComplete={() => setIntroGone(true)}>
+          {!introGone && (
+            <WeddingIntro
+              key="wedding-intro"
+              onReveal={() => setRevealed(true)}
+              onComplete={() => setIntroGone(true)}
+            />
           )}
         </AnimatePresence>
 
