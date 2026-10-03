@@ -70,7 +70,7 @@ const FormalInvitation = () => (
         </FadeUp>
 
         <FadeUp delay={0.32}>
-          <h3 className="font-cinzel text-4xl sm:text-5xl text-foil tracking-[0.08em] mt-6" data-testid="groom-name">
+          <h3 className="font-cinzel text-4xl sm:text-5xl text-foil-dark tracking-[0.08em] mt-6" data-testid="groom-name">
             SANIDHYA
           </h3>
           <p className="font-cormorant italic text-sm sm:text-base mt-3" style={{ color: "#5d3a1a" }}>
@@ -87,7 +87,7 @@ const FormalInvitation = () => (
         </FadeUp>
 
         <FadeUp delay={0.48}>
-          <h3 className="font-cinzel text-4xl sm:text-5xl text-foil tracking-[0.08em]" data-testid="bride-name">
+          <h3 className="font-cinzel text-4xl sm:text-5xl text-foil-dark tracking-[0.08em]" data-testid="bride-name">
             VASUDHA
           </h3>
           <p className="font-cormorant italic text-sm sm:text-base mt-3" style={{ color: "#5d3a1a" }}>

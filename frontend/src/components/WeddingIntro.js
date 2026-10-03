@@ -1,10 +1,54 @@
-import { useEffect, useRef, useState } from "react";
+import { useEffect, useMemo, useRef, useState } from "react";
 import { motion, useReducedMotion } from "framer-motion";
 import { RotateCcw, Volume2, VolumeX } from "lucide-react";
 
 const BG = "/images/chip/page1_bg.jpg";
 const CHIP = "/images/chip/chip_element.png";
 const CHIME = "/music/chime.wav";
+
+/* A few elegant PCB traces that draw slowly outward from the chip. */
+const SimpleSignals = ({ active }) => {
+  const lines = useMemo(() => {
+    const cx = 50;
+    const cy = 50;
+    const n = 8;
+    const out = [];
+    for (let i = 0; i < n; i++) {
+      const ang = (i / n) * Math.PI * 2 + Math.PI / 8;
+      const r = 92;
+      const ex = cx + Math.cos(ang) * r;
+      const ey = cy + Math.sin(ang) * r;
+      const d =
+        i % 2 === 0
+          ? `M${cx} ${cy} L${ex} ${cy} L${ex} ${ey}`
+          : `M${cx} ${cy} L${cx} ${ey} L${ex} ${ey}`;
+      const nx = i % 2 === 0 ? ex : cx + (ex - cx) * 0.6;
+      const ny = i % 2 === 0 ? cy + (ey - cy) * 0.6 : ey;
+      out.push({ d, nx, ny, delay: i * 0.14 });
+    }
+    return out;
+  }, []);
+
+  return (
+    <svg className={`chip-signals chip-signals--slow ${active ? "is-live" : ""}`} viewBox="0 0 100 100" preserveAspectRatio="xMidYMid slice" aria-hidden="true">
+      <g className="sig-base" fill="none" stroke="#c9953f" strokeWidth="0.22" strokeLinecap="round" strokeLinejoin="round">
+        {lines.map((l, i) => (
+          <path key={i} d={l.d} style={{ animationDelay: `${l.delay}s` }} />
+        ))}
+      </g>
+      <g className="sig-pulse" fill="none" stroke="#f4dca2" strokeWidth="0.4" strokeLinecap="round" strokeLinejoin="round">
+        {lines.map((l, i) => (
+          <path key={i} d={l.d} style={{ animationDelay: `${l.delay + 0.6}s` }} />
+        ))}
+      </g>
+      <g fill="#ffe6ac">
+        {lines.map((l, i) => (
+          <circle key={i} cx={l.nx} cy={l.ny} r="0.5" style={{ animationDelay: `${l.delay + 0.5}s` }} />
+        ))}
+      </g>
+    </svg>
+  );
+};
 
 const LotusDivider = () => (
   <svg width="150" height="22" viewBox="0 0 150 22" fill="none" aria-hidden="true" className="chip-lotus-divider">
@@ -38,8 +82,8 @@ export default function WeddingIntro({ onReveal, onComplete }) {
       try { audioRef.current.currentTime = 0; audioRef.current.play().catch(() => {}); } catch { /* noop */ }
     }
     setPhase("activating");
-    after(550, () => { setPhase("transforming"); onReveal && onReveal(); });
-    after(1900, () => { setPhase("done"); onComplete && onComplete(); });
+    after(1500, () => { setPhase("transforming"); onReveal && onReveal(); });
+    after(3000, () => { setPhase("done"); onComplete && onComplete(); });
   };
 
   const replay = () => {
@@ -71,6 +115,7 @@ export default function WeddingIntro({ onReveal, onComplete }) {
       <img src={BG} alt="" className="chip-bg" draggable="false" />
       <div className="chip-bg-tint" aria-hidden="true" />
       <div className="chip-frame" aria-hidden="true" />
+      <SimpleSignals active={busy} />
 
       <audio ref={audioRef} src={CHIME} preload="auto" aria-hidden="true" />
 

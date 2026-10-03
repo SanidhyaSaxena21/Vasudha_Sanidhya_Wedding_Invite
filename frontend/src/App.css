@@ -189,6 +189,15 @@
     0% { stroke-dashoffset: 60; opacity: 0.95; }
     100% { stroke-dashoffset: -30; opacity: 0.7; }
 }
+/* slow, understated variant (a few traces drawing gently) */
+.chip-signals--slow { z-index: -1; }
+.chip-signals--slow.is-live { filter: drop-shadow(0 0 2px rgba(233, 180, 100, 0.6)); }
+.chip-signals--slow.is-live .sig-base path { animation: sig-draw 1.9s var(--ease) forwards; }
+.chip-signals--slow.is-live .sig-pulse path {
+    stroke-dasharray: 2 18;
+    stroke-dashoffset: 60;
+    animation: sig-pulse-flow 2.6s linear 1.1s infinite;
+}
 /* STEP 5 — transparent dissolve: temporary signals diminish with blur + fade */
 .chip-scene[data-phase="dissolving"] .chip-signals,
 .chip-scene[data-phase="done"] .chip-signals {
@@ -252,11 +261,12 @@
 }
 /* STEP 1 — activation: slight scale up, heart powers on, chip brightens */
 .chip-scene[data-phase="activating"] .chip-flat,
-.chip-scene[data-phase="signaling"] .chip-flat { transform: translate(-50%, -50%) scale(1.035); }
+.chip-scene[data-phase="transforming"] .chip-flat { }
+.chip-scene[data-phase="activating"] .chip-flat { transform: translate(-50%, -50%) scale(1.035); }
 .chip-scene[data-phase="activating"] .chip-face,
-.chip-scene[data-phase="signaling"] .chip-face { filter: brightness(1.14) drop-shadow(0 0 18px rgba(233, 180, 100, 0.5)); }
+.chip-scene[data-phase="transforming"] .chip-face { filter: brightness(1.14) drop-shadow(0 0 18px rgba(233, 180, 100, 0.5)); }
 .chip-scene[data-phase="activating"] .chip-heart-pulse,
-.chip-scene[data-phase="signaling"] .chip-heart-pulse { animation: heart-power 1s ease-out forwards; }
+.chip-scene[data-phase="transforming"] .chip-heart-pulse { animation: heart-power 1.2s ease-out forwards; }
 @keyframes heart-power {
     0% { opacity: 0; transform: translate(-50%, -50%) scale(0.5); }
     35% { opacity: 1; transform: translate(-50%, -50%) scale(1.05); }
@@ -361,10 +371,10 @@
     padding: clamp(40px, 9svh, 110px) 20px;
 }
 .inv-bg, .inv-bg-tint { position: absolute; inset: 0; width: 100%; height: 100%; }
-.inv-bg { object-fit: cover; z-index: 0; }
+.inv-bg { object-fit: cover; z-index: 0; filter: brightness(0.62) saturate(0.85) blur(2px); transform: scale(1.06); }
 .inv-bg-tint {
     z-index: 1;
-    background: radial-gradient(65% 55% at 50% 44%, rgba(20, 3, 6, 0) 0%, rgba(20, 3, 6, 0.3) 72%, rgba(14, 2, 4, 0.62) 100%);
+    background: radial-gradient(62% 54% at 50% 44%, rgba(40, 6, 12, 0.22) 0%, rgba(30, 5, 10, 0.5) 62%, rgba(18, 3, 6, 0.74) 100%);
 }
 .inv-center-backdrop {
     position: absolute;

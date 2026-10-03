@@ -74,6 +74,20 @@ body {
     background-clip: text;
     color: transparent;
 }
+.text-foil-dark {
+    background-image: linear-gradient(
+        112deg,
+        #6b4310 0%,
+        #9a6b1f 22%,
+        #c99a45 44%,
+        #8a5a1e 62%,
+        #a9772a 82%,
+        #7a4e14 100%
+    );
+    -webkit-background-clip: text;
+    background-clip: text;
+    color: transparent;
+}
 
 .gold-hairline {
     height: 1px;

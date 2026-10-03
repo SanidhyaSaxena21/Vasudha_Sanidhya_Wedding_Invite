@@ -82,6 +82,11 @@ Sections 1/2/3/5/Location/RSVP/10, music dock, floating nav + back-to-top, all i
 ## Next Tasks
 - Music swap, couple gallery, countdown remain future work.
 
+## Transition softened + contrast fixes (2026-06 fork, update 5)
+- Transition: removed the dense PCB burst; now a heart glow + a few (8) slow PCB traces (`SimpleSignals`, `chip-signals--slow`) draw gently outward, then the chip zooms/fades and crossfades into Page 2 (~3s).
+- Page 2 (`InvitationHero`) background simplified to a clean burgundy (`.inv-bg` brightness 0.62 + blur, darker tint) so content is the focus.
+- Formal invitation (ivory section 3): SANIDHYA & VASUDHA now use `.text-foil-dark` (dark antique-gold gradient) for legibility on the light card.
+
 ## PCB-signal transition + chime + RSVP + calendar (2026-06 fork, update 4)
 - Chip refined to the user-supplied transparent PNG (`chip_element.png`, subtle interior, same gold border + pins). Page 1 background subdued into a simple burgundy (darken+blur) with a thin gold border frame; consistent on mobile + desktop.
 - NEW cinematic transition (`WeddingIntro.js`, replaces quadrant tear): phases closed→activating (chip scales ~1.035, heart powers on, pins brighten)→signaling (gold PCB `RadialSignals` draw outward in all directions + champagne pulses)→transforming (chip scales down+fades, Page-1 bg/tint/frame crossfade, Page 2 mounts beneath)→dissolving (signals blur+fade)→done. Easing cubic-bezier(0.22,1,0.36,1). Page 2's own circuit border/waveform/heart-chip draw in during the overlap = "powered by the signal". ~3s total.
