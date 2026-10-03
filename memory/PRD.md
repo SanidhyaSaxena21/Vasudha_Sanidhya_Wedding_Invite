@@ -83,9 +83,13 @@ Sections 1/2/3/5/Location/RSVP/10, music dock, floating nav + back-to-top, all i
 - Added `Countdown.js` after the Programme section: live countdown to 10 Dec 2026 20:00 IST ("Until We Say Forever"), Days/Hours/Minutes/Seconds, gold+burgundy styling, PcbCorner accents. Verified ticking on mobile + desktop.
 - BLOCKED: user asked to copy the transition + chip pins + heart glow from an external "chip-to-invitation" project shared only as a password-protected VS Code editor link (vscode-…/?folder=/app) — not accessible by agent tools. Current signal/glow transition kept in place until the user provides the reference code, a recording, or the live app URL.
 
+## Reference push-in transition ported (2026-06 fork, update 7)
+- User shared the external "chip-to-invitation" project's code (WeddingInvitation/WeddingChip/CircuitTrace/wedding.css). Ported its signature transition into our app, keeping all else the same.
+- `WeddingIntro.js` rewritten to phases idle → signal → opening → transition → done. On tap: `CircuitTrace` (ported to `CircuitTrace.js`) gold traces energize/radiate outward, pins + heart glow (heart-power), chip brightens; then the whole `chip-scene` scales up (Framer scale 6) + fades (push-in, ease [0.6,0,0.2,1]) while Page 2 (`InvitationHero`) emerges scaling 1.12→1 (wrapper in App.js). Chime + mute + replay retained.
+- Kept our chip art (`chip_element.png`, already has gold edge-pins + heart), our Page 2, countdown, RSVP, formal page. Verified mobile + desktop, page2 reveal PASS, no console errors.
+
 ## Next Tasks
-- Swap in the reference chip→invitation transition once the user provides its code/recording/live URL.
-- Music swap, couple gallery remain future work.
+- Couple gallery, music swap remain future work.
 
 ## Transition softened + contrast fixes (2026-06 fork, update 5)
 - Transition: removed the dense PCB burst; now a heart glow + a few (8) slow PCB traces (`SimpleSignals`, `chip-signals--slow`) draw gently outward, then the chip zooms/fades and crossfades into Page 2 (~3s).

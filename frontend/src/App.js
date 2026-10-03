@@ -1,5 +1,5 @@
 import React, { Component, useEffect, useRef, useState } from "react";
-import { AnimatePresence } from "framer-motion";
+import { AnimatePresence, motion } from "framer-motion";
 import Lenis from "lenis";
 import "@/App.css";
 import WeddingIntro from "@/components/WeddingIntro";
@@ -91,7 +91,14 @@ function App() {
             <div className="fixed inset-0 z-[2] pointer-events-none" aria-hidden="true">
               <PetalCanvas density="low" className="w-full h-full opacity-60" />
             </div>
-            <InvitationHero />
+            <motion.div
+              initial={{ opacity: 0, scale: 1.12 }}
+              animate={{ opacity: 1, scale: 1 }}
+              transition={{ duration: 2.0, ease: [0.6, 0, 0.2, 1] }}
+              style={{ transformOrigin: "50% 45%" }}
+            >
+              <InvitationHero />
+            </motion.div>
             <FormalInvitation />
             <Programme />
             <Countdown />

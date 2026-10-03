@@ -1,107 +1,65 @@
-import { useEffect, useMemo, useRef, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import { motion, useReducedMotion } from "framer-motion";
 import { RotateCcw, Volume2, VolumeX } from "lucide-react";
+import { CircuitTrace } from "./CircuitTrace";
 
 const BG = "/images/chip/page1_bg.jpg";
 const CHIP = "/images/chip/chip_element.png";
 const CHIME = "/music/chime.wav";
 
-/* A few elegant PCB traces that draw slowly outward from the chip. */
-const SimpleSignals = ({ active }) => {
-  const lines = useMemo(() => {
-    const cx = 50;
-    const cy = 50;
-    const n = 8;
-    const out = [];
-    for (let i = 0; i < n; i++) {
-      const ang = (i / n) * Math.PI * 2 + Math.PI / 8;
-      const r = 92;
-      const ex = cx + Math.cos(ang) * r;
-      const ey = cy + Math.sin(ang) * r;
-      const d =
-        i % 2 === 0
-          ? `M${cx} ${cy} L${ex} ${cy} L${ex} ${ey}`
-          : `M${cx} ${cy} L${cx} ${ey} L${ex} ${ey}`;
-      const nx = i % 2 === 0 ? ex : cx + (ex - cx) * 0.6;
-      const ny = i % 2 === 0 ? cy + (ey - cy) * 0.6 : ey;
-      out.push({ d, nx, ny, delay: i * 0.14 });
-    }
-    return out;
-  }, []);
-
-  return (
-    <svg className={`chip-signals chip-signals--slow ${active ? "is-live" : ""}`} viewBox="0 0 100 100" preserveAspectRatio="xMidYMid slice" aria-hidden="true">
-      <g className="sig-base" fill="none" stroke="#c9953f" strokeWidth="0.22" strokeLinecap="round" strokeLinejoin="round">
-        {lines.map((l, i) => (
-          <path key={i} d={l.d} style={{ animationDelay: `${l.delay}s` }} />
-        ))}
-      </g>
-      <g className="sig-pulse" fill="none" stroke="#f4dca2" strokeWidth="0.4" strokeLinecap="round" strokeLinejoin="round">
-        {lines.map((l, i) => (
-          <path key={i} d={l.d} style={{ animationDelay: `${l.delay + 0.6}s` }} />
-        ))}
-      </g>
-      <g fill="#ffe6ac">
-        {lines.map((l, i) => (
-          <circle key={i} cx={l.nx} cy={l.ny} r="0.5" style={{ animationDelay: `${l.delay + 0.5}s` }} />
-        ))}
-      </g>
-    </svg>
-  );
-};
+const TIMINGS = { signal: 1000, opening: 650, transition: 2000 };
+const REDUCED = { signal: 250, opening: 250, transition: 650 };
 
 const LotusDivider = () => (
-  <svg width="150" height="22" viewBox="0 0 150 22" fill="none" aria-hidden="true" className="chip-lotus-divider">
-    <path d="M2 11 H58" stroke="#c99a45" strokeWidth="1" />
-    <path d="M92 11 H148" stroke="#c99a45" strokeWidth="1" />
-    <path d="M75 4 C70 9 70 13 75 18 C80 13 80 9 75 4 Z" stroke="#e1bf78" strokeWidth="1" />
-    <path d="M67 7 C66 11 68 14 75 17 C70 12 70 9 67 7 Z" stroke="#c99a45" strokeWidth="0.9" />
-    <path d="M83 7 C84 11 82 14 75 17 C80 12 80 9 83 7 Z" stroke="#c99a45" strokeWidth="0.9" />
-    <circle cx="58" cy="11" r="1.4" fill="#e1bf78" />
-    <circle cx="92" cy="11" r="1.4" fill="#e1bf78" />
+  <svg width="180" height="22" viewBox="0 0 180 22" fill="none" aria-hidden="true" className="chip-lotus-divider">
+    <path d="M2 11 H73" stroke="#c99a45" strokeWidth="1" />
+    <path d="M107 11 H178" stroke="#c99a45" strokeWidth="1" />
+    <path d="M90 4 C85 9 85 13 90 18 C95 13 95 9 90 4 Z" stroke="#e1bf78" strokeWidth="1" />
+    <path d="M82 7 C81 11 83 14 90 17 C85 12 85 9 82 7 Z" stroke="#c99a45" strokeWidth="0.9" />
+    <path d="M98 7 C99 11 97 14 90 17 C95 12 95 9 98 7 Z" stroke="#c99a45" strokeWidth="0.9" />
+    <circle cx="73" cy="11" r="1.4" fill="#e1bf78" />
+    <circle cx="107" cy="11" r="1.4" fill="#e1bf78" />
   </svg>
 );
 
 export default function WeddingIntro({ onReveal, onComplete }) {
   const reducedMotion = useReducedMotion();
-  const [phase, setPhase] = useState("closed");
+  const reduced = !!reducedMotion;
+  const [phase, setPhase] = useState("idle");
   const [muted, setMuted] = useState(() => typeof window !== "undefined" && window.localStorage.getItem("chimeMuted") === "1");
   const timers = useRef([]);
   const audioRef = useRef(null);
 
-  useEffect(() => () => timers.current.forEach(window.clearTimeout), []);
+  const clearTimers = () => { timers.current.forEach(window.clearTimeout); timers.current = []; };
+  useEffect(() => () => clearTimers(), []);
 
-  const after = (ms, fn) => {
-    const id = window.setTimeout(fn, reducedMotion ? Math.min(ms, 120) : ms);
-    timers.current.push(id);
+  const run = () => {
+    clearTimers();
+    const t = reduced ? REDUCED : TIMINGS;
+    setPhase("signal");
+    timers.current.push(window.setTimeout(() => setPhase("opening"), t.signal));
+    timers.current.push(window.setTimeout(() => { setPhase("transition"); onReveal && onReveal(); }, t.signal + t.opening));
+    timers.current.push(window.setTimeout(() => { setPhase("done"); onComplete && onComplete(); }, t.signal + t.opening + t.transition));
   };
 
   const begin = () => {
-    if (phase !== "closed") return;
+    if (phase !== "idle") return;
     if (!muted && audioRef.current) {
       try { audioRef.current.currentTime = 0; audioRef.current.play().catch(() => {}); } catch { /* noop */ }
     }
-    setPhase("activating");
-    after(1500, () => { setPhase("transforming"); onReveal && onReveal(); });
-    after(3000, () => { setPhase("done"); onComplete && onComplete(); });
+    run();
   };
 
-  const replay = () => {
-    timers.current.forEach(window.clearTimeout);
-    timers.current = [];
-    setPhase("closed");
-  };
+  const replay = () => { clearTimers(); setPhase("idle"); };
 
   const toggleMute = (e) => {
     e.stopPropagation();
-    setMuted((m) => {
-      const next = !m;
-      window.localStorage.setItem("chimeMuted", next ? "1" : "0");
-      return next;
-    });
+    setMuted((m) => { const next = !m; window.localStorage.setItem("chimeMuted", next ? "1" : "0"); return next; });
   };
 
-  const busy = phase !== "closed";
+  const busy = phase !== "idle";
+  const pushingIn = phase === "transition" || phase === "done";
+  const energize = phase !== "idle";
 
   return (
     <motion.section
@@ -109,13 +67,20 @@ export default function WeddingIntro({ onReveal, onComplete }) {
       data-testid="wedding-chip-scene"
       data-phase={phase}
       aria-label="Sanidhya and Vasudha — tap the wedding chip to begin"
+      style={{ transformOrigin: "50% 50%" }}
+      initial={{ scale: 1, opacity: 1 }}
+      animate={{
+        scale: pushingIn ? (reduced ? 1.4 : 6) : 1,
+        opacity: pushingIn ? 0 : 1,
+        filter: pushingIn ? "brightness(1.4)" : "brightness(1)",
+      }}
       exit={{ opacity: 0 }}
-      transition={{ duration: reducedMotion ? 0 : 0.6, ease: [0.22, 1, 0.36, 1] }}
+      transition={{ duration: reduced ? 0.6 : 2.0, ease: [0.6, 0, 0.2, 1] }}
     >
       <img src={BG} alt="" className="chip-bg" draggable="false" />
       <div className="chip-bg-tint" aria-hidden="true" />
       <div className="chip-frame" aria-hidden="true" />
-      <SimpleSignals active={busy} />
+      <CircuitTrace energized={energize} className="chip-trace-layer" />
 
       <audio ref={audioRef} src={CHIME} preload="auto" aria-hidden="true" />
 
@@ -147,7 +112,7 @@ export default function WeddingIntro({ onReveal, onComplete }) {
       </button>
 
       <div className="chip-caption" aria-live="polite">
-        {phase === "closed" && (
+        {phase === "idle" && (
           <motion.div
             initial={{ opacity: 0, y: 8 }}
             animate={{ opacity: 1, y: 0 }}
@@ -160,7 +125,7 @@ export default function WeddingIntro({ onReveal, onComplete }) {
             <LotusDivider />
           </motion.div>
         )}
-        {phase === "activating" && (
+        {(phase === "signal" || phase === "opening") && (
           <p className="font-cormorant chip-status" data-testid="chip-status">Two hearts, coming into phase…</p>
         )}
       </div>
