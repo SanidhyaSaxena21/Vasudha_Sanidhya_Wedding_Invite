@@ -80,6 +80,15 @@ Sections 1/2/3/5/Location/RSVP/10, music dock, floating nav + back-to-top, all i
 - Verified: /app/test_reports/iteration_3.json — 100% frontend pass on desktop + mobile, no black strips, no console/image errors.
 
 ## Next Tasks
-- Music swap, couple gallery, Add-to-Calendar, countdown, RSVP form remain future work.
+- Music swap, couple gallery, countdown remain future work.
+
+## PCB-signal transition + chime + RSVP + calendar (2026-06 fork, update 4)
+- Chip refined to the user-supplied transparent PNG (`chip_element.png`, subtle interior, same gold border + pins). Page 1 background subdued into a simple burgundy (darken+blur) with a thin gold border frame; consistent on mobile + desktop.
+- NEW cinematic transition (`WeddingIntro.js`, replaces quadrant tear): phases closed→activating (chip scales ~1.035, heart powers on, pins brighten)→signaling (gold PCB `RadialSignals` draw outward in all directions + champagne pulses)→transforming (chip scales down+fades, Page-1 bg/tint/frame crossfade, Page 2 mounts beneath)→dissolving (signals blur+fade)→done. Easing cubic-bezier(0.22,1,0.36,1). Page 2's own circuit border/waveform/heart-chip draw in during the overlap = "powered by the signal". ~3s total.
+- Ceremonial chime: `/music/chime.wav` (synthesised soft temple-bell) plays on tap; mute toggle (`chip-sound-toggle`, persisted in localStorage).
+- Live RSVP: backend `POST/GET /api/rsvp` (Mongo `rsvps`; fields name/attending/guests; name min 2, guests 1–50). Real form in `RsvpCards.js` (accept/decline paths, success state). Private admin list at route `/rsvp-admin` (`RsvpAdmin.js`, no login) with summary counts + table.
+- Add to Calendar (`AddToCalendar.js` in Programme): Google Calendar links for 9 Dec Sangeet & 10 Dec Haldi/Baraat + combined `.ics` download. Times stored UTC (IST−5:30).
+- Verified: /app/test_reports/iteration_4.json — backend 5/5 pytest, frontend 100%, no console errors, desktop + mobile. Empty-name POST now returns 400; test seed rows cleaned.
+
 
 

@@ -60,7 +60,7 @@ function App() {
       lenis.destroy();
       lenisRef.current = null;
     };
-  }, [revealed, introGone]);
+  }, [revealed, introGone, isAdmin]);
 
   const scrollTo = (sel) => {
     const el = document.querySelector(sel);

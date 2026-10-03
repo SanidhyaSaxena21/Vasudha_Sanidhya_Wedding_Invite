@@ -1,4 +1,4 @@
-from fastapi import FastAPI, APIRouter
+from fastapi import FastAPI, APIRouter, HTTPException
 from dotenv import load_dotenv
 from starlette.middleware.cors import CORSMiddleware
 from motor.motor_asyncio import AsyncIOMotorClient
@@ -85,6 +85,8 @@ class RsvpCreate(BaseModel):
 @api_router.post("/rsvp", response_model=Rsvp)
 async def create_rsvp(input: RsvpCreate):
     name = (input.name or "").strip()[:120]
+    if len(name) < 2:
+        raise HTTPException(status_code=400, detail="Please enter your name.")
     guests = max(1, min(int(input.guests or 1), 50))
     rsvp = Rsvp(name=name, attending=bool(input.attending), guests=guests)
     doc = rsvp.model_dump()
