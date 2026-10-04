@@ -2,6 +2,7 @@ import { useState } from "react";
 import { motion } from "framer-motion";
 import { Check, Loader2, Heart } from "lucide-react";
 import { HeartChip } from "./shared";
+import { AdvanceHeart } from "./PageFlow";
 
 const API = process.env.REACT_APP_BACKEND_URL;
 
@@ -142,8 +143,8 @@ const RsvpForm = () => {
 };
 
 /* RSVP — real form + the family blessing columns */
-const RsvpCards = () => (
-  <section id="rsvp" className="relative py-24 sm:py-28 px-6 overflow-hidden scroll-mt-4" data-testid="rsvp-section">
+const RsvpCards = ({ onNext }) => (
+  <section id="rsvp" className="relative min-h-screen py-24 sm:py-28 px-6 overflow-hidden" data-testid="rsvp-section">
     <div className="absolute inset-0 bg-gradient-to-b from-wine via-burgundy/40 to-wine" />
 
     <div className="relative max-w-3xl mx-auto">
@@ -185,6 +186,12 @@ const RsvpCards = () => (
         </motion.div>
       ))}
     </div>
+
+    {onNext && (
+      <div className="relative mt-16">
+        <AdvanceHeart onNext={onNext} label="A closing note" delay={0.2} />
+      </div>
+    )}
   </section>
 );
 

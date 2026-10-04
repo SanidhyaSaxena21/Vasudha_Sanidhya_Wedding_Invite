@@ -14,7 +14,7 @@ import EndingScene from "@/components/EndingScene";
 import MusicDock from "@/components/MusicDock";
 import PetalCanvas from "@/components/PetalCanvas";
 import RsvpAdmin from "@/components/RsvpAdmin";
-import { HeartTransition, BackButton } from "@/components/PageFlow";
+import { HeartTransition, BackButton, AdvanceHeart } from "@/components/PageFlow";
 
 class ErrorBoundary extends Component {
   constructor(props) {
@@ -36,17 +36,15 @@ class ErrorBoundary extends Component {
   }
 }
 
-/* final page — a gentle vertical scroll through the closing sections */
-const ScrollGroup = () => (
-  <div data-testid="scroll-group">
-    <VenuePalace />
-    <RsvpCards />
-    <EditorialFooter />
+/* final page — the closing love note + footer */
+const FinaleGroup = () => (
+  <div data-testid="finale-group">
     <EndingScene />
+    <EditorialFooter />
   </div>
 );
 
-const PAGE_COUNT = 5; // 0 Invitation · 1 Formal · 2 Programme · 3 Countdown · 4 Venue+RSVP+Ending
+const PAGE_COUNT = 7; // 0 Invitation · 1 Formal · 2 Programme · 3 Countdown · 4 Venue · 5 RSVP · 6 Finale
 
 function App() {
   const [revealed, setRevealed] = useState(false);
@@ -108,8 +106,12 @@ function App() {
       case 3:
         return <Countdown onNext={() => goTo(4)} />;
       case 4:
+        return <VenuePalace onNext={() => goTo(5)} />;
+      case 5:
+        return <RsvpCards onNext={() => goTo(6)} />;
+      case 6:
       default:
-        return <ScrollGroup />;
+        return <FinaleGroup />;
     }
   };
 

@@ -4,7 +4,6 @@ import { SignalBoard } from "./wedding/SignalBoard";
 import { GaneshaMark, LotusDivider } from "./wedding/ornaments";
 import "./wedding/wedding.css";
 
-const BG = "/images/chip/page1_velvet_bg.jpg";
 const CHARGE = "/music/chargeup.wav";
 
 // phases: idle -> signal (signals flow outward) -> transition -> done
@@ -58,24 +57,31 @@ export default function WeddingIntro({ onReveal, onComplete }) {
       exit={{ opacity: 0 }}
       transition={{ duration: reduced ? 0.6 : 1.9, ease: [0.6, 0.0, 0.2, 1] }}
     >
-      <div className="sb-backdrop" style={{ backgroundImage: `url(${BG})` }} aria-hidden="true" />
+      <div className="sb-bg sb-bg-portrait" style={{ backgroundImage: "url(/images/chip/page1_velvet_bg.jpg)" }} aria-hidden="true" />
+      <div className="sb-bg sb-bg-wide" style={{ backgroundImage: "url(/images/chip/page1_velvet_bg_wide.jpg)" }} aria-hidden="true" />
+      <div className="wc-page1-vignette" aria-hidden="true" />
 
       <audio ref={audioRef} src={CHARGE} preload="auto" aria-hidden="true" />
 
-      <div className="sb-stage" style={{ backgroundImage: `url(${BG})` }}>
-        <div className="wc-page1-vignette" aria-hidden="true" />
+      <div className="sb-stage">
         <SignalBoard live={live} className="sb-layer" />
 
         <GaneshaMark size={34} className="sb-ganesha" />
 
         <div className={`sb-chip ${live ? "is-live" : ""}`} data-testid="page1-title">
           <span className="sb-line font-cinzel">Two Hearts</span>
-          <div className="sb-heart-badge">
+          <button
+            type="button"
+            className="sb-heart-badge"
+            onClick={begin}
+            data-testid="heart-tap-begin"
+            aria-label="Open the wedding invitation"
+          >
             <HeartGlow />
             <span className="sb-monogram font-cinzel">
               S<em>&amp;</em>V
             </span>
-          </div>
+          </button>
           <span className="sb-line font-cinzel">One Journey</span>
         </div>
 

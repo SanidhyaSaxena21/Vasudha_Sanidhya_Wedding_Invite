@@ -95,9 +95,13 @@
 
 /* ── Page 1 — IC-chip signal board over the velvet background ─── */
 .wc-page1 { background-color: #2a050c; overflow: hidden; }
-.sb-backdrop { position: absolute; inset: 0; background-size: cover; background-position: center; filter: blur(26px) brightness(0.5) saturate(1.1); transform: scale(1.15); z-index: 0; }
-.sb-stage { position: absolute; left: 50%; top: 50%; transform: translate(-50%, -50%); width: min(100vw, calc(100dvh * 0.4878)); height: min(100dvh, calc(100vw * 2.05)); background-size: cover; background-position: center; overflow: hidden; z-index: 1; }
-.sb-stage .wc-page1-vignette { z-index: 2; }
+.sb-bg { position: absolute; inset: 0; background-repeat: no-repeat; background-position: center; background-size: cover; z-index: 0; }
+.sb-bg-wide { display: none; }
+@media (orientation: landscape) {
+  .sb-bg-portrait { display: none; }
+  .sb-bg-wide { display: block; }
+}
+.sb-stage { position: absolute; left: 50%; top: 50%; transform: translate(-50%, -50%); width: min(100vw, calc(100dvh * 0.4878)); height: min(100dvh, calc(100vw * 2.05)); z-index: 1; }
 .sb-layer { position: absolute; inset: 0; width: 100%; height: 100%; z-index: 3; }
 
 /* chip box + pins */
@@ -131,7 +135,9 @@
 .sb-line { font-family: var(--font-serif); font-weight: 600; letter-spacing: 0.05em; line-height: 1.05; font-size: clamp(1.3rem, 6vw, 2.05rem); color: var(--gold-champagne); text-shadow: 0 1px 0 rgba(0,0,0,0.5), 0 0 12px rgba(225,185,108,0.4); transition: text-shadow 0.9s ease; }
 .sb-chip.is-live .sb-line { text-shadow: 0 1px 0 rgba(0,0,0,0.5), 0 0 22px rgba(232,154,58,0.9); }
 
-.sb-heart-badge { position: relative; width: clamp(52px, 16vw, 76px); display: flex; align-items: center; justify-content: center; margin: 3px 0; }
+.sb-heart-badge { position: relative; width: clamp(52px, 16vw, 76px); display: flex; align-items: center; justify-content: center; margin: 3px 0; padding: 0; border: 0; background: transparent; cursor: pointer; pointer-events: auto; -webkit-tap-highlight-color: transparent; transition: transform 0.3s ease; }
+.sb-heart-badge:hover { transform: scale(1.06); }
+.sb-heart-badge:focus-visible { outline: 2px solid rgba(240,205,122,0.8); outline-offset: 6px; border-radius: 10px; }
 .sb-heart-svg { width: 100%; height: auto; display: block; animation: sb-heart-beat 2.4s ease-in-out infinite; }
 .sb-chip.is-live .sb-heart-svg { animation: sb-heart-beat 1.25s ease-in-out infinite; }
 @keyframes sb-heart-beat { 0%, 100% { transform: scale(1); filter: drop-shadow(0 0 6px rgba(240,205,122,0.6)); } 50% { transform: scale(1.07); filter: drop-shadow(0 0 16px rgba(240,205,122,1)); } }
@@ -143,7 +149,7 @@
 .sb-tap-text { font-family: var(--font-serif); font-size: clamp(1rem, 4.4vw, 1.3rem); letter-spacing: 0.16em; color: var(--ivory); text-shadow: 0 0 10px rgba(232,154,58,0.45); margin: 5px 0; animation: tap-pulse 2.6s ease-in-out infinite; }
 
 @media (min-width: 768px) {
-  .sb-stage { border: 1px solid rgba(201,146,62,0.4); border-radius: 18px; box-shadow: 0 30px 90px rgba(0,0,0,0.6); }
+  .sb-stage { height: min(92dvh, 820px); width: calc(min(92dvh, 820px) * 0.4878); }
 }
 
 @media (prefers-reduced-motion: reduce) {

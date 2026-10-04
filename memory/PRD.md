@@ -161,5 +161,11 @@ Sections 1/2/3/5/Location/RSVP/10, music dock, floating nav + back-to-top, all i
 - Ending page: names now render on three lines (Sanidhya / & / Vasudha), top-clip fixed.
 - Verified via Playwright at mobile/tablet/desktop: outward flow, idle shimmer, transition to invitation, audio=chargeup.wav, no console errors.
 
+## Full-bleed bg + heart tap + paged venue flow (2026-06 fork, update 7)
+- Page-1 background now **full-bleed on every device** (fixes black letterbox borders). Portrait image `page1_velvet_bg.jpg` for portrait orientation, landscape `page1_velvet_bg_wide.jpg` for landscape (desktop/tablet-landscape) via `@media (orientation)`. Board sits in a transparent ratio-locked centred stage over the full-bleed bg.
+- The **S&V heart is now tappable** (`data-testid="heart-tap-begin"`) and starts the same intro sequence as "Tap to Begin".
+- Scroll group split into separate **fixed paged screens**: page 4 Venue, 5 RSVP, 6 Finale (Ending + Footer). PAGE_COUNT=7. Each advances via the glowing heart (Venue/RSVP got `AdvanceHeart`). Removed the venue scroll parallax (`useScroll/useTransform`) and set the main venue image to eager load — fixes the slow/janky scroll after the countdown.
+- Verified via Playwright @390px + @1440: full-bleed bg (390x844, no bands), heart-tap → is-live, Countdown→Venue→RSVP→Finale navigation, RSVP POST success, back button, landscape bg on desktop, no console errors.
+
 
 
