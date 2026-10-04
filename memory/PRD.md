@@ -152,5 +152,14 @@ Sections 1/2/3/5/Location/RSVP/10, music dock, floating nav + back-to-top, all i
 - Kept "Tap to Begin" + chime. CSS added to `wedding/wedding.css` (`.sb-*`), stage is a portrait-ratio centred column (fills width on mobile).
 - Verified end-to-end via Playwright @390px: tap fires `is-live`, pulses animate toward the title, intro transitions to InvitationHero (Sanidhya & Vasudha).
 
+## IC-chip page 1 + outward signals + rich desktop bg (2026-06 fork, update 6)
+- Page 1 reworked into an imaginary IC "chip": a gold chip-box (border + 20 legs/pins) holds the title as "Two Hearts" / glowing **S&V monogram heart** / "One Journey". Ganesha sits above the chip.
+- 20 wires now radiate OUTWARD from all four chip sides to edge pads. On tap, bright signals **flow outward** from the chip (`sb-draw`, box→edge). Idle **shimmer** (`sb-shimmer`, looping) + box breathe = "powered on" before tap.
+- Heart glows continuously (`sb-heart-beat`), intensifies when live; "S&V" monogram centred inside it.
+- Tablet/desktop no longer bland: full-screen **blurred backdrop** of the same velvet image behind a centred portrait **card** (sharp bg + gold border + shadow) via `.sb-backdrop` / `.sb-stage`. Mobile unchanged (card fills screen).
+- Charge-up tone: synthesised rising sweep `/music/chargeup.wav` plays on tap (replaces chime).
+- Ending page: names now render on three lines (Sanidhya / & / Vasudha), top-clip fixed.
+- Verified via Playwright at mobile/tablet/desktop: outward flow, idle shimmer, transition to invitation, audio=chargeup.wav, no console errors.
+
 
 

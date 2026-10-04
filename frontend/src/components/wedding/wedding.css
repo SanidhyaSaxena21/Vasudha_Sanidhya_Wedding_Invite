@@ -93,46 +93,63 @@
 .wc-tap-text { font-family: var(--font-serif); font-size: clamp(1.1rem,4.5vw,1.4rem); letter-spacing: 0.14em; color: var(--ivory); text-shadow: 0 0 10px rgba(232,154,58,0.4); margin: 4px 0; animation: tap-pulse 2.6s ease-in-out infinite; }
 @keyframes tap-pulse { 0%,100% { opacity: 0.78; } 50% { opacity: 1; } }
 
-/* ── Page 1 — symmetric signal board over the velvet background ─── */
-.wc-page1 { background-color: #4a0a16; }
-.sb-stage { position: absolute; left: 50%; top: 50%; transform: translate(-50%, -50%); width: min(100vw, calc(100dvh * 0.4878)); height: min(100dvh, calc(100vw * 2.05)); z-index: 3; }
-.sb-layer { position: absolute; inset: 0; width: 100%; height: 100%; }
+/* ── Page 1 — IC-chip signal board over the velvet background ─── */
+.wc-page1 { background-color: #2a050c; overflow: hidden; }
+.sb-backdrop { position: absolute; inset: 0; background-size: cover; background-position: center; filter: blur(26px) brightness(0.5) saturate(1.1); transform: scale(1.15); z-index: 0; }
+.sb-stage { position: absolute; left: 50%; top: 50%; transform: translate(-50%, -50%); width: min(100vw, calc(100dvh * 0.4878)); height: min(100dvh, calc(100vw * 2.05)); background-size: cover; background-position: center; overflow: hidden; z-index: 1; }
+.sb-stage .wc-page1-vignette { z-index: 2; }
+.sb-layer { position: absolute; inset: 0; width: 100%; height: 100%; z-index: 3; }
 
+/* chip box + pins */
+.sb-box { opacity: 0.9; }
+.sb-svg:not(.is-live) .sb-box { animation: sb-box-breathe 3.2s ease-in-out infinite; }
+.sb-svg.is-live .sb-box { animation: sb-box-on 0.7s ease forwards; }
+@keyframes sb-box-breathe { 0%, 100% { filter: drop-shadow(0 0 3px rgba(225,185,108,0.3)); } 50% { filter: drop-shadow(0 0 11px rgba(232,154,58,0.65)); } }
+@keyframes sb-box-on { to { filter: drop-shadow(0 0 16px rgba(232,154,58,0.95)); } }
+.sb-pins { opacity: 0.8; }
+
+/* idle shimmer flowing outward */
+.sb-shimmer { opacity: 0; stroke-dasharray: 0.14 0.86; stroke-dashoffset: 1; }
+.sb-svg:not(.is-live) .sb-shimmer { animation: sb-shimmer 3.4s linear infinite; }
+.sb-svg.is-live .sb-shimmer { opacity: 0; animation: none; }
+@keyframes sb-shimmer { 0% { stroke-dashoffset: 1; opacity: 0; } 12% { opacity: 0.8; } 78% { opacity: 0.6; } 100% { stroke-dashoffset: 0.02; opacity: 0; } }
+
+/* bright signals flowing outward on tap */
 .sb-pulse { stroke-dasharray: 1; stroke-dashoffset: 1; opacity: 0; }
-.sb-svg.is-live .sb-pulse { animation: sb-draw 1.25s cubic-bezier(0.4, 0, 0.2, 1) forwards; }
+.sb-svg.is-live .sb-pulse { animation: sb-draw 1.2s cubic-bezier(0.4, 0, 0.2, 1) forwards; }
 @keyframes sb-draw { 0% { stroke-dashoffset: 1; opacity: 0; } 8% { opacity: 1; } 100% { stroke-dashoffset: 0; opacity: 1; } }
-
-.sb-bus { stroke-dasharray: 1; stroke-dashoffset: 1; opacity: 0; }
-.sb-svg.is-live .sb-bus { animation: sb-bus-light 0.7s ease forwards 0.95s; }
-@keyframes sb-bus-light { to { stroke-dashoffset: 0; opacity: 1; } }
 
 .sb-pad { opacity: 0.4; }
 .sb-svg.is-live .sb-pad { animation: sb-pad-glow 0.6s ease forwards; }
 @keyframes sb-pad-glow { to { opacity: 1; filter: drop-shadow(0 0 5px rgba(233,198,120,0.95)); } }
 
-.sb-heart { opacity: 0.6; transform-box: fill-box; transform-origin: center; }
-.sb-svg.is-live .sb-heart { animation: sb-heart-in 0.9s ease forwards 0.85s, sb-heart-beat 2.4s ease-in-out infinite 1.8s; }
-@keyframes sb-heart-in { to { opacity: 1; } }
-@keyframes sb-heart-beat { 0%, 100% { filter: drop-shadow(0 0 4px rgba(233,198,120,0.5)); } 50% { filter: drop-shadow(0 0 12px rgba(232,154,58,1)); } }
+/* Ganesha above the chip */
+.sb-ganesha { position: absolute; left: 50%; top: 36%; transform: translate(-50%, -50%); z-index: 4; opacity: 0.9; filter: drop-shadow(0 0 6px rgba(225,185,108,0.5)); pointer-events: none; }
 
-.sb-ganesha { position: absolute; left: 50%; top: 34%; transform: translate(-50%, -50%); z-index: 4; opacity: 0.9; filter: drop-shadow(0 0 6px rgba(225,185,108,0.5)); pointer-events: none; }
+/* chip contents: title + glowing monogram heart */
+.sb-chip { position: absolute; left: 50%; top: 50%; transform: translate(-50%, -50%); width: 58%; display: flex; flex-direction: column; align-items: center; justify-content: center; text-align: center; gap: 2px; pointer-events: none; z-index: 4; }
+.sb-line { font-family: var(--font-serif); font-weight: 600; letter-spacing: 0.05em; line-height: 1.05; font-size: clamp(1.3rem, 6vw, 2.05rem); color: var(--gold-champagne); text-shadow: 0 1px 0 rgba(0,0,0,0.5), 0 0 12px rgba(225,185,108,0.4); transition: text-shadow 0.9s ease; }
+.sb-chip.is-live .sb-line { text-shadow: 0 1px 0 rgba(0,0,0,0.5), 0 0 22px rgba(232,154,58,0.9); }
 
-.sb-title { position: absolute; left: 0; right: 0; top: 45%; transform: translateY(-50%); display: flex; flex-direction: column; align-items: center; text-align: center; pointer-events: none; z-index: 4; }
-.sb-title-text { font-family: var(--font-serif); font-weight: 600; letter-spacing: 0.04em; line-height: 1.08; display: flex; flex-direction: column; font-size: clamp(1.7rem, 8vw, 2.7rem); color: var(--gold-champagne); text-shadow: 0 1px 0 rgba(0,0,0,0.55), 0 0 14px rgba(225,185,108,0.4); transition: text-shadow 0.9s ease; }
-.sb-title.is-live .sb-title-text { text-shadow: 0 1px 0 rgba(0,0,0,0.55), 0 0 26px rgba(232,154,58,0.9), 0 0 48px rgba(225,185,108,0.55); }
+.sb-heart-badge { position: relative; width: clamp(52px, 16vw, 76px); display: flex; align-items: center; justify-content: center; margin: 3px 0; }
+.sb-heart-svg { width: 100%; height: auto; display: block; animation: sb-heart-beat 2.4s ease-in-out infinite; }
+.sb-chip.is-live .sb-heart-svg { animation: sb-heart-beat 1.25s ease-in-out infinite; }
+@keyframes sb-heart-beat { 0%, 100% { transform: scale(1); filter: drop-shadow(0 0 6px rgba(240,205,122,0.6)); } 50% { transform: scale(1.07); filter: drop-shadow(0 0 16px rgba(240,205,122,1)); } }
+.sb-monogram { position: absolute; top: 45%; left: 50%; transform: translate(-50%, -50%); font-family: var(--font-serif); font-weight: 700; font-size: clamp(0.85rem, 3.6vw, 1.2rem); letter-spacing: 0.01em; color: var(--ivory); text-shadow: 0 0 8px rgba(232,154,58,0.8); display: flex; align-items: center; }
+.sb-monogram em { font-style: normal; font-size: 0.68em; opacity: 0.9; margin: 0 1px; }
 
-.sb-tap { position: absolute; left: 0; right: 0; top: 87%; display: flex; flex-direction: column; align-items: center; gap: 2px; background: transparent; border: 0; cursor: pointer; z-index: 4; -webkit-tap-highlight-color: transparent; }
+.sb-tap { position: absolute; left: 0; right: 0; top: 88%; display: flex; flex-direction: column; align-items: center; gap: 2px; background: transparent; border: 0; cursor: pointer; z-index: 4; -webkit-tap-highlight-color: transparent; }
 .sb-tap-divider { opacity: 0.7; }
 .sb-tap-text { font-family: var(--font-serif); font-size: clamp(1rem, 4.4vw, 1.3rem); letter-spacing: 0.16em; color: var(--ivory); text-shadow: 0 0 10px rgba(232,154,58,0.45); margin: 5px 0; animation: tap-pulse 2.6s ease-in-out infinite; }
 
-@media (prefers-reduced-motion: reduce) {
-  .sb-svg.is-live .sb-pulse { animation-duration: 0.4s; }
-  .sb-svg.is-live .sb-heart { animation: sb-heart-in 0.4s ease forwards; }
-  .sb-tap-text { animation: none; }
+@media (min-width: 768px) {
+  .sb-stage { border: 1px solid rgba(201,146,62,0.4); border-radius: 18px; box-shadow: 0 30px 90px rgba(0,0,0,0.6); }
 }
 
-@media (min-width: 768px) {
-  :root { --chip: min(44vw, 420px); }
+@media (prefers-reduced-motion: reduce) {
+  .sb-svg.is-live .sb-pulse { animation-duration: 0.4s; }
+  .sb-svg:not(.is-live) .sb-shimmer, .sb-svg:not(.is-live) .sb-box, .sb-heart-svg { animation: none; }
+  .sb-tap-text { animation: none; }
 }
 
 @media (prefers-reduced-motion: reduce) {
