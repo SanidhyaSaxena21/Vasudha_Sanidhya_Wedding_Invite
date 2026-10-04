@@ -92,14 +92,14 @@ const EventCard = ({ ev, i }) => {
         {ev.name}
       </h3>
       <div className="gold-hairline w-20 mx-auto my-4 opacity-80" />
-      <p className="font-cormorant font-bold text-lg sm:text-xl" style={{ color: "#3d040e" }}>
+      <p className="font-cormorant font-bold text-xl sm:text-2xl" style={{ color: "#3d040e" }}>
         {ev.time}
       </p>
-      <p className="font-cormorant font-bold text-base sm:text-lg mt-1" style={{ color: "#6b3a1a" }}>
+      <p className="font-cormorant font-bold text-lg sm:text-xl mt-1" style={{ color: "#6b3a1a" }}>
         {ev.date}
       </p>
       {ev.extra && (
-        <p className="font-cormorant italic font-bold text-sm sm:text-base mt-3" style={{ color: "#8a5a1e" }}>
+        <p className="font-cormorant italic font-bold text-base sm:text-lg mt-3" style={{ color: "#8a5a1e" }}>
           {ev.extra}
         </p>
       )}

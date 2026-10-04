@@ -1,16 +1,18 @@
-from fastapi import FastAPI, APIRouter, HTTPException
+from fastapi import FastAPI, APIRouter, HTTPException, Depends, Request
 from fastapi.responses import StreamingResponse
 from dotenv import load_dotenv
 from starlette.middleware.cors import CORSMiddleware
 from motor.motor_asyncio import AsyncIOMotorClient
 import os
 import io
+import hmac
+import jwt
 import logging
 from pathlib import Path
 from pydantic import BaseModel, Field, ConfigDict
 from typing import List
 import uuid
-from datetime import datetime, timezone
+from datetime import datetime, timezone, timedelta
 from openpyxl import Workbook
 from email_util import email_rsvp
 
@@ -71,6 +73,50 @@ async def get_status_checks():
     return status_checks
 
 
+# ---- Admin auth (single shared password) ----
+JWT_ALG = "HS256"
+
+def _admin_secret() -> str:
+    return os.environ["ADMIN_JWT_SECRET"]
+
+class AdminLogin(BaseModel):
+    password: str
+
+@api_router.post("/admin/login")
+async def admin_login(body: AdminLogin):
+    expected = os.environ.get("ADMIN_PASSWORD", "")
+    if not expected or not hmac.compare_digest((body.password or "").strip(), expected):
+        raise HTTPException(status_code=401, detail="Incorrect password.")
+    token = jwt.encode(
+        {"sub": "admin", "type": "admin", "exp": datetime.now(timezone.utc) + timedelta(hours=12)},
+        _admin_secret(),
+        algorithm=JWT_ALG,
+    )
+    return {"token": token}
+
+def _verify_admin_token(token: str):
+    if not token:
+        raise HTTPException(status_code=401, detail="Not authenticated")
+    try:
+        payload = jwt.decode(token, _admin_secret(), algorithms=[JWT_ALG])
+    except jwt.ExpiredSignatureError:
+        raise HTTPException(status_code=401, detail="Session expired")
+    except jwt.InvalidTokenError:
+        raise HTTPException(status_code=401, detail="Invalid session")
+    if payload.get("type") != "admin":
+        raise HTTPException(status_code=401, detail="Invalid session")
+    return True
+
+async def require_admin(request: Request):
+    """Admin token via Authorization: Bearer <t> or ?token=<t> (for file downloads)."""
+    token = ""
+    auth = request.headers.get("Authorization", "")
+    if auth.startswith("Bearer "):
+        token = auth[7:]
+    if not token:
+        token = request.query_params.get("token", "")
+    return _verify_admin_token(token)
+
 # ---- RSVP ----
 class Rsvp(BaseModel):
     model_config = ConfigDict(extra="ignore")
@@ -100,7 +146,7 @@ async def create_rsvp(input: RsvpCreate):
     return rsvp
 
 @api_router.get("/rsvp/export")
-async def export_rsvps():
+async def export_rsvps(_: bool = Depends(require_admin)):
     rsvps = await db.rsvps.find({}, {"_id": 0}).sort("created_at", -1).to_list(5000)
     wb = Workbook()
     ws = wb.active
@@ -128,7 +174,7 @@ async def export_rsvps():
     )
 
 @api_router.get("/rsvp", response_model=List[Rsvp])
-async def list_rsvps():
+async def list_rsvps(_: bool = Depends(require_admin)):
     rsvps = await db.rsvps.find({}, {"_id": 0}).sort("created_at", -1).to_list(2000)
     for r in rsvps:
         if isinstance(r.get('created_at'), str):
