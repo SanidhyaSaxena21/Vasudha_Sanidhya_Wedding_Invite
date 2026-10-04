@@ -40,13 +40,7 @@ const FormalInvitation = ({ onNext }) => (
         <PcbCorner className="absolute bottom-5 right-5 w-10 opacity-60 -scale-100" />
 
         <FadeUp mount>
-          <p className="font-cinzel text-[11px] sm:text-xs uppercase tracking-[0.35em]" style={{ color: "#8a5a1e" }} data-testid="formal-shloka">
-            || Shree Ganeshaay Namah ||
-          </p>
-        </FadeUp>
-
-        <FadeUp mount delay={0.1}>
-          <p className="font-cormorant italic text-base sm:text-lg mt-8" style={{ color: "#5d3a1a" }}>
+          <p className="font-cormorant italic text-base sm:text-lg" style={{ color: "#5d3a1a" }}>
             By the grace of Almighty &amp; Blessings of
           </p>
         </FadeUp>

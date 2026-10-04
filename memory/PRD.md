@@ -174,5 +174,13 @@ Sections 1/2/3/5/Location/RSVP/10, music dock, floating nav + back-to-top, all i
 - Advance controls (AdvanceHeart/AdvanceCountdown) made conditional on `onNext`; none render in scroll mode. Removed goTo/page-state/HeartTransition/BackButton usage from App.js. Lenis smooth scroll retained; venue parallax already removed.
 - Verified via Playwright @390px: tap intro → scroll-experience, all 10 sections in correct vertical order, RSVP POST success, no paged advance hearts, no console errors.
 
+## Programme/Countdown/RSVP refinements (2026-06 fork, update 9)
+- Programme: event time/date/"Followed by…" now **bold + larger**; Function label bolder. Added **Function 4 "Reception of Baraat"** (Sparkles icon, 7:00 PM onwards, 10th December 2026, Followed by Dinner) as its own white block. Reduced bottom gap after "Add to Calendar".
+- Countdown target + copy changed to **10th December 2026, 7:00 PM IST**. Reduced gaps between Countdown↔RSVP and Programme↔Family blocks (section paddings trimmed).
+- RSVP form: "Family Name" → **"Member Name"** (placeholder "e.g. SANJAY SAXENA"); added **"Number of Guests"** field; form now sends `guests` in the POST body.
+- Removed "|| Shree Ganeshaay Namah ||" from the white Formal Invitation page (kept on the InvitationHero/2nd page only).
+- Backend Excel export (`/api/rsvp/export`) header now **Member Name · Guests · Response · Received**; guests value included. Backend already persisted `guests` (clamped 1–50); every submission keeps appending to the sheet.
+- Verified: backend POST stores guests=4, export shows guests column; frontend shows 4 programme cards, 7:00 PM countdown, Member Name + Guests fields, no formal shloka, RSVP submit success, no console errors.
+
 
 

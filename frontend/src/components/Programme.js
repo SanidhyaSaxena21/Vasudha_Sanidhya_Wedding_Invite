@@ -1,6 +1,6 @@
 import { Fragment } from "react";
 import { motion } from "framer-motion";
-import { Music, Flame } from "lucide-react";
+import { Music, Flame, Sparkles } from "lucide-react";
 import { FadeUp, PcbCorner } from "./shared";
 import AddToCalendar from "./AddToCalendar";
 import { AdvanceCountdown } from "./PageFlow";
@@ -44,6 +44,14 @@ const EVENTS = [
     date: "10th December 2026",
     extra: null,
   },
+  {
+    id: "reception-baraat",
+    Icon: Sparkles,
+    name: "Reception of Baraat",
+    time: "7:00 PM onwards",
+    date: "10th December 2026",
+    extra: "Followed by Dinner",
+  },
 ];
 
 const Connector = () => (
@@ -79,19 +87,19 @@ const EventCard = ({ ev, i }) => {
       <span className="absolute -top-1 left-1/2 -translate-x-1/2 flex items-center justify-center w-14 h-14 rounded-full bg-wine border border-gold/50 shadow-[0_0_24px_rgba(201,154,69,0.45)]">
         <Icon className="w-6 h-6 text-champagne" strokeWidth={1.5} />
       </span>
-      <p className="font-cormorant text-[10px] uppercase tracking-[0.3em] text-burgundy/60 mt-2">Function {i + 1}</p>
+      <p className="font-cormorant text-xs uppercase tracking-[0.3em] font-semibold text-burgundy/70 mt-2">Function {i + 1}</p>
       <h3 className="font-cinzel text-xl sm:text-2xl mt-2 leading-snug" style={{ color: "#4a0612" }}>
         {ev.name}
       </h3>
       <div className="gold-hairline w-20 mx-auto my-4 opacity-80" />
-      <p className="font-cormorant font-medium text-base sm:text-lg" style={{ color: "#3d040e" }}>
+      <p className="font-cormorant font-bold text-lg sm:text-xl" style={{ color: "#3d040e" }}>
         {ev.time}
       </p>
-      <p className="font-cormorant text-sm sm:text-base mt-1" style={{ color: "#6b3a1a" }}>
+      <p className="font-cormorant font-bold text-base sm:text-lg mt-1" style={{ color: "#6b3a1a" }}>
         {ev.date}
       </p>
       {ev.extra && (
-        <p className="font-cormorant italic text-sm mt-3" style={{ color: "#8a5a1e" }}>
+        <p className="font-cormorant italic font-bold text-sm sm:text-base mt-3" style={{ color: "#8a5a1e" }}>
           {ev.extra}
         </p>
       )}
@@ -101,7 +109,7 @@ const EventCard = ({ ev, i }) => {
 
 /* SECTION 5 — WEDDING PROGRAMME */
 const Programme = ({ onNext }) => (
-  <section id="programme" className="relative py-24 sm:py-32 px-4 sm:px-8 overflow-hidden scroll-mt-4" data-testid="programme-section">
+  <section id="programme" className="relative pt-24 sm:pt-32 pb-12 px-4 sm:px-8 overflow-hidden scroll-mt-4" data-testid="programme-section">
     {/* deep burgundy + glowing gold circuit border */}
     <div className="absolute inset-0 bg-gradient-to-b from-wine via-burgundy/60 to-wine" />
     <div className="absolute inset-3 sm:inset-5 pointer-events-none animate-soft-pulse" style={{ filter: "drop-shadow(0 0 8px rgba(201,154,69,0.35))" }}>

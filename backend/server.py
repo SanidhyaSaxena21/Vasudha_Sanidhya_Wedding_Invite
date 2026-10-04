@@ -105,17 +105,18 @@ async def export_rsvps():
     wb = Workbook()
     ws = wb.active
     ws.title = "RSVP Responses"
-    ws.append(["Family Name", "Response", "Received"])
+    ws.append(["Member Name", "Guests", "Response", "Received"])
     for r in rsvps:
         when = r.get('created_at', '')
         if isinstance(when, datetime):
             when = when.isoformat()
         ws.append([
             r.get('name', ''),
+            int(r.get('guests', 1) or 1),
             "Attending" if r.get('attending') else "Not attending",
             str(when),
         ])
-    for col, width in (("A", 36), ("B", 18), ("C", 26)):
+    for col, width in (("A", 36), ("B", 10), ("C", 18), ("D", 26)):
         ws.column_dimensions[col].width = width
     buf = io.BytesIO()
     wb.save(buf)

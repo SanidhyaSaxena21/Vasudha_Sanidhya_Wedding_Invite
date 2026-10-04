@@ -2,8 +2,8 @@ import { useEffect, useState } from "react";
 import { ChevronsRight } from "lucide-react";
 import { FadeUp, PcbCorner } from "./shared";
 
-/* 10 December 2026, 8:00 PM IST (UTC+5:30) */
-const TARGET = new Date("2026-12-10T20:00:00+05:30").getTime();
+/* 10 December 2026, 7:00 PM IST (UTC+5:30) */
+const TARGET = new Date("2026-12-10T19:00:00+05:30").getTime();
 
 const calc = () => {
   const diff = TARGET - Date.now();
@@ -42,7 +42,7 @@ const Countdown = ({ onNext }) => {
   }, []);
 
   return (
-    <section id="countdown" className="relative py-24 sm:py-28 px-6 overflow-hidden" data-testid="countdown-section">
+    <section id="countdown" className="relative pt-24 sm:pt-28 pb-10 px-6 overflow-hidden" data-testid="countdown-section">
       <div className="absolute inset-0 bg-gradient-to-b from-wine via-burgundy/30 to-wine" />
       <PcbCorner className="absolute top-8 left-8 w-24 h-24 opacity-30" />
       <PcbCorner className="absolute bottom-8 right-8 w-24 h-24 opacity-30 rotate-180" />
@@ -55,7 +55,7 @@ const Countdown = ({ onNext }) => {
           </h2>
           <div className="gold-hairline w-32 mx-auto my-6 opacity-80" />
           <p className="font-cormorant text-ivory/80 text-base sm:text-lg">
-            10<sup>th</sup> December 2026 · 8:00 PM · Hotel Green Palm
+            10<sup>th</sup> December 2026 · 7:00 PM · Hotel Green Palm
           </p>
         </FadeUp>
 

@@ -29,6 +29,7 @@ const COLS = [
 
 const RsvpForm = () => {
   const [name, setName] = useState("");
+  const [guests, setGuests] = useState(1);
   const [attending, setAttending] = useState(null); // true | false | null
   const [choice, setChoice] = useState(null); // "accept" | "win" | null
   const [status, setStatus] = useState("idle"); // idle | submitting | success | error
@@ -43,7 +44,7 @@ const RsvpForm = () => {
       const res = await fetch(`${API}/api/rsvp`, {
         method: "POST",
         headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ name: name.trim(), attending }),
+        body: JSON.stringify({ name: name.trim(), attending, guests: Math.max(1, Number(guests) || 1) }),
       });
       if (!res.ok) throw new Error("fail");
       setStatus("success");
@@ -84,7 +85,7 @@ const RsvpForm = () => {
       <div className="max-w-md mx-auto space-y-6">
         <div>
           <label htmlFor="rsvp-name" className="block font-cinzel text-xs uppercase tracking-[0.2em] mb-2" style={{ color: "#4a0612" }}>
-            Family Name
+            Member Name
           </label>
           <input
             id="rsvp-name"
@@ -92,7 +93,24 @@ const RsvpForm = () => {
             value={name}
             onChange={(e) => setName(e.target.value)}
             data-testid="rsvp-name-input"
-            placeholder="e.g. The Saxena Family"
+            placeholder="e.g. SANJAY SAXENA"
+            className="w-full rounded-lg border border-gold/50 bg-white/70 px-4 py-3 font-cormorant text-lg text-wine placeholder:text-wine/40 focus:outline-none focus:border-burgundy focus:ring-2 focus:ring-gold/40"
+          />
+        </div>
+
+        <div>
+          <label htmlFor="rsvp-guests" className="block font-cinzel text-xs uppercase tracking-[0.2em] mb-2" style={{ color: "#4a0612" }}>
+            Number of Guests
+          </label>
+          <input
+            id="rsvp-guests"
+            type="number"
+            min="1"
+            max="50"
+            value={guests}
+            onChange={(e) => setGuests(e.target.value)}
+            data-testid="rsvp-guests-input"
+            placeholder="e.g. 4"
             className="w-full rounded-lg border border-gold/50 bg-white/70 px-4 py-3 font-cormorant text-lg text-wine placeholder:text-wine/40 focus:outline-none focus:border-burgundy focus:ring-2 focus:ring-gold/40"
           />
         </div>
@@ -143,7 +161,7 @@ const RsvpForm = () => {
 
 /* The family blessing columns — R.S.V.P. · Welcoming · Best Compliments */
 export const FamilyColumns = () => (
-  <section id="family" className="relative py-24 sm:py-28 px-6 overflow-hidden" data-testid="family-section">
+  <section id="family" className="relative pt-12 pb-20 sm:pb-24 px-6 overflow-hidden" data-testid="family-section">
     <div className="absolute inset-0 bg-gradient-to-b from-wine via-burgundy/40 to-wine" />
 
     <div className="relative max-w-6xl mx-auto grid md:grid-cols-3 gap-8 md:gap-10">
@@ -179,7 +197,7 @@ export const FamilyColumns = () => (
 
 /* RSVP — the "Kindly Respond" form */
 const RsvpCards = () => (
-  <section id="rsvp" className="relative py-24 sm:py-28 px-6 overflow-hidden" data-testid="rsvp-section">
+  <section id="rsvp" className="relative pt-10 pb-24 sm:pb-28 px-6 overflow-hidden" data-testid="rsvp-section">
     <div className="absolute inset-0 bg-gradient-to-b from-wine via-burgundy/40 to-wine" />
 
     <div className="relative max-w-3xl mx-auto">
