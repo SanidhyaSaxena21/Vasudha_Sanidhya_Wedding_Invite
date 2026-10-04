@@ -39,7 +39,6 @@ class ErrorBoundary extends Component {
 /* final page — a gentle vertical scroll through the closing sections */
 const ScrollGroup = () => (
   <div data-testid="scroll-group">
-    <Countdown />
     <VenuePalace />
     <RsvpCards />
     <EditorialFooter />
@@ -47,7 +46,7 @@ const ScrollGroup = () => (
   </div>
 );
 
-const PAGE_COUNT = 4; // 0 Invitation · 1 Formal · 2 Programme · 3 Scroll group
+const PAGE_COUNT = 5; // 0 Invitation · 1 Formal · 2 Programme · 3 Countdown · 4 Venue+RSVP+Ending
 
 function App() {
   const [revealed, setRevealed] = useState(false);
@@ -107,6 +106,8 @@ function App() {
       case 2:
         return <Programme onNext={() => goTo(3)} />;
       case 3:
+        return <Countdown onNext={() => goTo(4)} />;
+      case 4:
       default:
         return <ScrollGroup />;
     }

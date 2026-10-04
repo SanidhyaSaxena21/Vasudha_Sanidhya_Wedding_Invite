@@ -14,26 +14,36 @@ const EndingScene = () => (
     className="relative min-h-[100svh] overflow-hidden flex justify-center"
     data-testid="ending-scene"
   >
-    <img src={BG} alt="" draggable="false" className="absolute inset-0 w-full h-full object-cover" />
+    <img src={BG} alt="" draggable="false" loading="lazy" decoding="async" className="absolute inset-0 w-full h-full object-cover" />
     <div className="absolute inset-0 bg-gradient-to-b from-wine/40 via-wine/25 to-wine/90" />
     <PetalCanvas density="low" className="absolute inset-0 w-full h-full opacity-70" />
 
     <div className="relative z-10 w-full max-w-3xl mx-auto text-center px-6 pt-16 pb-14 min-h-[100svh] flex flex-col items-center justify-between">
       {/* names lifted into the clouds for visibility */}
       <FadeUp>
-        <p
-          className="font-script text-5xl sm:text-6xl md:text-7xl text-foil leading-tight"
-          style={{ textShadow: "0 3px 26px rgba(26,3,7,0.9), 0 0 40px rgba(233,195,120,0.35)" }}
-          data-testid="ending-names"
-        >
-          Sanidhya &amp; Vasudha
-        </p>
-        <p
-          className="font-cinzel text-champagne text-sm sm:text-base tracking-[0.4em] uppercase mt-5"
-          style={{ textShadow: "0 2px 16px rgba(26,3,7,0.9)" }}
-        >
-          December 2026
-        </p>
+        <div className="relative inline-block px-10 py-6">
+          <span
+            className="absolute inset-0 pointer-events-none"
+            aria-hidden="true"
+            style={{ background: "radial-gradient(60% 72% at 50% 50%, rgba(28,4,9,0.82) 0%, rgba(28,4,9,0.4) 45%, transparent 75%)", filter: "blur(10px)" }}
+          />
+          <div className="relative">
+            <p
+              className="font-script text-6xl sm:text-7xl md:text-8xl text-foil leading-tight"
+              style={{ textShadow: "0 2px 6px rgba(0,0,0,0.95), 0 0 26px rgba(240,205,122,0.95), 0 0 54px rgba(233,180,100,0.7), 0 0 90px rgba(201,120,50,0.45)" }}
+              data-testid="ending-names"
+            >
+              Sanidhya &amp; Vasudha
+            </p>
+            <p
+              className="font-cinzel font-bold text-foil text-xl sm:text-3xl tracking-[0.26em] uppercase mt-9"
+              style={{ textShadow: "0 2px 6px rgba(0,0,0,0.95), 0 0 22px rgba(240,205,122,0.9), 0 0 44px rgba(233,180,100,0.6)" }}
+              data-testid="ending-date"
+            >
+              9th &amp; 10th December 2026
+            </p>
+          </div>
+        </div>
       </FadeUp>
 
       {/* closing — circuit traces on the floor, connecting into a glowing heart */}

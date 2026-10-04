@@ -1,14 +1,18 @@
 from fastapi import FastAPI, APIRouter, HTTPException
+from fastapi.responses import StreamingResponse
 from dotenv import load_dotenv
 from starlette.middleware.cors import CORSMiddleware
 from motor.motor_asyncio import AsyncIOMotorClient
 import os
+import io
 import logging
 from pathlib import Path
 from pydantic import BaseModel, Field, ConfigDict
 from typing import List
 import uuid
 from datetime import datetime, timezone
+from openpyxl import Workbook
+from email_util import email_rsvp
 
 
 ROOT_DIR = Path(__file__).parent
@@ -92,7 +96,35 @@ async def create_rsvp(input: RsvpCreate):
     doc = rsvp.model_dump()
     doc['created_at'] = doc['created_at'].isoformat()
     await db.rsvps.insert_one(doc)
+    await email_rsvp(rsvp.name, rsvp.attending, doc['created_at'])
     return rsvp
+
+@api_router.get("/rsvp/export")
+async def export_rsvps():
+    rsvps = await db.rsvps.find({}, {"_id": 0}).sort("created_at", -1).to_list(5000)
+    wb = Workbook()
+    ws = wb.active
+    ws.title = "RSVP Responses"
+    ws.append(["Family Name", "Response", "Received"])
+    for r in rsvps:
+        when = r.get('created_at', '')
+        if isinstance(when, datetime):
+            when = when.isoformat()
+        ws.append([
+            r.get('name', ''),
+            "Attending" if r.get('attending') else "Not attending",
+            str(when),
+        ])
+    for col, width in (("A", 36), ("B", 18), ("C", 26)):
+        ws.column_dimensions[col].width = width
+    buf = io.BytesIO()
+    wb.save(buf)
+    buf.seek(0)
+    return StreamingResponse(
+        buf,
+        media_type="application/vnd.openxmlformats-officedocument.spreadsheetml.sheet",
+        headers={"Content-Disposition": 'attachment; filename="SanidhyaVasudha_RSVPs.xlsx"'},
+    )
 
 @api_router.get("/rsvp", response_model=List[Rsvp])
 async def list_rsvps():

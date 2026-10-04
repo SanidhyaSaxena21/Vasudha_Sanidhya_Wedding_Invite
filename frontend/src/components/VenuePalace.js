@@ -3,11 +3,9 @@ import { motion, useScroll, useTransform } from "framer-motion";
 import { MapPin } from "lucide-react";
 import { FadeUp, SectionHeading } from "./shared";
 
-/* Hindu temple monument imagery (ambience) + the real venue below */
-const PALACE_MAIN =
-  "https://images.unsplash.com/photo-1715876722520-02ccc9248dab?crop=entropy&cs=srgb&fm=jpg&q=85&w=1600";
-const PALACE_DOME =
-  "https://images.unsplash.com/photo-1554554497-0095c34db3ec?crop=entropy&cs=srgb&fm=jpg&q=85&w=1200";
+/* Real venue — SK Klyde Grand Hotel & Banquets */
+const PALACE_MAIN = "/images/venue/venue-main.jpg";
+const PALACE_DOME = "/images/venue/venue-court.jpg";
 
 const VENUE_LINK = "https://www.google.com/travel/hotels/s/woACXFERDhtoYqFE9";
 
@@ -21,26 +19,28 @@ const VenuePalace = () => {
     <section ref={ref} id="location" className="relative py-24 sm:py-32 overflow-hidden scroll-mt-4" data-testid="venue-section">
       <div className="relative max-w-6xl mx-auto px-6 sm:px-10 grid md:grid-cols-2 gap-14 md:gap-20 items-center">
         <FadeUp className="relative">
-          <div className="relative rounded-t-full rounded-b-2xl p-3 border border-gold/40 shadow-[0_35px_90px_rgba(0,0,0,0.6)] overflow-hidden bg-burgundy/40">
-            <div className="rounded-t-full rounded-b-xl overflow-hidden aspect-[3/4]">
+          <div className="relative rounded-2xl p-3 border border-gold/40 shadow-[0_35px_90px_rgba(0,0,0,0.6)] overflow-hidden bg-burgundy/40">
+            <div className="rounded-xl overflow-hidden aspect-[4/3]">
               <motion.img
                 src={PALACE_MAIN}
-                alt="Ornate Hindu temple at golden hour"
+                alt="SK Klyde Grand Hotel & Banquets at dusk"
                 draggable="false"
+                loading="lazy"
+                decoding="async"
                 style={{ y }}
                 className="w-full h-[116%] object-cover"
               />
             </div>
-            <div className="absolute inset-3 rounded-t-full rounded-b-2xl pointer-events-none bg-gradient-to-t from-wine/60 via-transparent to-wine/20" />
+            <div className="absolute inset-3 rounded-2xl pointer-events-none bg-gradient-to-t from-wine/55 via-transparent to-wine/10" />
           </div>
           <motion.div
             initial={{ opacity: 0, y: 20, rotate: 4 }}
             whileInView={{ opacity: 1, y: 0, rotate: 3 }}
             viewport={{ once: true, amount: 0.3 }}
             transition={{ duration: 0.9, delay: 0.3, ease: [0.16, 1, 0.3, 1] }}
-            className="absolute -bottom-8 -right-3 sm:-right-6 w-32 sm:w-44 rounded-lg overflow-hidden border border-gold/50 shadow-[0_20px_50px_rgba(0,0,0,0.6)]"
+            className="absolute -bottom-8 -right-3 sm:-right-6 w-40 sm:w-52 rounded-lg overflow-hidden border border-gold/50 shadow-[0_20px_50px_rgba(0,0,0,0.6)]"
           >
-            <img src={PALACE_DOME} alt="Temple gopuram tower" draggable="false" className="w-full aspect-square object-cover" />
+            <img src={PALACE_DOME} alt="SK Klyde Grand courtyard at night" draggable="false" loading="lazy" decoding="async" className="w-full aspect-[16/10] object-cover" />
           </motion.div>
         </FadeUp>
 

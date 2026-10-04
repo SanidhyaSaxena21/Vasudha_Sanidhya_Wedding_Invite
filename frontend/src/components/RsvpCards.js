@@ -31,7 +31,6 @@ const RsvpForm = () => {
   const [name, setName] = useState("");
   const [attending, setAttending] = useState(null); // true | false | null
   const [choice, setChoice] = useState(null); // "accept" | "win" | null
-  const [guests, setGuests] = useState(1);
   const [status, setStatus] = useState("idle"); // idle | submitting | success | error
 
   const canSubmit = name.trim().length > 1 && attending !== null && status !== "submitting";
@@ -44,7 +43,7 @@ const RsvpForm = () => {
       const res = await fetch(`${API}/api/rsvp`, {
         method: "POST",
         headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ name: name.trim(), attending, guests: attending ? Number(guests) : 1 }),
+        body: JSON.stringify({ name: name.trim(), attending }),
       });
       if (!res.ok) throw new Error("fail");
       setStatus("success");
@@ -77,15 +76,15 @@ const RsvpForm = () => {
       <h3 className="font-cinzel text-2xl sm:text-3xl text-center mt-4" style={{ color: "#4a0612" }}>
         Kindly Respond
       </h3>
-      <p className="font-cormorant text-center text-base mt-2" style={{ color: "#6b3a1a" }}>
-        Please share whether you will be joining us
+      <p className="font-cormorant text-center text-base sm:text-lg mt-2" style={{ color: "#6b3a1a" }} data-testid="rsvp-family-note">
+        You are cordially invited <span className="font-semibold" style={{ color: "#4a0612" }}>with Family</span> — kindly let us know if you'll be joining us
       </p>
       <div className="gold-hairline w-24 mx-auto my-6 opacity-80" />
 
       <div className="max-w-md mx-auto space-y-6">
         <div>
           <label htmlFor="rsvp-name" className="block font-cinzel text-xs uppercase tracking-[0.2em] mb-2" style={{ color: "#4a0612" }}>
-            Your Name
+            Family Name
           </label>
           <input
             id="rsvp-name"
@@ -93,7 +92,7 @@ const RsvpForm = () => {
             value={name}
             onChange={(e) => setName(e.target.value)}
             data-testid="rsvp-name-input"
-            placeholder="e.g. Rohan & Family"
+            placeholder="e.g. The Saxena Family"
             className="w-full rounded-lg border border-gold/50 bg-white/70 px-4 py-3 font-cormorant text-lg text-wine placeholder:text-wine/40 focus:outline-none focus:border-burgundy focus:ring-2 focus:ring-gold/40"
           />
         </div>
@@ -121,24 +120,6 @@ const RsvpForm = () => {
             </button>
           </div>
         </div>
-
-        {attending === true && (
-          <div data-testid="rsvp-guests-wrap">
-            <label htmlFor="rsvp-guests" className="block font-cinzel text-xs uppercase tracking-[0.2em] mb-2" style={{ color: "#4a0612" }}>
-              Number of Guests
-            </label>
-            <input
-              id="rsvp-guests"
-              type="number"
-              min="1"
-              max="30"
-              value={guests}
-              onChange={(e) => setGuests(e.target.value)}
-              data-testid="rsvp-guests-input"
-              className="w-full rounded-lg border border-gold/50 bg-white/70 px-4 py-3 font-cormorant text-lg text-wine focus:outline-none focus:border-burgundy focus:ring-2 focus:ring-gold/40"
-            />
-          </div>
-        )}
 
         {status === "error" && (
           <p className="text-red-600 font-cormorant text-center" data-testid="rsvp-error">

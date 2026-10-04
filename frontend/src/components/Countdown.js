@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react";
-import { ChevronDown } from "lucide-react";
+import { ChevronsRight } from "lucide-react";
 import { FadeUp, PcbCorner } from "./shared";
 
 /* 10 December 2026, 8:00 PM IST (UTC+5:30) */
@@ -33,7 +33,7 @@ const Unit = ({ value, label }) => (
   </div>
 );
 
-const Countdown = () => {
+const Countdown = ({ onNext }) => {
   const [t, setT] = useState(calc);
 
   useEffect(() => {
@@ -75,21 +75,19 @@ const Countdown = () => {
         </FadeUp>
 
         <FadeUp delay={0.3}>
-          <button
-            type="button"
-            onClick={() => {
-              const el = document.getElementById("location");
-              if (el) el.scrollIntoView({ behavior: "smooth" });
-            }}
-            className="mt-14 inline-flex flex-col items-center gap-2 group"
-            data-testid="countdown-scroll-cue"
-            aria-label="Scroll down for the venue"
-          >
-            <span className="font-cormorant italic text-champagne/75 text-base sm:text-lg tracking-wide group-hover:text-champagne transition-colors">
-              Scroll down for the Venue
-            </span>
-            <ChevronDown className="w-6 h-6 text-gold animate-bounce" aria-hidden="true" />
-          </button>
+          <div className="page-advance mt-16" data-testid="page-advance-venue">
+            <button
+              type="button"
+              className="advance-heart advance-countdown"
+              onClick={onNext}
+              data-testid="advance-venue-btn"
+              aria-label="View the venue details"
+            >
+              <span className="advance-heart-halo" aria-hidden="true" />
+              <ChevronsRight className="advance-countdown-icon" strokeWidth={1.4} aria-hidden="true" />
+            </button>
+            <span className="advance-label font-cormorant">Venue Details</span>
+          </div>
         </FadeUp>
       </div>
     </section>
