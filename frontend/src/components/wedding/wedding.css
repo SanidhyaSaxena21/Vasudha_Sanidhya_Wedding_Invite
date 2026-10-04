@@ -93,6 +93,42 @@
 .wc-tap-text { font-family: var(--font-serif); font-size: clamp(1.1rem,4.5vw,1.4rem); letter-spacing: 0.14em; color: var(--ivory); text-shadow: 0 0 10px rgba(232,154,58,0.4); margin: 4px 0; animation: tap-pulse 2.6s ease-in-out infinite; }
 @keyframes tap-pulse { 0%,100% { opacity: 0.78; } 50% { opacity: 1; } }
 
+/* ── Page 1 — flat signal board ─────────────────────────────── */
+.sb-stage { position: relative; height: 100vh; height: 100dvh; width: min(100vw, calc(100dvh * 0.4878)); margin: 0 auto; z-index: 3; }
+.sb-layer { position: absolute; inset: 0; width: 100%; height: 100%; }
+
+.sb-pulse { stroke-dasharray: 1; stroke-dashoffset: 1; opacity: 0; }
+.sb-svg.is-live .sb-pulse { animation: sb-draw 1.25s cubic-bezier(0.4, 0, 0.2, 1) forwards; }
+@keyframes sb-draw { 0% { stroke-dashoffset: 1; opacity: 0; } 8% { opacity: 1; } 100% { stroke-dashoffset: 0; opacity: 1; } }
+
+.sb-bus { stroke-dasharray: 1; stroke-dashoffset: 1; opacity: 0; }
+.sb-svg.is-live .sb-bus { animation: sb-bus-light 0.7s ease forwards 1.0s; }
+@keyframes sb-bus-light { to { stroke-dashoffset: 0; opacity: 1; } }
+
+.sb-pad { opacity: 0.35; }
+.sb-svg.is-live .sb-pad { animation: sb-pad-glow 0.6s ease forwards; }
+@keyframes sb-pad-glow { to { opacity: 1; filter: drop-shadow(0 0 5px rgba(233,198,120,0.95)); } }
+
+.sb-heart { opacity: 0.55; transform-box: fill-box; transform-origin: center; }
+.sb-svg.is-live .sb-heart { animation: sb-heart-in 0.9s ease forwards 0.9s, sb-heart-beat 2.4s ease-in-out infinite 1.9s; }
+@keyframes sb-heart-in { to { opacity: 1; } }
+@keyframes sb-heart-beat { 0%, 100% { filter: drop-shadow(0 0 4px rgba(233,198,120,0.5)); } 50% { filter: drop-shadow(0 0 12px rgba(232,154,58,1)); } }
+
+.sb-title { position: absolute; left: 0; right: 0; top: 40%; transform: translateY(-50%); display: flex; flex-direction: column; align-items: center; text-align: center; pointer-events: none; z-index: 4; }
+.sb-ganesha { opacity: 0.85; margin-bottom: 8px; filter: drop-shadow(0 0 5px rgba(225,185,108,0.45)); }
+.sb-title-text { font-family: var(--font-serif); font-weight: 600; letter-spacing: 0.04em; line-height: 1.06; display: flex; flex-direction: column; font-size: clamp(1.9rem, 9vw, 3rem); color: var(--gold-champagne); text-shadow: 0 1px 0 rgba(0,0,0,0.55), 0 0 14px rgba(225,185,108,0.35); transition: text-shadow 0.9s ease; }
+.sb-title.is-live .sb-title-text { text-shadow: 0 1px 0 rgba(0,0,0,0.55), 0 0 26px rgba(232,154,58,0.85), 0 0 44px rgba(225,185,108,0.5); }
+
+.sb-tap { position: absolute; left: 0; right: 0; top: 73%; display: flex; flex-direction: column; align-items: center; gap: 2px; background: transparent; border: 0; cursor: pointer; z-index: 4; -webkit-tap-highlight-color: transparent; }
+.sb-tap-divider { opacity: 0.7; }
+.sb-tap-text { font-family: var(--font-serif); font-size: clamp(1rem, 4.4vw, 1.3rem); letter-spacing: 0.16em; color: var(--ivory); text-shadow: 0 0 10px rgba(232,154,58,0.45); margin: 5px 0; animation: tap-pulse 2.6s ease-in-out infinite; }
+
+@media (prefers-reduced-motion: reduce) {
+  .sb-svg.is-live .sb-pulse { animation-duration: 0.4s; }
+  .sb-svg.is-live .sb-heart { animation: sb-heart-in 0.4s ease forwards; }
+  .sb-tap-text { animation: none; }
+}
+
 @media (min-width: 768px) {
   :root { --chip: min(44vw, 420px); }
 }

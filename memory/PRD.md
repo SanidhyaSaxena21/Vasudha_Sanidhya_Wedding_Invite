@@ -145,5 +145,12 @@ Sections 1/2/3/5/Location/RSVP/10, music dock, floating nav + back-to-top, all i
 - Add to Calendar (`AddToCalendar.js` in Programme): Google Calendar links for 9 Dec Sangeet & 10 Dec Haldi/Baraat + combined `.ics` download. Times stored UTC (IST−5:30).
 - Verified: /app/test_reports/iteration_4.json — backend 5/5 pytest, frontend 100%, no console errors, desktop + mobile. Empty-name POST now returns 400; test seed rows cleaned.
 
+## Page 1 flat signal-board redesign (2026-06 fork, update 5)
+- Replaced the 3D jewellery-box chip intro with a flat velvet + antique-gold PCB landing page matching the user's uploaded design (`WeddingIntro.js`).
+- New `components/wedding/SignalBoard.jsx`: symmetric gold circuit framing the centre, a heart woven into the lower circuit, connection pads, and title bus bars. On tap, bright champagne "signals" draw along every trace and GATHER UP to the "Two Hearts One Journey" title (`sb-draw` keyframe, pathLength-normalised stroke-draw; per-trace stagger). Then the whole scene scale-pushes + fades into the main invitation (phases idle→signal 1.8s→transition 1.9s→done).
+- Ambiance background regenerated (`/images/chip/page1_velvet_bg.jpg`): blurred candles/lanterns/rose petals on burgundy velvet (user chose recreated imagery over the raw screenshot).
+- Kept "Tap to Begin" + chime. CSS added to `wedding/wedding.css` (`.sb-*`), stage is a portrait-ratio centred column (fills width on mobile).
+- Verified end-to-end via Playwright @390px: tap fires `is-live`, pulses animate toward the title, intro transitions to InvitationHero (Sanidhya & Vasudha).
+
 
 
