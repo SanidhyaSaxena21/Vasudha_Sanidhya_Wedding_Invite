@@ -1,5 +1,5 @@
 import React, { Component, useCallback, useEffect, useRef, useState } from "react";
-import { AnimatePresence, motion } from "framer-motion";
+import { AnimatePresence, motion, useReducedMotion } from "framer-motion";
 import Lenis from "lenis";
 import "@/App.css";
 import WeddingIntro from "@/components/WeddingIntro";
@@ -54,6 +54,7 @@ function App() {
   const [introGone, setIntroGone] = useState(false);
   const [page, setPage] = useState(0);
   const [navigating, setNavigating] = useState(false);
+  const reduced = useReducedMotion();
   const lenisRef = useRef(null);
   const navTimers = useRef([]);
 
@@ -136,10 +137,11 @@ function App() {
             <AnimatePresence mode="wait">
               <motion.div
                 key={page}
-                initial={{ opacity: 0 }}
-                animate={{ opacity: 1 }}
-                exit={{ opacity: 0 }}
-                transition={{ duration: 0.5, ease: [0.6, 0, 0.2, 1] }}
+                initial={page === 0 ? { opacity: 0, scale: reduced ? 1.02 : 1.14 } : { opacity: 0 }}
+                animate={{ opacity: 1, scale: 1 }}
+                exit={{ opacity: 0, transition: { duration: 0.5 } }}
+                transition={{ duration: page === 0 ? (reduced ? 0.6 : 2.2) : 0.5, ease: [0.6, 0, 0.2, 1] }}
+                style={{ transformOrigin: "50% 45%" }}
               >
                 {renderPage()}
               </motion.div>

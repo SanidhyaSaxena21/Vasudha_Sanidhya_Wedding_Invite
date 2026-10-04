@@ -52,15 +52,13 @@ const Connector = () => (
       className="block h-full w-px md:w-full md:h-px bg-gradient-to-b md:bg-gradient-to-r from-transparent via-gold to-transparent origin-top md:origin-left"
       style={{ filter: "drop-shadow(0 0 5px rgba(201,154,69,0.9))" }}
       initial={{ scaleY: 0, scaleX: 0 }}
-      whileInView={{ scaleY: 1, scaleX: 1 }}
-      viewport={{ once: true, amount: 0.4 }}
+      animate={{ scaleY: 1, scaleX: 1 }}
       transition={{ duration: 1, ease: [0.16, 1, 0.3, 1] }}
     />
     <motion.span
       className="absolute w-2.5 h-2.5 rotate-45 bg-gold animate-node-glow"
       initial={{ opacity: 0, scale: 0 }}
-      whileInView={{ opacity: 1, scale: 1 }}
-      viewport={{ once: true, amount: 0.4 }}
+      animate={{ opacity: 1, scale: 1 }}
       transition={{ duration: 0.5, delay: 0.7 }}
     />
   </div>
@@ -72,8 +70,7 @@ const EventCard = ({ ev, i }) => {
     <motion.div
       data-testid={`programme-card-${ev.id}`}
       initial={{ opacity: 0, y: 34 }}
-      whileInView={{ opacity: 1, y: 0 }}
-      viewport={{ once: true, amount: 0.25 }}
+      animate={{ opacity: 1, y: 0 }}
       transition={{ duration: 0.9, ease: [0.16, 1, 0.3, 1], delay: i * 0.15 }}
       whileHover={{ y: -6 }}
       className="flex-1 relative bg-ivory text-wine rounded-t-[110px] rounded-b-xl px-6 pt-16 pb-9 text-center shadow-[0_25px_60px_rgba(0,0,0,0.5)] border border-gold/30"
@@ -118,7 +115,7 @@ const Programme = ({ onNext }) => (
     </div>
 
     <div className="relative max-w-5xl mx-auto pt-6">
-      <FadeUp className="text-center">
+      <FadeUp mount className="text-center">
         <h2 className="font-cinzel text-4xl sm:text-5xl md:text-6xl text-foil tracking-[0.18em]" data-testid="programme-heading">
           PROGRAMME
         </h2>
@@ -138,7 +135,7 @@ const Programme = ({ onNext }) => (
         ))}
       </div>
 
-      <FadeUp delay={0.2} className="text-center mt-14">
+      <FadeUp mount delay={0.2} className="text-center mt-14">
         <span className="gold-hairline w-24 mx-auto block mb-6" />
         <p className="font-cinzel text-[11px] uppercase tracking-[0.3em] text-champagne">Venue</p>
         <p className="font-cormorant text-ivory/85 text-lg mt-2">

@@ -418,7 +418,9 @@
     justify-content: center;
     min-height: 44px;
 }
-.chip-tap { display: flex; flex-direction: column; align-items: center; gap: 8px; }
+.chip-tap { display: flex; flex-direction: column; align-items: center; gap: 8px; background: transparent; border: 0; padding: 6px 10px; cursor: pointer; -webkit-tap-highlight-color: transparent; transition: transform 0.4s cubic-bezier(0.16,1,0.3,1); }
+.chip-tap:hover { transform: translateY(-2px); }
+.chip-tap:focus-visible { outline: 2px solid #e1c28b; outline-offset: 4px; border-radius: 8px; }
 .chip-lotus-divider { opacity: 0.9; }
 .chip-tap-text {
     color: #f3dcae;
@@ -692,6 +694,10 @@
     text-transform: uppercase;
     text-shadow: 0 1px 10px rgba(201, 120, 50, 0.4);
     opacity: 0.9;
+    max-width: 22ch;
+    text-align: center;
+    line-height: 1.5;
+    text-wrap: balance;
 }
 /* advance heart sitting on the ivory invitation paper */
 .page-advance.on-paper { padding-bottom: 0; gap: 10px; }

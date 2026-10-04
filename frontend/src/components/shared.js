@@ -3,18 +3,23 @@ import { motion } from "framer-motion";
 
 export const EASE = [0.16, 1, 0.3, 1];
 
-export const FadeUp = ({ children, delay = 0, className = "", ...rest }) => (
-  <motion.div
-    className={className}
-    initial={{ opacity: 0, y: 26 }}
-    whileInView={{ opacity: 1, y: 0 }}
-    viewport={{ once: true, amount: 0.15 }}
-    transition={{ duration: 0.9, ease: EASE, delay }}
-    {...rest}
-  >
-    {children}
-  </motion.div>
-);
+export const FadeUp = ({ children, delay = 0, className = "", mount = false, ...rest }) => {
+  const reveal = { opacity: 1, y: 0 };
+  const trigger = mount
+    ? { animate: reveal }
+    : { whileInView: reveal, viewport: { once: true, amount: 0.15 } };
+  return (
+    <motion.div
+      className={className}
+      initial={{ opacity: 0, y: 26 }}
+      {...trigger}
+      transition={{ duration: 0.9, ease: EASE, delay }}
+      {...rest}
+    >
+      {children}
+    </motion.div>
+  );
+};
 
 export const SectionHeading = ({ eyebrow, title, sub }) => (
   <div className="text-center px-6">

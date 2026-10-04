@@ -45,8 +45,8 @@ const HeartCircuit = ({ className = "" }) => (
   </svg>
 );
 
-const TIMINGS = { signal: 1000, opening: 650, transition: 2000 };
-const REDUCED = { signal: 250, opening: 250, transition: 650 };
+const TIMINGS = { signal: 1000, opening: 1300, transition: 2200 };
+const REDUCED = { signal: 250, opening: 350, transition: 650 };
 
 const LotusDivider = () => (
   <svg width="180" height="22" viewBox="0 0 180 22" fill="none" aria-hidden="true" className="chip-lotus-divider">
@@ -108,12 +108,12 @@ export default function WeddingIntro({ onReveal, onComplete }) {
       style={{ transformOrigin: "50% 50%" }}
       initial={{ scale: 1, opacity: 1 }}
       animate={{
-        scale: pushingIn ? (reduced ? 1.4 : 6) : 1,
+        scale: pushingIn ? (reduced ? 1.4 : 7) : 1,
         opacity: pushingIn ? 0 : 1,
         filter: pushingIn ? "brightness(1.4)" : "brightness(1)",
       }}
       exit={{ opacity: 0 }}
-      transition={{ duration: reduced ? 0.6 : 2.0, ease: [0.6, 0, 0.2, 1] }}
+      transition={{ duration: reduced ? 0.6 : 2.2, ease: [0.6, 0, 0.2, 1] }}
     >
       <img src={BG} alt="" className="chip-bg" draggable="false" />
       <div className="chip-bg-tint" aria-hidden="true" />
@@ -166,17 +166,20 @@ export default function WeddingIntro({ onReveal, onComplete }) {
 
       <div className="chip-caption" aria-live="polite">
         {phase === "idle" && (
-          <motion.div
+          <motion.button
+            type="button"
+            onClick={begin}
             initial={{ opacity: 0, y: 8 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 1, delay: 0.5 }}
             className="chip-tap"
             data-testid="tap-to-begin"
+            aria-label="Open the wedding invitation"
           >
             <LotusDivider />
             <span className="font-cormorant chip-tap-text">Tap to Begin</span>
             <LotusDivider />
-          </motion.div>
+          </motion.button>
         )}
         {(phase === "signal" || phase === "opening") && (
           <p className="font-cormorant chip-status" data-testid="chip-status">Two hearts, coming into phase…</p>

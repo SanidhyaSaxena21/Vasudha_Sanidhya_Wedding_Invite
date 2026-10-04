@@ -18,8 +18,7 @@ const FormalInvitation = ({ onNext }) => (
         alt=""
         draggable="false"
         initial={{ opacity: 0, scale: 0.96 }}
-        whileInView={{ opacity: 1, scale: 1 }}
-        viewport={{ once: true, amount: 0.2 }}
+        animate={{ opacity: 1, scale: 1 }}
         transition={{ duration: 1.6, ease: [0.16, 1, 0.3, 1] }}
         className="h-full w-auto max-w-none"
       />
@@ -29,8 +28,7 @@ const FormalInvitation = ({ onNext }) => (
       <motion.div
         data-testid="formal-invitation-card"
         initial={{ opacity: 0, y: 40 }}
-        whileInView={{ opacity: 1, y: 0 }}
-        viewport={{ once: true, amount: 0.15 }}
+        animate={{ opacity: 1, y: 0 }}
         transition={{ duration: 1, ease: [0.16, 1, 0.3, 1] }}
         className="relative bg-ivory text-wine w-full max-w-2xl px-7 sm:px-14 py-14 sm:py-16 text-center shadow-[0_35px_90px_rgba(0,0,0,0.65)]"
       >
@@ -41,18 +39,18 @@ const FormalInvitation = ({ onNext }) => (
         <PcbCorner className="absolute bottom-5 left-5 w-10 opacity-60 -scale-y-100" />
         <PcbCorner className="absolute bottom-5 right-5 w-10 opacity-60 -scale-100" />
 
-        <FadeUp>
+        <FadeUp mount>
           <p className="font-cinzel text-[11px] sm:text-xs uppercase tracking-[0.35em]" style={{ color: "#8a5a1e" }} data-testid="formal-shloka">
             || Shree Ganeshaay Namah ||
           </p>
         </FadeUp>
 
-        <FadeUp delay={0.1}>
+        <FadeUp mount delay={0.1}>
           <p className="font-cormorant italic text-base sm:text-lg mt-8" style={{ color: "#5d3a1a" }}>
             By the grace of Almighty &amp; Blessings of
           </p>
         </FadeUp>
-        <FadeUp delay={0.18}>
+        <FadeUp mount delay={0.18}>
           <p className="font-cinzel text-lg sm:text-xl mt-4 leading-relaxed" style={{ color: "#4a0612" }}>
             Late Raj Dulari Saxena
           </p>
@@ -62,7 +60,7 @@ const FormalInvitation = ({ onNext }) => (
           </p>
         </FadeUp>
 
-        <FadeUp delay={0.26}>
+        <FadeUp mount delay={0.26}>
           <span className="gold-hairline w-28 mx-auto block my-7" />
           <p className="font-cormorant text-base sm:text-lg leading-relaxed max-w-md mx-auto" style={{ color: "#3d040e" }}>
             It will be immense pleasure if you solicit your gracious presence on this momentous occasion of the
@@ -70,7 +68,7 @@ const FormalInvitation = ({ onNext }) => (
           </p>
         </FadeUp>
 
-        <FadeUp delay={0.32}>
+        <FadeUp mount delay={0.32}>
           <h3 className="font-cinzel text-4xl sm:text-5xl text-foil-dark tracking-[0.08em] mt-6" data-testid="groom-name">
             SANIDHYA
           </h3>
@@ -79,7 +77,7 @@ const FormalInvitation = ({ onNext }) => (
           </p>
         </FadeUp>
 
-        <FadeUp delay={0.4}>
+        <FadeUp mount delay={0.4}>
           <div className="flex items-center justify-center gap-4 my-7">
             <span className="gold-hairline w-14" />
             <span className="font-cinzel text-xs uppercase tracking-[0.4em] text-gold">With</span>
@@ -87,7 +85,7 @@ const FormalInvitation = ({ onNext }) => (
           </div>
         </FadeUp>
 
-        <FadeUp delay={0.48}>
+        <FadeUp mount delay={0.48}>
           <h3 className="font-cinzel text-4xl sm:text-5xl text-foil-dark tracking-[0.08em]" data-testid="bride-name">
             VASUDHA
           </h3>
@@ -96,7 +94,7 @@ const FormalInvitation = ({ onNext }) => (
           </p>
         </FadeUp>
 
-        <FadeUp delay={0.56}>
+        <FadeUp mount delay={0.56}>
           <div className="flex justify-center mt-9 mb-7">
             <AdvanceHeart onNext={onNext} onPaper label="Tap the heart for the Programme" />
           </div>
