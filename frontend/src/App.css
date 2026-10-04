@@ -625,3 +625,133 @@
     .chip-traces path, .inv-wave-svg path, .inv-frame path { stroke-dashoffset: 0 !important; }
     .chip-traces circle, .inv-frame-nodes circle { opacity: 1 !important; }
 }
+
+/* =====================================================================
+   PAGED FLOW — heart advance, back button, heart-in-between transition
+   ===================================================================== */
+.page-advance {
+    position: relative;
+    z-index: 10;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 14px;
+    padding-bottom: clamp(24px, 6svh, 56px);
+}
+.advance-heart {
+    position: relative;
+    display: grid;
+    place-items: center;
+    width: 94px;
+    height: 94px;
+    border: 0;
+    background: transparent;
+    cursor: pointer;
+    -webkit-tap-highlight-color: transparent;
+    transition: transform 0.4s cubic-bezier(0.16, 1, 0.3, 1);
+}
+.advance-heart:hover { transform: scale(1.08); }
+.advance-heart:focus-visible { outline: 2px solid #e1c28b; outline-offset: 6px; border-radius: 50%; }
+.advance-heart-halo {
+    position: absolute;
+    inset: -6px;
+    border-radius: 50%;
+    background: radial-gradient(circle, rgba(233, 180, 100, 0.55) 0%, rgba(201, 120, 50, 0.18) 45%, transparent 72%);
+    filter: blur(6px);
+    animation: advance-pulse 2.4s ease-in-out infinite;
+    pointer-events: none;
+}
+.advance-heart-svg {
+    position: relative;
+    width: 72px;
+    height: auto;
+    filter: drop-shadow(0 0 8px rgba(233, 180, 100, 0.65));
+    animation: advance-beat 2.4s ease-in-out infinite;
+}
+.advance-countdown-icon {
+    position: relative;
+    width: 52px;
+    height: 52px;
+    color: #f3dcae;
+    filter: drop-shadow(0 0 8px rgba(233, 180, 100, 0.7));
+    animation: advance-beat 2.4s ease-in-out infinite;
+}
+@keyframes advance-beat {
+    0%, 100% { transform: scale(1); filter: drop-shadow(0 0 6px rgba(233, 180, 100, 0.55)); }
+    50% { transform: scale(1.09); filter: drop-shadow(0 0 16px rgba(240, 205, 122, 0.95)); }
+}
+@keyframes advance-pulse {
+    0%, 100% { opacity: 0.55; transform: scale(0.94); }
+    50% { opacity: 1; transform: scale(1.1); }
+}
+.advance-label {
+    color: #f3dcae;
+    font-size: 14px;
+    letter-spacing: 0.24em;
+    text-transform: uppercase;
+    text-shadow: 0 1px 10px rgba(201, 120, 50, 0.4);
+    opacity: 0.9;
+}
+
+/* back control */
+.page-back {
+    position: fixed;
+    top: max(18px, 3svh);
+    left: max(18px, 4vw);
+    z-index: 90;
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    padding: 9px 16px 9px 13px;
+    border-radius: 999px;
+    border: 1px solid rgba(201, 154, 69, 0.45);
+    background: rgba(37, 4, 10, 0.6);
+    backdrop-filter: blur(8px);
+    color: #d8b881;
+    font-size: 11px;
+    letter-spacing: 0.22em;
+    text-transform: uppercase;
+    cursor: pointer;
+    transition: color 0.25s ease, border-color 0.25s ease, transform 0.25s ease, box-shadow 0.25s ease;
+}
+.page-back:hover {
+    color: #fff0d2;
+    border-color: rgba(225, 191, 120, 0.8);
+    transform: translateY(-1px);
+    box-shadow: 0 6px 18px rgba(0, 0, 0, 0.4), 0 0 14px rgba(225, 185, 108, 0.22);
+}
+.page-back:focus-visible { outline: 2px solid #e1c28b; outline-offset: 3px; }
+
+/* the heart veil that bridges page to page */
+.heart-transition {
+    position: fixed;
+    inset: 0;
+    z-index: 120;
+    display: grid;
+    place-items: center;
+    background: radial-gradient(70% 60% at 50% 50%, #4a0914 0%, #2e060e 55%, #1a0307 100%);
+}
+.heart-transition-heart {
+    position: relative;
+    display: grid;
+    place-items: center;
+    width: clamp(140px, 34vw, 240px);
+    height: clamp(140px, 34vw, 240px);
+}
+.heart-transition-halo {
+    position: absolute;
+    inset: -14%;
+    border-radius: 50%;
+    background: radial-gradient(circle, rgba(233, 180, 100, 0.6) 0%, rgba(201, 120, 50, 0.2) 48%, transparent 72%);
+    filter: blur(12px);
+    animation: advance-pulse 2s ease-in-out infinite;
+}
+.heart-transition-svg {
+    position: relative;
+    width: 72%;
+    height: auto;
+    filter: drop-shadow(0 0 18px rgba(240, 205, 122, 0.9));
+}
+@media (prefers-reduced-motion: reduce) {
+    .advance-heart-svg, .advance-countdown-icon, .advance-heart-halo, .heart-transition-halo { animation: none !important; }
+}

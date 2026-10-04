@@ -1,4 +1,4 @@
-import React, { Component, useEffect, useRef, useState } from "react";
+import React, { Component, useCallback, useEffect, useRef, useState } from "react";
 import { AnimatePresence, motion } from "framer-motion";
 import Lenis from "lenis";
 import "@/App.css";
@@ -11,10 +11,10 @@ import VenuePalace from "@/components/VenuePalace";
 import RsvpCards from "@/components/RsvpCards";
 import EditorialFooter from "@/components/EditorialFooter";
 import EndingScene from "@/components/EndingScene";
-import FloatingNav from "@/components/FloatingNav";
 import MusicDock from "@/components/MusicDock";
 import PetalCanvas from "@/components/PetalCanvas";
 import RsvpAdmin from "@/components/RsvpAdmin";
+import { HeartTransition, BackButton } from "@/components/PageFlow";
 
 class ErrorBoundary extends Component {
   constructor(props) {
@@ -36,10 +36,26 @@ class ErrorBoundary extends Component {
   }
 }
 
+/* final page — a gentle vertical scroll through the closing sections */
+const ScrollGroup = () => (
+  <div data-testid="scroll-group">
+    <Countdown />
+    <VenuePalace />
+    <RsvpCards />
+    <EditorialFooter />
+    <EndingScene />
+  </div>
+);
+
+const PAGE_COUNT = 4; // 0 Invitation · 1 Formal · 2 Programme · 3 Scroll group
+
 function App() {
   const [revealed, setRevealed] = useState(false);
   const [introGone, setIntroGone] = useState(false);
+  const [page, setPage] = useState(0);
+  const [navigating, setNavigating] = useState(false);
   const lenisRef = useRef(null);
+  const navTimers = useRef([]);
 
   const isAdmin = typeof window !== "undefined" && window.location.pathname.replace(/\/$/, "") === "/rsvp-admin";
 
@@ -63,11 +79,36 @@ function App() {
     };
   }, [revealed, introGone, isAdmin]);
 
-  const scrollTo = (sel) => {
-    const el = document.querySelector(sel);
-    if (!el) return;
-    if (lenisRef.current) lenisRef.current.scrollTo(el, { duration: 1.6 });
-    else el.scrollIntoView({ behavior: "smooth" });
+  useEffect(() => () => navTimers.current.forEach(clearTimeout), []);
+
+  const goTo = useCallback((next) => {
+    if (navigating || next < 0 || next >= PAGE_COUNT) return;
+    navTimers.current.forEach(clearTimeout);
+    navTimers.current = [];
+    setNavigating(true);
+    // swap pages while the heart veil covers the screen
+    navTimers.current.push(
+      setTimeout(() => {
+        setPage(next);
+        if (lenisRef.current) lenisRef.current.scrollTo(0, { immediate: true });
+        window.scrollTo(0, 0);
+      }, 650)
+    );
+    navTimers.current.push(setTimeout(() => setNavigating(false), 1500));
+  }, [navigating]);
+
+  const renderPage = () => {
+    switch (page) {
+      case 0:
+        return <InvitationHero onNext={() => goTo(1)} />;
+      case 1:
+        return <FormalInvitation onNext={() => goTo(2)} />;
+      case 2:
+        return <Programme onNext={() => goTo(3)} />;
+      case 3:
+      default:
+        return <ScrollGroup />;
+    }
   };
 
   return (
@@ -91,21 +132,20 @@ function App() {
             <div className="fixed inset-0 z-[2] pointer-events-none" aria-hidden="true">
               <PetalCanvas density="low" className="w-full h-full opacity-60" />
             </div>
-            <motion.div
-              initial={{ opacity: 0, scale: 1.12 }}
-              animate={{ opacity: 1, scale: 1 }}
-              transition={{ duration: 2.0, ease: [0.6, 0, 0.2, 1] }}
-              style={{ transformOrigin: "50% 45%" }}
-            >
-              <InvitationHero />
-            </motion.div>
-            <FormalInvitation />
-            <Programme />
-            <Countdown />
-            <VenuePalace />
-            <RsvpCards />
-            <EditorialFooter />
-            <EndingScene />
+
+            <AnimatePresence mode="wait">
+              <motion.div
+                key={page}
+                initial={{ opacity: 0 }}
+                animate={{ opacity: 1 }}
+                exit={{ opacity: 0 }}
+                transition={{ duration: 0.5, ease: [0.6, 0, 0.2, 1] }}
+              >
+                {renderPage()}
+              </motion.div>
+            </AnimatePresence>
+
+            {page > 0 && <BackButton onBack={() => goTo(page - 1)} />}
           </main>
         )}
 
@@ -113,10 +153,11 @@ function App() {
           <>
             <div className="vignette-overlay" />
             <div className="grain-overlay" />
-            <FloatingNav onNavigate={scrollTo} />
             <MusicDock armed={revealed} />
           </>
         )}
+
+        <HeartTransition active={navigating} />
       </div>
       )}
     </ErrorBoundary>

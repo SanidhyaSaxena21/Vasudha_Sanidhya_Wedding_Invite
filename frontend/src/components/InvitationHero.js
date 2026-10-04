@@ -1,5 +1,6 @@
 import { motion } from "framer-motion";
-import { EASE, SignalWave, HeartChip } from "./shared";
+import { EASE, SignalWave } from "./shared";
+import { AdvanceHeart } from "./PageFlow";
 
 const BG = "/images/chip/page2_bg.jpg";
 const GANESHA = "/images/chip/ganesha.png";
@@ -41,7 +42,7 @@ const Reveal = ({ delay = 0, children, className = "", y = 16, ...rest }) => (
   </motion.div>
 );
 
-export default function InvitationHero() {
+export default function InvitationHero({ onNext }) {
   return (
     <section
       id="story"
@@ -110,24 +111,7 @@ export default function InvitationHero() {
           </blockquote>
         </Reveal>
 
-        <motion.div
-          className="inv-heartchip"
-          data-testid="inv-heartchip"
-          initial={{ opacity: 0, scale: 0.9 }}
-          animate={{ opacity: 1, scale: 1 }}
-          transition={{ duration: 1.2, delay: 3.6, ease: EASE }}
-        >
-          <HeartChip className="inv-heartchip-svg" />
-        </motion.div>
-
-        <motion.span
-          className="inv-scroll-cue"
-          data-testid="inv-scroll-cue"
-          initial={{ opacity: 0 }}
-          animate={{ opacity: 0.8 }}
-          transition={{ duration: 1, delay: 4.4 }}
-          aria-hidden="true"
-        />
+        <AdvanceHeart onNext={onNext} delay={3.6} label="Tap the heart to continue" />
       </div>
     </section>
   );

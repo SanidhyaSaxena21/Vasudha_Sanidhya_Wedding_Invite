@@ -1,8 +1,9 @@
 import { motion } from "framer-motion";
 import { FadeUp, PcbCorner, HeartCircuit } from "./shared";
+import { AdvanceHeart } from "./PageFlow";
 
 /* SECTION 3 — FORMAL WEDDING INVITATION */
-const FormalInvitation = () => (
+const FormalInvitation = ({ onNext }) => (
   <section
     id="invitation"
     className="relative py-24 sm:py-32 px-6 overflow-hidden scroll-mt-4"
@@ -108,6 +109,10 @@ const FormalInvitation = () => (
           </p>
         </FadeUp>
       </motion.div>
+    </div>
+
+    <div className="relative z-10 mt-16">
+      <AdvanceHeart onNext={onNext} label="Tap the heart for the Programme" />
     </div>
   </section>
 );

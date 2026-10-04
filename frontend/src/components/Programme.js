@@ -3,6 +3,7 @@ import { motion } from "framer-motion";
 import { Music, Flame } from "lucide-react";
 import { FadeUp, PcbCorner } from "./shared";
 import AddToCalendar from "./AddToCalendar";
+import { AdvanceCountdown } from "./PageFlow";
 
 /* Stylised baraat horse-head icon */
 const HorseIcon = ({ className = "" }) => (
@@ -102,7 +103,7 @@ const EventCard = ({ ev, i }) => {
 };
 
 /* SECTION 5 — WEDDING PROGRAMME */
-const Programme = () => (
+const Programme = ({ onNext }) => (
   <section id="programme" className="relative py-24 sm:py-32 px-4 sm:px-8 overflow-hidden scroll-mt-4" data-testid="programme-section">
     {/* deep burgundy + glowing gold circuit border */}
     <div className="absolute inset-0 bg-gradient-to-b from-wine via-burgundy/60 to-wine" />
@@ -147,6 +148,10 @@ const Programme = () => (
           <AddToCalendar />
         </div>
       </FadeUp>
+
+      <div className="mt-14">
+        <AdvanceCountdown onNext={onNext} label="Tap to begin the Countdown" />
+      </div>
     </div>
   </section>
 );
