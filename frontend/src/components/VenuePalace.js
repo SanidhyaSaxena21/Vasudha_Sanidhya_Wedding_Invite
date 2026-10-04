@@ -3,11 +3,11 @@ import { motion, useScroll, useTransform } from "framer-motion";
 import { MapPin } from "lucide-react";
 import { FadeUp, SectionHeading } from "./shared";
 
-/* Decorative royal-arch imagery (ambience) + the real venue below */
+/* Hindu temple monument imagery (ambience) + the real venue below */
 const PALACE_MAIN =
-  "https://images.unsplash.com/photo-1650118146076-5e584e3ee165?crop=entropy&cs=srgb&fm=jpg&q=85&w=1600";
+  "https://images.unsplash.com/photo-1715876722520-02ccc9248dab?crop=entropy&cs=srgb&fm=jpg&q=85&w=1600";
 const PALACE_DOME =
-  "https://images.unsplash.com/photo-1640618225440-877bbc22cd30?crop=entropy&cs=srgb&fm=jpg&q=85&w=1200";
+  "https://images.unsplash.com/photo-1554554497-0095c34db3ec?crop=entropy&cs=srgb&fm=jpg&q=85&w=1200";
 
 const VENUE_LINK = "https://www.google.com/travel/hotels/s/woACXFERDhtoYqFE9";
 
@@ -25,7 +25,7 @@ const VenuePalace = () => {
             <div className="rounded-t-full rounded-b-xl overflow-hidden aspect-[3/4]">
               <motion.img
                 src={PALACE_MAIN}
-                alt="Royal arches at golden hour"
+                alt="Ornate Hindu temple at golden hour"
                 draggable="false"
                 style={{ y }}
                 className="w-full h-[116%] object-cover"
@@ -40,7 +40,7 @@ const VenuePalace = () => {
             transition={{ duration: 0.9, delay: 0.3, ease: [0.16, 1, 0.3, 1] }}
             className="absolute -bottom-8 -right-3 sm:-right-6 w-32 sm:w-44 rounded-lg overflow-hidden border border-gold/50 shadow-[0_20px_50px_rgba(0,0,0,0.6)]"
           >
-            <img src={PALACE_DOME} alt="Royal dome at sunset" draggable="false" className="w-full aspect-square object-cover" />
+            <img src={PALACE_DOME} alt="Temple gopuram tower" draggable="false" className="w-full aspect-square object-cover" />
           </motion.div>
         </FadeUp>
 

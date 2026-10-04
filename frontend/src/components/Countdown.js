@@ -1,4 +1,5 @@
 import { useEffect, useState } from "react";
+import { ChevronDown } from "lucide-react";
 import { FadeUp, PcbCorner } from "./shared";
 
 /* 10 December 2026, 8:00 PM IST (UTC+5:30) */
@@ -71,6 +72,24 @@ const Countdown = () => {
               The day is finally here — let the celebrations begin!
             </p>
           )}
+        </FadeUp>
+
+        <FadeUp delay={0.3}>
+          <button
+            type="button"
+            onClick={() => {
+              const el = document.getElementById("location");
+              if (el) el.scrollIntoView({ behavior: "smooth" });
+            }}
+            className="mt-14 inline-flex flex-col items-center gap-2 group"
+            data-testid="countdown-scroll-cue"
+            aria-label="Scroll down for the venue"
+          >
+            <span className="font-cormorant italic text-champagne/75 text-base sm:text-lg tracking-wide group-hover:text-champagne transition-colors">
+              Scroll down for the Venue
+            </span>
+            <ChevronDown className="w-6 h-6 text-gold animate-bounce" aria-hidden="true" />
+          </button>
         </FadeUp>
       </div>
     </section>

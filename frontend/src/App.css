@@ -540,12 +540,13 @@
     display: flex;
     align-items: center;
     justify-content: center;
-    flex-wrap: wrap;
-    gap: 0.12em 0.34em;
+    flex-wrap: nowrap;
+    white-space: nowrap;
+    gap: 0.12em 0.3em;
     line-height: 1.02;
 }
 .inv-names-sweep {
-    font-size: clamp(42px, 11vw, 92px);
+    font-size: clamp(28px, 7.4vw, 78px);
     font-weight: 600;
     letter-spacing: 0.02em;
     background-size: 220% auto;
@@ -553,7 +554,7 @@
     animation: name-sweep 2.6s ease-out 1s both;
 }
 .inv-amp {
-    font-size: clamp(26px, 6vw, 48px);
+    font-size: clamp(22px, 4.6vw, 44px);
     color: #c99a45;
     font-weight: 400;
 }
@@ -691,6 +692,21 @@
     text-transform: uppercase;
     text-shadow: 0 1px 10px rgba(201, 120, 50, 0.4);
     opacity: 0.9;
+}
+/* advance heart sitting on the ivory invitation paper */
+.page-advance.on-paper { padding-bottom: 0; gap: 10px; }
+.page-advance.on-paper .advance-heart { width: 76px; height: 76px; }
+.page-advance.on-paper .advance-heart-svg {
+    width: 58px;
+    filter: drop-shadow(0 0 7px rgba(166, 117, 39, 0.55));
+}
+.page-advance.on-paper .advance-heart-halo {
+    background: radial-gradient(circle, rgba(201, 154, 69, 0.5) 0%, rgba(166, 117, 39, 0.18) 45%, transparent 72%);
+}
+.page-advance.on-paper .advance-label {
+    color: #8a5a1e;
+    text-shadow: none;
+    opacity: 0.95;
 }
 
 /* back control */

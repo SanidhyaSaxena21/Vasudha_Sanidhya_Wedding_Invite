@@ -1,5 +1,5 @@
 import { motion } from "framer-motion";
-import { FadeUp, PcbCorner, HeartCircuit } from "./shared";
+import { FadeUp, PcbCorner } from "./shared";
 import { AdvanceHeart } from "./PageFlow";
 
 /* SECTION 3 — FORMAL WEDDING INVITATION */
@@ -92,13 +92,13 @@ const FormalInvitation = ({ onNext }) => (
             VASUDHA
           </h3>
           <p className="font-cormorant italic text-sm sm:text-base mt-3" style={{ color: "#5d3a1a" }}>
-            (Daughter of Smt. Kusum Sharma &amp; Shri Subhash Sharma)
+            (Daughter of Smt. Kusum Lata &amp; Shri Subhash Sharma)
           </p>
         </FadeUp>
 
         <FadeUp delay={0.56}>
-          <div className="flex justify-center my-8">
-            <HeartCircuit className="w-12 opacity-80" stroke="#a67527" trace="#C99A45" />
+          <div className="flex justify-center mt-9 mb-7">
+            <AdvanceHeart onNext={onNext} onPaper label="Tap the heart for the Programme" />
           </div>
           <span className="gold-hairline w-28 mx-auto block mb-7" />
           <p className="font-cinzel text-base sm:text-lg tracking-[0.14em]" style={{ color: "#4a0612" }} data-testid="formal-date">
@@ -109,10 +109,6 @@ const FormalInvitation = ({ onNext }) => (
           </p>
         </FadeUp>
       </motion.div>
-    </div>
-
-    <div className="relative z-10 mt-16">
-      <AdvanceHeart onNext={onNext} label="Tap the heart for the Programme" />
     </div>
   </section>
 );

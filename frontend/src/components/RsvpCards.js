@@ -30,6 +30,7 @@ const COLS = [
 const RsvpForm = () => {
   const [name, setName] = useState("");
   const [attending, setAttending] = useState(null); // true | false | null
+  const [choice, setChoice] = useState(null); // "accept" | "win" | null
   const [guests, setGuests] = useState(1);
   const [status, setStatus] = useState("idle"); // idle | submitting | success | error
 
@@ -99,24 +100,24 @@ const RsvpForm = () => {
 
         <div>
           <span className="block font-cinzel text-xs uppercase tracking-[0.2em] mb-2" style={{ color: "#4a0612" }}>
-            Will you attend?
+            Will you join us?
           </span>
-          <div className="grid grid-cols-2 gap-3">
+          <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
             <button
               type="button"
               data-testid="rsvp-attend-yes"
-              onClick={() => setAttending(true)}
-              className={`rounded-lg border px-4 py-3 font-cormorant text-lg transition-all ${attending === true ? "bg-burgundy text-ivory border-burgundy shadow-[0_0_18px_rgba(201,154,69,0.35)]" : "border-gold/50 text-wine hover:border-burgundy"}`}
+              onClick={() => { setAttending(true); setChoice("accept"); }}
+              className={`rounded-lg border px-4 py-3 font-cormorant text-lg transition-all ${choice === "accept" ? "bg-burgundy text-ivory border-burgundy shadow-[0_0_18px_rgba(201,154,69,0.35)]" : "border-gold/50 text-wine hover:border-burgundy"}`}
             >
               Joyfully Accept
             </button>
             <button
               type="button"
-              data-testid="rsvp-attend-no"
-              onClick={() => setAttending(false)}
-              className={`rounded-lg border px-4 py-3 font-cormorant text-lg transition-all ${attending === false ? "bg-burgundy text-ivory border-burgundy" : "border-gold/50 text-wine hover:border-burgundy"}`}
+              data-testid="rsvp-attend-win"
+              onClick={() => { setAttending(true); setChoice("win"); }}
+              className={`rounded-lg border px-4 py-3 font-cormorant text-lg transition-all ${choice === "win" ? "bg-burgundy text-ivory border-burgundy shadow-[0_0_18px_rgba(201,154,69,0.35)]" : "border-gold/50 text-wine hover:border-burgundy"}`}
             >
-              Regretfully Decline
+              Okay You win, I'm In
             </button>
           </div>
         </div>

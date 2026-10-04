@@ -3,9 +3,9 @@ import { Timer, ArrowLeft } from "lucide-react";
 import { HeartCircuit } from "./shared";
 
 /* Glowing heart the guest taps to move to the next page. */
-export const AdvanceHeart = ({ onNext, label = "Tap the heart to continue", delay = 0 }) => (
+export const AdvanceHeart = ({ onNext, label = "Tap the heart to continue", delay = 0, onPaper = false }) => (
   <motion.div
-    className="page-advance"
+    className={`page-advance ${onPaper ? "on-paper" : ""}`}
     data-testid="page-advance-heart"
     initial={{ opacity: 0, y: 18 }}
     animate={{ opacity: 1, y: 0 }}
@@ -19,7 +19,11 @@ export const AdvanceHeart = ({ onNext, label = "Tap the heart to continue", dela
       aria-label={label}
     >
       <span className="advance-heart-halo" aria-hidden="true" />
-      <HeartCircuit className="advance-heart-svg" stroke="#e1bf78" trace="#f3dcae" />
+      <HeartCircuit
+        className="advance-heart-svg"
+        stroke={onPaper ? "#a67527" : "#e1bf78"}
+        trace={onPaper ? "#C99A45" : "#f3dcae"}
+      />
     </button>
     <span className="advance-label font-cormorant">{label}</span>
   </motion.div>
