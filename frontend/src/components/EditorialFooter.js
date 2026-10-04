@@ -36,7 +36,7 @@ const EditorialFooter = () => (
       />
       <div className="relative flex flex-col items-center gap-5">
         <HeartCircuit className="w-14" data-testid="footer-monogram" />
-        <p className="font-script text-4xl sm:text-5xl text-foil leading-tight">Sanidhya &amp; Vasudha</p>
+        <p className="font-script text-4xl sm:text-5xl text-foil leading-[1.3] pt-2">Sanidhya &amp; Vasudha</p>
         <span className="gold-hairline w-40" />
         <p className="font-cormorant italic text-ivory/65 text-base sm:text-lg max-w-sm">
           Two hearts, perfectly aligned — crafted with love, and a little bit of silicon.
