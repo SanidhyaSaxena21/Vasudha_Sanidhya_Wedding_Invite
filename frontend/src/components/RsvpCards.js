@@ -2,7 +2,6 @@ import { useState } from "react";
 import { motion } from "framer-motion";
 import { Check, Loader2, Heart } from "lucide-react";
 import { HeartChip } from "./shared";
-import { AdvanceHeart } from "./PageFlow";
 
 const API = process.env.REACT_APP_BACKEND_URL;
 
@@ -142,23 +141,12 @@ const RsvpForm = () => {
   );
 };
 
-/* RSVP — real form + the family blessing columns */
-const RsvpCards = ({ onNext }) => (
-  <section id="rsvp" className="relative min-h-screen py-24 sm:py-28 px-6 overflow-hidden" data-testid="rsvp-section">
+/* The family blessing columns — R.S.V.P. · Welcoming · Best Compliments */
+export const FamilyColumns = () => (
+  <section id="family" className="relative py-24 sm:py-28 px-6 overflow-hidden" data-testid="family-section">
     <div className="absolute inset-0 bg-gradient-to-b from-wine via-burgundy/40 to-wine" />
 
-    <div className="relative max-w-3xl mx-auto">
-      <motion.div
-        initial={{ opacity: 0, y: 30 }}
-        whileInView={{ opacity: 1, y: 0 }}
-        viewport={{ once: true, amount: 0.2 }}
-        transition={{ duration: 0.9, ease: [0.16, 1, 0.3, 1] }}
-      >
-        <RsvpForm />
-      </motion.div>
-    </div>
-
-    <div className="relative max-w-6xl mx-auto grid md:grid-cols-3 gap-8 md:gap-10 mt-16">
+    <div className="relative max-w-6xl mx-auto grid md:grid-cols-3 gap-8 md:gap-10">
       {COLS.map((col, i) => (
         <motion.div
           key={col.id}
@@ -186,12 +174,24 @@ const RsvpCards = ({ onNext }) => (
         </motion.div>
       ))}
     </div>
+  </section>
+);
 
-    {onNext && (
-      <div className="relative mt-16">
-        <AdvanceHeart onNext={onNext} label="A closing note" delay={0.2} />
-      </div>
-    )}
+/* RSVP — the "Kindly Respond" form */
+const RsvpCards = () => (
+  <section id="rsvp" className="relative py-24 sm:py-28 px-6 overflow-hidden" data-testid="rsvp-section">
+    <div className="absolute inset-0 bg-gradient-to-b from-wine via-burgundy/40 to-wine" />
+
+    <div className="relative max-w-3xl mx-auto">
+      <motion.div
+        initial={{ opacity: 0, y: 30 }}
+        whileInView={{ opacity: 1, y: 0 }}
+        viewport={{ once: true, amount: 0.2 }}
+        transition={{ duration: 0.9, ease: [0.16, 1, 0.3, 1] }}
+      >
+        <RsvpForm />
+      </motion.div>
+    </div>
   </section>
 );
 

@@ -167,5 +167,12 @@ Sections 1/2/3/5/Location/RSVP/10, music dock, floating nav + back-to-top, all i
 - Scroll group split into separate **fixed paged screens**: page 4 Venue, 5 RSVP, 6 Finale (Ending + Footer). PAGE_COUNT=7. Each advances via the glowing heart (Venue/RSVP got `AdvanceHeart`). Removed the venue scroll parallax (`useScroll/useTransform`) and set the main venue image to eager load — fixes the slow/janky scroll after the countdown.
 - Verified via Playwright @390px + @1440: full-bleed bg (390x844, no bands), heart-tap → is-live, Countdown→Venue→RSVP→Finale navigation, RSVP POST success, back button, landscape bg on desktop, no console errors.
 
+## Single continuous scroll experience (2026-06 fork, update 8)
+- Removed the tap-to-advance paged system entirely. Now: WeddingIntro chip (tap to open) → one continuous **scroll** page with gentle fade+slide reveals (`ScrollSection` wrapper, whileInView once).
+- New scroll order: InvitationHero → FormalInvitation → Programme → **FamilyColumns** (R.S.V.P./Welcoming/Best Compliments) → **InviteNote** (new line "Together with our families…") → VenuePalace → Countdown → **RsvpCards** (Kindly Respond form) → EndingScene → EditorialFooter.
+- Split `RsvpCards` into `FamilyColumns` (named export, the 3 blessing columns) + default `RsvpCards` (the Kindly Respond form only). Added `InviteNote` + `ScrollSection` in App.js.
+- Advance controls (AdvanceHeart/AdvanceCountdown) made conditional on `onNext`; none render in scroll mode. Removed goTo/page-state/HeartTransition/BackButton usage from App.js. Lenis smooth scroll retained; venue parallax already removed.
+- Verified via Playwright @390px: tap intro → scroll-experience, all 10 sections in correct vertical order, RSVP POST success, no paged advance hearts, no console errors.
+
 
 

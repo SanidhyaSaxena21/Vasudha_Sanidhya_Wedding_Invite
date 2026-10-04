@@ -1,5 +1,5 @@
-import React, { Component, useCallback, useEffect, useRef, useState } from "react";
-import { AnimatePresence, motion, useReducedMotion } from "framer-motion";
+import React, { Component, useEffect, useRef, useState } from "react";
+import { AnimatePresence, motion } from "framer-motion";
 import Lenis from "lenis";
 import "@/App.css";
 import WeddingIntro from "@/components/WeddingIntro";
@@ -8,13 +8,12 @@ import FormalInvitation from "@/components/FormalInvitation";
 import Programme from "@/components/Programme";
 import Countdown from "@/components/Countdown";
 import VenuePalace from "@/components/VenuePalace";
-import RsvpCards from "@/components/RsvpCards";
+import RsvpCards, { FamilyColumns } from "@/components/RsvpCards";
 import EditorialFooter from "@/components/EditorialFooter";
 import EndingScene from "@/components/EndingScene";
 import MusicDock from "@/components/MusicDock";
 import PetalCanvas from "@/components/PetalCanvas";
 import RsvpAdmin from "@/components/RsvpAdmin";
-import { HeartTransition, BackButton, AdvanceHeart } from "@/components/PageFlow";
 
 class ErrorBoundary extends Component {
   constructor(props) {
@@ -36,24 +35,38 @@ class ErrorBoundary extends Component {
   }
 }
 
-/* final page — the closing love note + footer */
-const FinaleGroup = () => (
-  <div data-testid="finale-group">
-    <EndingScene />
-    <EditorialFooter />
-  </div>
+/* Gentle fade + slide-up reveal as each section scrolls into view. */
+const ScrollSection = ({ children, className = "" }) => (
+  <motion.section
+    className={className}
+    initial={{ opacity: 0, y: 48 }}
+    whileInView={{ opacity: 1, y: 0 }}
+    viewport={{ once: true, amount: 0.15 }}
+    transition={{ duration: 0.9, ease: [0.16, 1, 0.3, 1] }}
+  >
+    {children}
+  </motion.section>
 );
 
-const PAGE_COUNT = 7; // 0 Invitation · 1 Formal · 2 Programme · 3 Countdown · 4 Venue · 5 RSVP · 6 Finale
+/* The warm family invitation note that bridges the blessings and the venue. */
+const InviteNote = () => (
+  <div className="relative py-20 sm:py-24 px-6 overflow-hidden" data-testid="invite-note">
+    <div className="absolute inset-0 bg-gradient-to-b from-wine via-burgundy/30 to-wine" />
+    <div className="relative max-w-2xl mx-auto text-center">
+      <span className="gold-hairline w-24 mx-auto block mb-8 opacity-80" />
+      <p className="font-cormorant italic text-ivory/90 text-xl sm:text-2xl lg:text-3xl leading-relaxed" data-testid="invite-note-text">
+        Together with our families, we warmly invite you and your loved ones to grace our auspicious
+        wedding celebrations with your presence and blessings.
+      </p>
+      <span className="gold-hairline w-24 mx-auto block mt-8 opacity-80" />
+    </div>
+  </div>
+);
 
 function App() {
   const [revealed, setRevealed] = useState(false);
   const [introGone, setIntroGone] = useState(false);
-  const [page, setPage] = useState(0);
-  const [navigating, setNavigating] = useState(false);
-  const reduced = useReducedMotion();
   const lenisRef = useRef(null);
-  const navTimers = useRef([]);
 
   const isAdmin = typeof window !== "undefined" && window.location.pathname.replace(/\/$/, "") === "/rsvp-admin";
 
@@ -77,44 +90,6 @@ function App() {
     };
   }, [revealed, introGone, isAdmin]);
 
-  useEffect(() => () => navTimers.current.forEach(clearTimeout), []);
-
-  const goTo = useCallback((next) => {
-    if (navigating || next < 0 || next >= PAGE_COUNT) return;
-    navTimers.current.forEach(clearTimeout);
-    navTimers.current = [];
-    setNavigating(true);
-    // swap pages while the heart veil covers the screen
-    navTimers.current.push(
-      setTimeout(() => {
-        setPage(next);
-        if (lenisRef.current) lenisRef.current.scrollTo(0, { immediate: true });
-        window.scrollTo(0, 0);
-      }, 650)
-    );
-    navTimers.current.push(setTimeout(() => setNavigating(false), 1500));
-  }, [navigating]);
-
-  const renderPage = () => {
-    switch (page) {
-      case 0:
-        return <InvitationHero onNext={() => goTo(1)} />;
-      case 1:
-        return <FormalInvitation onNext={() => goTo(2)} />;
-      case 2:
-        return <Programme onNext={() => goTo(3)} />;
-      case 3:
-        return <Countdown onNext={() => goTo(4)} />;
-      case 4:
-        return <VenuePalace onNext={() => goTo(5)} />;
-      case 5:
-        return <RsvpCards onNext={() => goTo(6)} />;
-      case 6:
-      default:
-        return <FinaleGroup />;
-    }
-  };
-
   return (
     <ErrorBoundary>
       {isAdmin ? (
@@ -132,25 +107,21 @@ function App() {
         </AnimatePresence>
 
         {revealed && (
-          <main className="relative">
+          <main className="relative" data-testid="scroll-experience">
             <div className="fixed inset-0 z-[2] pointer-events-none" aria-hidden="true">
               <PetalCanvas density="low" className="w-full h-full opacity-60" />
             </div>
 
-            <AnimatePresence mode="wait">
-              <motion.div
-                key={page}
-                initial={page === 0 ? { opacity: 0, scale: reduced ? 1.02 : 1.14 } : { opacity: 0 }}
-                animate={{ opacity: 1, scale: 1 }}
-                exit={{ opacity: 0, transition: { duration: 0.5 } }}
-                transition={{ duration: page === 0 ? (reduced ? 0.6 : 2.2) : 0.5, ease: [0.6, 0, 0.2, 1] }}
-                style={{ transformOrigin: "50% 45%" }}
-              >
-                {renderPage()}
-              </motion.div>
-            </AnimatePresence>
-
-            {page > 0 && <BackButton onBack={() => goTo(page - 1)} />}
+            <InvitationHero />
+            <ScrollSection><FormalInvitation /></ScrollSection>
+            <ScrollSection><Programme /></ScrollSection>
+            <ScrollSection><FamilyColumns /></ScrollSection>
+            <ScrollSection><InviteNote /></ScrollSection>
+            <ScrollSection><VenuePalace /></ScrollSection>
+            <ScrollSection><Countdown /></ScrollSection>
+            <ScrollSection><RsvpCards /></ScrollSection>
+            <ScrollSection><EndingScene /></ScrollSection>
+            <EditorialFooter />
           </main>
         )}
 
@@ -161,8 +132,6 @@ function App() {
             <MusicDock armed={revealed} />
           </>
         )}
-
-        <HeartTransition active={navigating} />
       </div>
       )}
     </ErrorBoundary>

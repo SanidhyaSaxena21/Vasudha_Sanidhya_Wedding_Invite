@@ -146,9 +146,11 @@ const Programme = ({ onNext }) => (
         </div>
       </FadeUp>
 
-      <div className="mt-14">
-        <AdvanceCountdown onNext={onNext} label="Tap to begin the Countdown" />
-      </div>
+      {onNext && (
+        <div className="mt-14">
+          <AdvanceCountdown onNext={onNext} label="Tap to begin the Countdown" />
+        </div>
+      )}
     </div>
   </section>
 );

@@ -75,19 +75,21 @@ const Countdown = ({ onNext }) => {
         </FadeUp>
 
         <FadeUp delay={0.3}>
-          <div className="page-advance mt-16" data-testid="page-advance-venue">
-            <button
-              type="button"
-              className="advance-heart advance-countdown"
-              onClick={onNext}
-              data-testid="advance-venue-btn"
-              aria-label="View the venue details"
-            >
-              <span className="advance-heart-halo" aria-hidden="true" />
-              <ChevronsRight className="advance-countdown-icon" strokeWidth={1.4} aria-hidden="true" />
-            </button>
-            <span className="advance-label font-cormorant">Venue Details</span>
-          </div>
+          {onNext && (
+            <div className="page-advance mt-16" data-testid="page-advance-venue">
+              <button
+                type="button"
+                className="advance-heart advance-countdown"
+                onClick={onNext}
+                data-testid="advance-venue-btn"
+                aria-label="View the venue details"
+              >
+                <span className="advance-heart-halo" aria-hidden="true" />
+                <ChevronsRight className="advance-countdown-icon" strokeWidth={1.4} aria-hidden="true" />
+              </button>
+              <span className="advance-label font-cormorant">Venue Details</span>
+            </div>
+          )}
         </FadeUp>
       </div>
     </section>

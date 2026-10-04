@@ -111,7 +111,7 @@ export default function InvitationHero({ onNext }) {
           </blockquote>
         </Reveal>
 
-        <AdvanceHeart onNext={onNext} delay={3.6} label="Tap the heart to continue" />
+        {onNext && <AdvanceHeart onNext={onNext} delay={3.6} label="Tap the heart to continue" />}
       </div>
     </section>
   );

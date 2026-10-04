@@ -95,9 +95,11 @@ const FormalInvitation = ({ onNext }) => (
         </FadeUp>
 
         <FadeUp mount delay={0.56}>
-          <div className="flex justify-center mt-9 mb-7">
-            <AdvanceHeart onNext={onNext} onPaper label="Tap the heart for the Programme" />
-          </div>
+          {onNext && (
+            <div className="flex justify-center mt-9 mb-7">
+              <AdvanceHeart onNext={onNext} onPaper label="Tap the heart for the Programme" />
+            </div>
+          )}
           <span className="gold-hairline w-28 mx-auto block mb-7" />
           <p className="font-cinzel text-base sm:text-lg tracking-[0.14em]" style={{ color: "#4a0612" }} data-testid="formal-date">
             10th December 2026, 5 PM Onwards
