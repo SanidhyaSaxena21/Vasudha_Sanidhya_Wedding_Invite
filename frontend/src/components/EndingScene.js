@@ -45,11 +45,13 @@ const EndingScene = () => (
 
       <FadeUp mount>
         <h2
-          className="font-script text-6xl sm:text-7xl md:text-8xl leading-[0.95]"
+          className="font-script text-6xl sm:text-7xl md:text-8xl leading-[1.15] pt-3 flex flex-col items-center"
           style={goldText}
           data-testid="ending-names"
         >
-          Sanidhya<br />&amp;Vasudha
+          <span>Sanidhya</span>
+          <span className="text-5xl sm:text-6xl md:text-7xl my-1">&amp;</span>
+          <span>Vasudha</span>
         </h2>
       </FadeUp>
 

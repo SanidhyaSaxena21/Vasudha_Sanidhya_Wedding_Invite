@@ -56,8 +56,9 @@ export default function WeddingIntro({ onReveal, onComplete }) {
       <div className="sb-stage">
         <SignalBoard live={live} className="sb-layer" />
 
+        <GaneshaMark size={38} className="sb-ganesha" />
+
         <div className={`sb-title ${live ? "is-live" : ""}`} data-testid="page1-title">
-          <GaneshaMark size={40} className="sb-ganesha" />
           <h1 className="sb-title-text font-cinzel">
             <span>Two Hearts</span>
             <span>One Journey</span>
